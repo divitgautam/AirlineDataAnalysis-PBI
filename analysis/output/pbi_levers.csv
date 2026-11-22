@@ -1,0 +1,5 @@
+lever,uplift,basis,confidence,uplift_pct_of_revenue
+Fill seats on high-RASK routes,3237213.115546044,33 routes lifted to network LF 58.8%,Medium,0.006425006112078954
+"5% fare rise on full, low-RASK routes",7360552.850000001,35 'Raise yield' routes; Nov 2024 fare rise did not cut demand,Medium,0.014608737627566778
+Re-deploy weakest route capacity,14224337.749881595,12 bottom-quartile review routes (562 flights) flown at network-average RASK,Low-medium,0.0282315231408078
+International load factor halfway to domestic,4660015.701537472,LF 50% to 54%,Medium,0.009248890417803666

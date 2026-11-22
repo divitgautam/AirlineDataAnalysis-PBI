@@ -1,0 +1,88 @@
+table Date
+	lineageTag: 69fb46fb-2a08-4f8f-94fb-d2a58c6072ca
+	dataCategory: Time
+
+	column Date
+		dataType: dateTime
+		isKey
+		formatString: dd-mmm-yyyy
+		lineageTag: 053185e2-b6db-48cd-b822-f898ecfac3e8
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: [Date]
+
+	column Year
+		dataType: int64
+		formatString: 0
+		lineageTag: 2729f82b-4bf3-4c20-b4a1-1546355e7c3c
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: [Year]
+
+	column Quarter
+		dataType: string
+		lineageTag: 1fc737a6-146d-43bb-abb4-ebe1ceb82cb1
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: [Quarter]
+
+	column 'Month No'
+		dataType: int64
+		formatString: 0
+		lineageTag: e3d2084e-2dda-4937-9601-dda95368790e
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: [Month No]
+
+	column Month
+		dataType: string
+		lineageTag: 4efb3512-571b-4be2-aeec-64e7e4ea83ac
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: [Month]
+		sortByColumn: 'Month No'
+
+	column 'Month Start'
+		dataType: dateTime
+		formatString: mmm yyyy
+		lineageTag: a58ec783-0c86-4e32-99d5-09e95191c75d
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: [Month Start]
+
+	column 'Year Month'
+		dataType: string
+		lineageTag: a3171240-6015-4503-856f-3bf239c75d67
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: [Year Month]
+		sortByColumn: 'Year Month Key'
+
+	column 'Year Month Key'
+		dataType: int64
+		formatString: 0
+		lineageTag: 10ca4b92-4ca6-4eb2-8a72-d8b7d8349a3a
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: [Year Month Key]
+
+	column 'Weekday No'
+		dataType: int64
+		formatString: 0
+		lineageTag: 54a58d9f-6a1c-4777-8b4c-8b733438853a
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: [Weekday No]
+
+	column Weekday
+		dataType: string
+		lineageTag: 2c536602-2123-46b7-b032-c60af55d18f7
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: [Weekday]
+		sortByColumn: 'Weekday No'
+
+	partition Date = calculated
+		mode: import
+		source = ADDCOLUMNS ( CALENDAR ( DATE ( YEAR ( MIN ( Flights[Departure Date] ) ), 1, 1 ), MAX ( Flights[Departure Date] ) ), "Year", YEAR ( [Date] ), "Quarter", "Q" & QUARTER ( [Date] ), "Month No", MONTH ( [Date] ), "Month", FORMAT ( [Date], "MMM" ), "Month Start", DATE ( YEAR ( [Date] ), MONTH ( [Date] ), 1 ), "Year Month", FORMAT ( [Date], "MMM yy" ), "Year Month Key", YEAR ( [Date] ) * 100 + MONTH ( [Date] ), "Weekday No", WEEKDAY ( [Date], 2 ), "Weekday", FORMAT ( [Date], "ddd" ) )
+

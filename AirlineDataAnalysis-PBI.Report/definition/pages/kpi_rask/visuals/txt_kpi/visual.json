@@ -1,0 +1,147 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.14.0/schema.json",
+  "name": "txt_kpi",
+  "position": {
+    "x": 728,
+    "y": 458,
+    "z": 11000,
+    "height": 246,
+    "width": 536,
+    "tabOrder": 11000
+  },
+  "visual": {
+    "visualType": "textbox",
+    "drillFilterOtherVisuals": true,
+    "objects": {
+      "general": [
+        {
+          "properties": {
+            "paragraphs": [
+              {
+                "textRuns": [
+                  {
+                    "value": "Why RASK",
+                    "textStyle": {
+                      "fontWeight": "bold",
+                      "fontSize": "12pt",
+                      "color": "#020618",
+                      "fontFamily": "'Instrument Sans', 'Segoe UI Semibold', sans-serif"
+                    }
+                  }
+                ]
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": "It is the airline industry's standard measure of how well capacity turns into revenue: every seat flown, every km.",
+                    "textStyle": {
+                      "fontSize": "10pt",
+                      "color": "#020618"
+                    }
+                  }
+                ]
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": "Formula: ",
+                    "textStyle": {
+                      "fontWeight": "bold",
+                      "fontSize": "10pt",
+                      "color": "#682EFF"
+                    }
+                  },
+                  {
+                    "value": "RASK = seat-km load factor x yield per RPK, so it rises by filling seats or by earning more per passenger-km.",
+                    "textStyle": {
+                      "fontSize": "10pt",
+                      "color": "#020618"
+                    }
+                  }
+                ]
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": "2025 YTD: ",
+                    "textStyle": {
+                      "fontWeight": "bold",
+                      "fontSize": "10pt",
+                      "color": "#682EFF"
+                    }
+                  },
+                  {
+                    "value": "₹0.176 per seat-km, +15% vs last year (on target).",
+                    "textStyle": {
+                      "fontSize": "10pt",
+                      "color": "#020618"
+                    }
+                  }
+                ]
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": "Watch: ",
+                    "textStyle": {
+                      "fontWeight": "bold",
+                      "fontSize": "10pt",
+                      "color": "#682EFF"
+                    }
+                  },
+                  {
+                    "value": "short routes earn more per km. Compare routes of similar length, not the whole network.",
+                    "textStyle": {
+                      "fontSize": "10pt",
+                      "color": "#020618"
+                    }
+                  }
+                ]
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": "Edit the measure [RASK Target Growth %] to change the target.",
+                    "textStyle": {
+                      "fontSize": "10pt",
+                      "color": "#020618"
+                    }
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      ]
+    },
+    "visualContainerObjects": {
+      "padding": [
+        {
+          "properties": {
+            "top": {
+              "expr": {
+                "Literal": {
+                  "Value": "10D"
+                }
+              }
+            },
+            "left": {
+              "expr": {
+                "Literal": {
+                  "Value": "14D"
+                }
+              }
+            },
+            "right": {
+              "expr": {
+                "Literal": {
+                  "Value": "14D"
+                }
+              }
+            }
+          }
+        }
+      ]
+    }
+  }
+}

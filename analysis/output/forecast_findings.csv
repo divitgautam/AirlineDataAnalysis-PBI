@@ -1,0 +1,4 @@
+q,topic,finding
+Backtest,Passengers Mar-May 2025,Trend + seasonal model -0.5% on the 3-month total vs -4.9% for a naive 'last 3 months' forecast.
+Forecast,2025 revenue,"Full-year 2025 revenue ₹63.94 Cr if fares hold (80% range ₹62.04 Cr-₹66.15 Cr), ₹60.20 Cr if they settle at the Mar-May level, vs ₹40.07 Cr in 2024 (+60% / +50%)."
+Forecast,2025 passengers,About 1.86 M passengers in 2025 (+25% vs 2024). The summer months (Jul-Oct) are the weakest in the seasonal pattern.

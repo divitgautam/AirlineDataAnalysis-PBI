@@ -1,0 +1,163 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.14.0/schema.json",
+  "name": "txt_forecast_notes",
+  "position": {
+    "x": 708,
+    "y": 458,
+    "z": 11000,
+    "height": 246,
+    "width": 556,
+    "tabOrder": 11000
+  },
+  "visual": {
+    "visualType": "textbox",
+    "drillFilterOtherVisuals": true,
+    "objects": {
+      "general": [
+        {
+          "properties": {
+            "paragraphs": [
+              {
+                "textRuns": [
+                  {
+                    "value": "How to read this page",
+                    "textStyle": {
+                      "fontWeight": "bold",
+                      "fontSize": "12pt",
+                      "color": "#020618",
+                      "fontFamily": "'Instrument Sans', 'Segoe UI Semibold', sans-serif"
+                    }
+                  }
+                ]
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": "2025 revenue: ",
+                    "textStyle": {
+                      "fontWeight": "bold",
+                      "fontSize": "10pt",
+                      "color": "#682EFF"
+                    }
+                  },
+                  {
+                    "value": "₹63.9 Cr if fares hold, ₹60.2 Cr if they settle at the Mar to May level.",
+                    "textStyle": {
+                      "fontSize": "10pt",
+                      "color": "#020618"
+                    }
+                  }
+                ]
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": "Backtest: ",
+                    "textStyle": {
+                      "fontWeight": "bold",
+                      "fontSize": "10pt",
+                      "color": "#682EFF"
+                    }
+                  },
+                  {
+                    "value": "the passenger model was -0.5% on Mar to May 2025, vs -4.9% for a naive forecast.",
+                    "textStyle": {
+                      "fontSize": "10pt",
+                      "color": "#020618"
+                    }
+                  }
+                ]
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": "Biggest lever: ",
+                    "textStyle": {
+                      "fontWeight": "bold",
+                      "fontSize": "10pt",
+                      "color": "#682EFF"
+                    }
+                  },
+                  {
+                    "value": "move capacity off the weakest routes, then lift fares 5% on full, low-RASK routes.",
+                    "textStyle": {
+                      "fontSize": "10pt",
+                      "color": "#020618"
+                    }
+                  }
+                ]
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": "Caveat: ",
+                    "textStyle": {
+                      "fontWeight": "bold",
+                      "fontSize": "10pt",
+                      "color": "#682EFF"
+                    }
+                  },
+                  {
+                    "value": "passengers and revenue look scaled, so use the % changes, not the rupee amounts, for decisions.",
+                    "textStyle": {
+                      "fontSize": "10pt",
+                      "color": "#020618"
+                    }
+                  }
+                ]
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": "To update: ",
+                    "textStyle": {
+                      "fontWeight": "bold",
+                      "fontSize": "10pt",
+                      "color": "#682EFF"
+                    }
+                  },
+                  {
+                    "value": "re-run analysis notebooks 03 and 04, then refresh this report.",
+                    "textStyle": {
+                      "fontSize": "10pt",
+                      "color": "#020618"
+                    }
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      ]
+    },
+    "visualContainerObjects": {
+      "padding": [
+        {
+          "properties": {
+            "top": {
+              "expr": {
+                "Literal": {
+                  "Value": "10D"
+                }
+              }
+            },
+            "left": {
+              "expr": {
+                "Literal": {
+                  "Value": "14D"
+                }
+              }
+            },
+            "right": {
+              "expr": {
+                "Literal": {
+                  "Value": "14D"
+                }
+              }
+            }
+          }
+        }
+      ]
+    }
+  }
+}

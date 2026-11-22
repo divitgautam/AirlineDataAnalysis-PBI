@@ -1,0 +1,15 @@
+n,check,status,count,detail
+1,Completeness,PASS,0,"40,175 rows x 10 columns, no missing values"
+2,Unique flight IDs,PASS,0,FlightID is unique; no fully duplicated rows
+3,Repeated flight number + date + route,WARN,930,"930 flights share a flight number, date and route with another flight but differ in seats, passengers and revenue: kept as separate operations"
+4,Valid dates,PASS,0,"All dates parse as dd-mm-yyyy; 01 Jan 2024 to 31 May 2025, no gaps"
+5,Airports known,PASS,0,All 38 airport codes found in reference/airports.csv
+6,Distance matches geography,FAIL,5660,"5,660 flights (14%) on 19 routes carry another route's distance (e.g. PNQ-BOM recorded 1,138 km = Delhi-Mumbai; true 124 km). Replaced with great-circle distance for ASK/RPK"
+7,Same distance both directions,WARN,3,3 route pairs still differ
+8,Domestic flag consistent,PASS,0,"DomesticFlag = 0 exactly for flights touching AUH, DOH, JED, KWI or RUH"
+9,Load factor plausibility,WARN,1393,No flight is more than 66.7% full (max 66 passengers on 87-99 seats); real airlines run 80-90%. Passenger counts look scaled or synthetic: compare load factors relatively
+10,Fare plausibility,WARN,0,"Average revenue per passenger is ₹293, far below real Indian fares: revenue appears scaled. Trends and comparisons hold; absolute rupees are illustrative"
+11,Fare outliers (3x route median),WARN,86,"86 flights (0.5% of revenue) priced above 3x their route's median fare: flagged, kept"
+12,Very low loads,WARN,327,327 flights carried fewer than 20 passengers (0.2% of revenue)
+13,Aircraft capacities,PASS,4,"Four standard seat counts (87, 93, 95, 99) cover all but 4 flights"
+14,Short route priced as long,WARN,1437,"PNQ-BOM is 124 km but averages ₹346 per passenger, more than BLR-BOM (834 km). Its fare looks based on the wrong 1,138 km distance; its RASK (₹1.68) is an outlier"

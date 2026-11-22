@@ -1,0 +1,12 @@
+q,topic,finding
+Q1,Concentration,Top 10 routes earn 32% of revenue; 45 of 179 routes make 80%. 94 thin routes (<100 flights) add only 3.6%.
+Q1,Hubs,"Pune is the main hub: 31% of revenue departs PNQ, then Bengaluru 17% and Delhi 11%. 86% of flights touch PNQ, BOM or BLR."
+Q1,Route quadrants,"Fill seats: 43 routes, 12% of revenue | Raise yield: 35 routes, 30% of revenue | Review route: 48 routes, 19% of revenue | Star: 53 routes, 40% of revenue"
+Q1,Routes to review,"Largest routes below the network on both load factor and RASK: BLR-BOM (3.4% of revenue, LF 58%, RASK ₹0.156), DEL-GOX (2.8% of revenue, LF 59%, RASK ₹0.118), AMD-BLR (1.3% of revenue, LF 58%, RASK ₹0.138), SXR-BOM (1.2% of revenue, LF 55%, RASK ₹0.143)"
+Q1,Stage length,Longer routes earn less per seat-km (log correlation -0.34). Compare RASK between routes of similar length.
+Q2,Growth Jan-May 2025 vs 2024,"Flights +19%, passengers +25%, revenue +71%, average fare +37%, load factor +1.9 pp, RASK +15%."
+Q2,Fare step Nov 2024,Average fare rose from ₹250 (Jan-Oct 2024) to ₹346 from Nov 2024 (+39%) while load factor also rose (57.4% to 60.5%). 52% of routes raised fares 20%+. Demand did not fall.
+Q2,Seasonality,Weakest stretch Jul-Oct 2024: load factor 55.9% and RASK ₹0.124 vs network 58.8% / ₹0.157. Strongest month: Feb 2025 (RASK ₹0.213).
+Q2,Weekday,"Passengers per flight range only 54.3-56.0 across the week: the difference is statistically real (Kruskal p=2.41e-43, 40k flights) but only 3% from lowest to highest day. Not worth scheduling around."
+Q3,RASK 2025,"Jan-May 2025 RASK ₹0.176 vs ₹0.153 a year earlier (+15%); target (+5%) ₹0.160: on target. Yield explains 88% of the gain, seat-km load factor 12%."
+Q3,Domestic vs international,"International is 4% of flights and 7% of revenue, but load factor 49% vs 59% and RASK ₹0.114 vs ₹0.162 (stage 2,776 km vs 1,029 km)."

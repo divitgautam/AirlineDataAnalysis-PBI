@@ -1,0 +1,20 @@
+relationship Flights_Date
+	fromColumn: Flights.'Departure Date'
+	toColumn: Date.Date
+
+relationship Flights_Origin
+	fromColumn: Flights.Origin
+	toColumn: 'Origin Airport'.IATA
+
+relationship Flights_Destination
+	fromColumn: Flights.Destination
+	toColumn: 'Destination Airport'.IATA
+
+relationship Forecast_Scenario
+	fromColumn: Forecast.scenario
+	toColumn: Scenario.Scenario
+
+relationship Forecast2025_Scenario
+	fromColumn: 'Forecast 2025'.scenario
+	toColumn: Scenario.Scenario
+

@@ -1,0 +1,74 @@
+{
+ "pax_yoy": "+25%",
+ "rev_yoy": "+71%",
+ "fare_step": "39%",
+ "lf_yoy_pp": "+1.9",
+ "lf_2025": "60.5%",
+ "rask_2025": "Rs 0.176",
+ "rask_yoy": "+15%",
+ "rask_status": "on target",
+ "f25_a": "Rs 63.9 Cr",
+ "f25_b": "Rs 60.2 Cr",
+ "bt_err": "-0.5%",
+ "bt_naive": "-4.9%",
+ "findings": [
+  [
+   "1. Growth is price-led. ",
+   "Jan to May 2025 vs 2024: passengers +25%, revenue +71%. Fares rose 39% from Nov 2024 and load factor still went up."
+  ],
+  [
+   "2. Pune is the network. ",
+   "31% of revenue departs PNQ; 86% of flights touch PNQ, BOM or BLR. 45 of 179 routes make 80% of revenue."
+  ],
+  [
+   "3. 53 star routes carry 40% of revenue. ",
+   "48 routes sit below the network on both load factor and RASK (19% of revenue), led by BLR-BOM and DEL-GOX."
+  ],
+  [
+   "4. RASK is on target. ",
+   "Rs 0.176 per seat-km in 2025, +15% vs last year; yield explains almost 90% of the gain."
+  ],
+  [
+   "5. International underperforms. ",
+   "4% of flights, 7% of revenue, but load factor 49% vs 59% domestic."
+  ],
+  [
+   "6. Summer is the soft spot. ",
+   "Jul to Oct 2024 ran at 55.9% load factor and the lowest RASK; there is no weekday pattern."
+  ],
+  [
+   "7. 2025 outlook: ",
+   "about Rs 63.9 Cr revenue if fares hold, Rs 60.2 Cr if they settle, vs Rs 40.1 Cr in 2024."
+  ],
+  [
+   "8. Biggest lever: ",
+   "move capacity off the weakest routes (+Rs 1.42 Cr a year), then a 5% fare rise on full, low-RASK routes (+Rs 0.74 Cr)."
+  ]
+ ],
+ "data_notes": [
+  [
+   "Distances corrected. ",
+   "5,660 flights (14%) on 19 routes carried another route's distance (PNQ-BOM as 1,138 km, the Delhi-Mumbai distance). Great-circle distance from airport coordinates replaces them."
+  ],
+  [
+   "PNQ-BOM pricing. ",
+   "124 km but priced above BLR-BOM (834 km): its fare looks based on the wrong distance, so its RASK (Rs 1.68) is an outlier."
+  ],
+  [
+   "Scaled figures. ",
+   "No flight exceeds 66.7% load and fares average Rs 293 per passenger: passengers and revenue look scaled. Comparisons hold; absolute values are illustrative."
+  ],
+  [
+   "Fare outliers flagged. ",
+   "86 flights priced above 3x their route's median fare (0.5% of revenue) are flagged, not removed."
+  ],
+  [
+   "Repeated flight numbers. ",
+   "930 flights share a number, date and route with another flight but differ in seats, passengers and revenue: kept as separate flights."
+  ],
+  [
+   "Definitions. ",
+   "ASK = seats x km, RPK = passengers x km, RASK = revenue / ASK. Dates run 1 Jan 2024 to 31 May 2025; year-on-year compares Jan to May."
+  ]
+ ]
+}

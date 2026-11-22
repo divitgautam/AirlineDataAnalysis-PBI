@@ -1,0 +1,26 @@
+model Model
+	culture: en-IN
+	defaultPowerBIDataSourceVersion: powerBI_V3
+	sourceQueryCulture: en-IN
+	dataAccessOptions
+		legacyRedirects
+		returnErrorValuesAsNull
+
+annotation __PBI_TimeIntelligenceEnabled = 0
+
+annotation PBI_QueryOrder = ["ProjectFolder","SourceFile","AirportsRef","Flights","Origin Airport","Destination Airport","Forecast","Forecast 2025","Levers"]
+
+annotation PBI_ProTooling = ["DevMode"]
+
+ref table Flights
+ref table 'Origin Airport'
+ref table 'Destination Airport'
+ref table Date
+ref table _Measures
+ref table Forecast
+ref table 'Forecast 2025'
+ref table Levers
+ref table Scenario
+
+ref cultureInfo en-IN
+

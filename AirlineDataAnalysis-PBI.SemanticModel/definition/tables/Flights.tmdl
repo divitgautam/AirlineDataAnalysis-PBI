@@ -1,0 +1,224 @@
+/// One row per flight (Raw Data CSV). Distance and fare-outlier rules: see analysis/src/metrics.py.
+table Flights
+	lineageTag: 59f0f7f6-f001-4719-a683-97271df2cc84
+
+	column FlightID
+		dataType: int64
+		formatString: 0
+		lineageTag: 8429c141-0631-4996-80c7-7581658e488f
+		summarizeBy: none
+		sourceColumn: FlightID
+
+		annotation SummarizationSetBy = User
+
+	column Origin
+		dataType: string
+		lineageTag: 96e422d3-5269-4880-a6dc-c76cde5b4f67
+		summarizeBy: none
+		sourceColumn: Origin
+
+		annotation SummarizationSetBy = User
+
+	column Destination
+		dataType: string
+		lineageTag: f2b05a9f-4c0d-4063-ad9a-39027c00a7a1
+		summarizeBy: none
+		sourceColumn: Destination
+
+		annotation SummarizationSetBy = User
+
+	column FlightNumber
+		dataType: int64
+		formatString: 0
+		lineageTag: 823ee6a2-4a48-47bc-b4b9-3d5e7b750ed1
+		summarizeBy: none
+		sourceColumn: FlightNumber
+
+		annotation SummarizationSetBy = User
+
+	column Distance
+		dataType: int64
+		isHidden
+		formatString: #,##0
+		lineageTag: 857f0c05-5105-425d-92d1-b3e936ebf98e
+		summarizeBy: none
+		sourceColumn: Distance
+
+		annotation SummarizationSetBy = User
+
+	column DomesticFlag
+		dataType: int64
+		isHidden
+		formatString: 0
+		lineageTag: d2a9c196-2067-4d41-993b-68d83947e311
+		summarizeBy: none
+		sourceColumn: DomesticFlag
+
+		annotation SummarizationSetBy = User
+
+	column Capacity
+		dataType: int64
+		formatString: #,##0
+		lineageTag: 0a34897d-42ee-49dc-bcbf-f08191cd929a
+		summarizeBy: none
+		sourceColumn: Capacity
+
+		annotation SummarizationSetBy = User
+
+	column PaxCount
+		dataType: int64
+		formatString: #,##0
+		lineageTag: 55754f8d-f6bc-4fc5-be38-44fca33e5c75
+		summarizeBy: none
+		sourceColumn: PaxCount
+
+		annotation SummarizationSetBy = User
+
+	column Revenue
+		dataType: int64
+		formatString: #,##0
+		lineageTag: f64bb9ec-f086-483d-8531-e6b6a12601cc
+		summarizeBy: none
+		sourceColumn: Revenue
+
+		annotation SummarizationSetBy = User
+
+	column 'Departure Date'
+		dataType: dateTime
+		formatString: dd-mmm-yyyy
+		lineageTag: 40cd20ee-3c39-4a4f-9d6d-9609634e1ed7
+		summarizeBy: none
+		sourceColumn: Departure Date
+
+		annotation SummarizationSetBy = User
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column 'Great Circle Km'
+		dataType: double
+		isHidden
+		formatString: #,##0
+		lineageTag: 831571e1-f3f2-49e5-a0c4-ca8edd7899fd
+		summarizeBy: none
+		sourceColumn: Great Circle Km
+
+		annotation SummarizationSetBy = User
+
+	column 'Distance Corrected'
+		dataType: boolean
+		lineageTag: 5c6eecdc-d016-4727-b70b-ec512fc65bb1
+		summarizeBy: none
+		sourceColumn: Distance Corrected
+
+		annotation SummarizationSetBy = User
+
+	column 'Distance Km'
+		dataType: int64
+		formatString: #,##0
+		lineageTag: 949054ad-6c62-4459-a27e-566ee7a769a4
+		summarizeBy: none
+		sourceColumn: Distance Km
+
+		annotation SummarizationSetBy = User
+
+	column Route
+		dataType: string
+		lineageTag: 2f56e005-a259-4f84-b729-c803176223bc
+		summarizeBy: none
+		sourceColumn: Route
+
+		annotation SummarizationSetBy = User
+
+	column Market
+		dataType: string
+		lineageTag: 5c4ed800-073e-49d7-a394-8af64fbbc0a0
+		summarizeBy: none
+		sourceColumn: Market
+
+		annotation SummarizationSetBy = User
+
+	column ASK
+		dataType: int64
+		isHidden
+		formatString: #,##0
+		lineageTag: e1ec643f-1a0c-4cb4-aaae-e46c988e9e97
+		summarizeBy: none
+		sourceColumn: ASK
+
+		annotation SummarizationSetBy = User
+
+	column RPK
+		dataType: int64
+		isHidden
+		formatString: #,##0
+		lineageTag: d6ce12de-fe39-4ed6-8365-d7a2c5f6d06a
+		summarizeBy: none
+		sourceColumn: RPK
+
+		annotation SummarizationSetBy = User
+
+	column Fare
+		dataType: double
+		isHidden
+		formatString: #,##0.00
+		lineageTag: 8da3dd27-3101-48a3-b8a6-8b68f8287023
+		summarizeBy: none
+		sourceColumn: Fare
+
+		annotation SummarizationSetBy = User
+
+	column 'Route Median Fare'
+		dataType: double
+		isHidden
+		formatString: #,##0.00
+		lineageTag: 0cba35e3-8ad9-4df9-bcdd-e4a3145df694
+		summarizeBy: none
+		sourceColumn: Route Median Fare
+
+		annotation SummarizationSetBy = User
+
+	column 'Fare Outlier'
+		dataType: boolean
+		lineageTag: 0cf60572-4655-4bcf-95b1-fa6adb2c2752
+		summarizeBy: none
+		sourceColumn: Fare Outlier
+
+		annotation SummarizationSetBy = User
+
+	partition Flights = m
+		mode: import
+		source =
+				let
+				    Source = Csv.Document(File.Contents(SourceFile), [Delimiter = ",", Encoding = 65001, QuoteStyle = QuoteStyle.Csv]),
+				    Promoted = Table.PromoteHeaders(Source, [PromoteAllScalars = true]),
+				    Typed = Table.TransformColumnTypes(Promoted, {{"FlightID", Int64.Type}, {"DepartureDate", type text}, {"Origin", type text}, {"Destination", type text}, {"FlightNumber", Int64.Type}, {"Distance", Int64.Type}, {"DomesticFlag", Int64.Type}, {"Capacity", Int64.Type}, {"PaxCount", Int64.Type}, {"Revenue", Int64.Type}}, "en-US"),
+				    Dated = Table.AddColumn(Typed, "Departure Date", each Date.FromText([DepartureDate], [Format = "dd-MM-yyyy", Culture = "en-GB"]), type date),
+				    Airports = Table.Buffer(Table.SelectColumns(AirportsRef, {"IATA", "Latitude", "Longitude", "Country"})),
+				    JoinO = Table.NestedJoin(Dated, {"Origin"}, Airports, {"IATA"}, "o", JoinKind.LeftOuter),
+				    ExpO = Table.ExpandTableColumn(JoinO, "o", {"Latitude", "Longitude", "Country"}, {"o_lat", "o_lon", "o_country"}),
+				    JoinD = Table.NestedJoin(ExpO, {"Destination"}, Airports, {"IATA"}, "d", JoinKind.LeftOuter),
+				    ExpD = Table.ExpandTableColumn(JoinD, "d", {"Latitude", "Longitude", "Country"}, {"d_lat", "d_lon", "d_country"}),
+				    GreatCircle = Table.AddColumn(ExpD, "Great Circle Km", each
+				        let r = Number.PI / 180,
+				            a = Number.Power(Number.Sin(([d_lat] - [o_lat]) * r / 2), 2)
+				                + Number.Cos([o_lat] * r) * Number.Cos([d_lat] * r) * Number.Power(Number.Sin(([d_lon] - [o_lon]) * r / 2), 2)
+				        in 6371 * 2 * Number.Asin(Number.Sqrt(a)), type number),
+				    Corrected = Table.AddColumn(GreatCircle, "Distance Corrected", each
+				        let ratio = [Distance] / [Great Circle Km] in not (ratio >= 0.9 and ratio <= 1.25), type logical),
+				    DistKm = Table.AddColumn(Corrected, "Distance Km", each
+				        if [Distance Corrected] then Number.Round([Great Circle Km], 0, RoundingMode.ToEven) else [Distance], Int64.Type),
+				    Route = Table.AddColumn(DistKm, "Route", each [Origin] & "-" & [Destination], type text),
+				    Market = Table.AddColumn(Route, "Market", each if [o_country] <> "India" or [d_country] <> "India" then "International" else "Domestic", type text),
+				    ASK = Table.AddColumn(Market, "ASK", each [Capacity] * [Distance Km], Int64.Type),
+				    RPK = Table.AddColumn(ASK, "RPK", each [PaxCount] * [Distance Km], Int64.Type),
+				    Fare = Table.AddColumn(RPK, "Fare", each [Revenue] / [PaxCount], type number),
+				    RouteMedians = Table.Group(Fare, {"Route"}, {{"Route Median Fare", each List.Median([Fare]), type number}}),
+				    JoinMed = Table.NestedJoin(Fare, {"Route"}, RouteMedians, {"Route"}, "m", JoinKind.LeftOuter),
+				    ExpMed = Table.ExpandTableColumn(JoinMed, "m", {"Route Median Fare"}),
+				    Outlier = Table.AddColumn(ExpMed, "Fare Outlier", each [Fare] > 3 * [Route Median Fare], type logical),
+				    Cleaned = Table.RemoveColumns(Outlier, {"DepartureDate", "o_lat", "o_lon", "o_country", "d_lat", "d_lon", "d_country"})
+				in
+				    Cleaned
+
+	annotation PBI_ResultType = Table
+

@@ -1,0 +1,163 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.14.0/schema.json",
+  "name": "txt_trends",
+  "position": {
+    "x": 856,
+    "y": 458,
+    "z": 11000,
+    "height": 246,
+    "width": 408,
+    "tabOrder": 11000
+  },
+  "visual": {
+    "visualType": "textbox",
+    "drillFilterOtherVisuals": true,
+    "objects": {
+      "general": [
+        {
+          "properties": {
+            "paragraphs": [
+              {
+                "textRuns": [
+                  {
+                    "value": "What this tells us",
+                    "textStyle": {
+                      "fontWeight": "bold",
+                      "fontSize": "12pt",
+                      "color": "#020618",
+                      "fontFamily": "'Instrument Sans', 'Segoe UI Semibold', sans-serif"
+                    }
+                  }
+                ]
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": "+25% ",
+                    "textStyle": {
+                      "fontWeight": "bold",
+                      "fontSize": "10pt",
+                      "color": "#682EFF"
+                    }
+                  },
+                  {
+                    "value": "more passengers and ",
+                    "textStyle": {
+                      "fontSize": "10pt",
+                      "color": "#020618"
+                    }
+                  }
+                ]
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": "+71% ",
+                    "textStyle": {
+                      "fontWeight": "bold",
+                      "fontSize": "10pt",
+                      "color": "#682EFF"
+                    }
+                  },
+                  {
+                    "value": "more revenue in Jan to May 2025 than a year earlier.",
+                    "textStyle": {
+                      "fontSize": "10pt",
+                      "color": "#020618"
+                    }
+                  }
+                ]
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": "Fares drove it: ",
+                    "textStyle": {
+                      "fontWeight": "bold",
+                      "fontSize": "10pt",
+                      "color": "#682EFF"
+                    }
+                  },
+                  {
+                    "value": "median fare jumped about 39% in Nov 2024 and has held since.",
+                    "textStyle": {
+                      "fontSize": "10pt",
+                      "color": "#020618"
+                    }
+                  }
+                ]
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": "Load factor ",
+                    "textStyle": {
+                      "fontWeight": "bold",
+                      "fontSize": "10pt",
+                      "color": "#682EFF"
+                    }
+                  },
+                  {
+                    "value": "rose +1.9 pp to 60.5%, so higher fares did not empty the planes.",
+                    "textStyle": {
+                      "fontSize": "10pt",
+                      "color": "#020618"
+                    }
+                  }
+                ]
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": "No weekday peak: ",
+                    "textStyle": {
+                      "fontWeight": "bold",
+                      "fontSize": "10pt",
+                      "color": "#682EFF"
+                    }
+                  },
+                  {
+                    "value": "schedule by route and month, not by day of week.",
+                    "textStyle": {
+                      "fontSize": "10pt",
+                      "color": "#020618"
+                    }
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      ]
+    },
+    "visualContainerObjects": {
+      "padding": [
+        {
+          "properties": {
+            "top": {
+              "expr": {
+                "Literal": {
+                  "Value": "10D"
+                }
+              }
+            },
+            "left": {
+              "expr": {
+                "Literal": {
+                  "Value": "14D"
+                }
+              }
+            },
+            "right": {
+              "expr": {
+                "Literal": {
+                  "Value": "14D"
+                }
+              }
+            }
+          }
+        }
+      ]
+    }
+  }
+}

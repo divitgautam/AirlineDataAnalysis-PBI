@@ -1,0 +1,139 @@
+{
+  "version": "1.1.0",
+  "diagrams": [
+    {
+      "ordinal": 0,
+      "scrollPosition": {
+        "x": 0,
+        "y": 0
+      },
+      "nodes": [
+        {
+          "location": {
+            "x": 856.9408929589772,
+            "y": 291.05206905478866
+          },
+          "nodeIndex": "_Measures",
+          "nodeLineageTag": "c266a1d4-258e-4e8e-b799-2634c2056a03",
+          "size": {
+            "height": 300,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 622.94089295897709,
+            "y": 239.38915773368973
+          },
+          "nodeIndex": "Date",
+          "nodeLineageTag": "7d3cbb51-634b-4d26-88f2-5ff2bd86e9c8",
+          "size": {
+            "height": 300,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 245.51919105643287,
+            "y": -50
+          },
+          "nodeIndex": "Destination Airport",
+          "nodeLineageTag": "70276217-f6d2-491f-a273-6bb212e296ce",
+          "size": {
+            "height": 296,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 337.00412682106162,
+            "y": 299.69085831938014
+          },
+          "nodeIndex": "Flights",
+          "nodeLineageTag": "2eb7c5bc-9e48-4369-9310-cca852cbcbbb",
+          "size": {
+            "height": 300,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 50,
+            "y": 536.10413810957732
+          },
+          "nodeIndex": "Origin Airport",
+          "nodeLineageTag": "990babd6-6c46-42ba-ac4d-e88c1577da65",
+          "size": {
+            "height": 296,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 1709.3239429736709,
+            "y": 248.05206905478866
+          },
+          "nodeIndex": "Forecast",
+          "nodeLineageTag": "f927020b-44e7-464f-9012-92c0b08f9098",
+          "size": {
+            "height": 272,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 1140.9408929589772,
+            "y": 314.03717983438696
+          },
+          "nodeIndex": "Forecast 2025",
+          "nodeLineageTag": "576f3b14-199d-48c1-ab30-637544401a7e",
+          "size": {
+            "height": 200,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 1943.3239429736709,
+            "y": 334.05206905478866
+          },
+          "nodeIndex": "Levers",
+          "nodeLineageTag": "9c862649-1629-4e39-9c2a-d88d058c18ea",
+          "size": {
+            "height": 200,
+            "width": 234
+          },
+          "zIndex": 0
+        },
+        {
+          "location": {
+            "x": 1425.1424541521624,
+            "y": 316.89676701463395
+          },
+          "nodeIndex": "Scenario",
+          "nodeLineageTag": "da663cb9-3ee3-4cab-b061-b0bcf8e55c4d",
+          "size": {
+            "height": 200,
+            "width": 234
+          },
+          "zIndex": 0
+        }
+      ],
+      "name": "All tables",
+      "zoomValue": 100,
+      "pinKeyFieldsToTop": false,
+      "showExtraHeaderInfo": false,
+      "hideKeyFieldsWhenCollapsed": false,
+      "tablesLocked": false
+    }
+  ],
+  "selectedDiagram": "All tables",
+  "defaultDiagram": "All tables"
+}

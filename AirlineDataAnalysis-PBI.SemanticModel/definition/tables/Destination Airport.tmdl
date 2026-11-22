@@ -1,0 +1,92 @@
+table 'Destination Airport'
+	lineageTag: 8bf90e2f-aca9-46f2-a4d2-d3d5ff6a58bb
+
+	column IATA
+		dataType: string
+		lineageTag: 4f9b4bbb-007a-4e69-a608-f2ebcf04a627
+		summarizeBy: none
+		sourceColumn: IATA
+
+		annotation SummarizationSetBy = User
+
+	column Airport
+		dataType: string
+		lineageTag: a21a367d-c839-480e-83ca-f60551a44859
+		summarizeBy: none
+		sourceColumn: Airport
+
+		annotation SummarizationSetBy = User
+
+	column City
+		dataType: string
+		lineageTag: 42decbc8-1a01-4c8a-800a-edfea7aab99c
+		summarizeBy: none
+		sourceColumn: City
+
+		annotation SummarizationSetBy = User
+
+	column State
+		dataType: string
+		lineageTag: 54c284ab-d41f-4fcf-9a71-7e7bd628fd23
+		summarizeBy: none
+		sourceColumn: State
+
+		annotation SummarizationSetBy = User
+
+	column Country
+		dataType: string
+		lineageTag: 3aff1ea2-73cf-4542-816b-7b34d8ea1888
+		summarizeBy: none
+		sourceColumn: Country
+
+		annotation SummarizationSetBy = User
+
+	column Region
+		dataType: string
+		lineageTag: c099f546-6104-4d2c-8dfd-9dbe36e15cfb
+		summarizeBy: none
+		sourceColumn: Region
+
+		annotation SummarizationSetBy = User
+
+	column Latitude
+		dataType: double
+		isHidden
+		formatString: 0.0000
+		lineageTag: 8e498d33-c867-4d32-af07-ba32c2d26598
+		dataCategory: Latitude
+		summarizeBy: none
+		sourceColumn: Latitude
+
+		annotation SummarizationSetBy = User
+
+	column Longitude
+		dataType: double
+		isHidden
+		formatString: 0.0000
+		lineageTag: 603ccc80-47bc-443b-8230-35de68ec6683
+		dataCategory: Longitude
+		summarizeBy: none
+		sourceColumn: Longitude
+
+		annotation SummarizationSetBy = User
+
+	column 'Airport Label'
+		dataType: string
+		lineageTag: 69194e8b-175c-4834-99af-b3f71d1d1443
+		summarizeBy: none
+		sourceColumn: Airport Label
+
+		annotation SummarizationSetBy = User
+
+	partition 'Destination Airport' = m
+		mode: import
+		source =
+				let
+				    Source = AirportsRef,
+				    Label = Table.AddColumn(Source, "Airport Label", each [IATA] & " · " & [City], type text)
+				in
+				    Label
+
+	annotation PBI_ResultType = Table
+

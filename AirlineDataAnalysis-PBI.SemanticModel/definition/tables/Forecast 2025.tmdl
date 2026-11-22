@@ -1,0 +1,60 @@
+/// From analysis/output/pbi_forecast_2025.csv. Re-run the notebooks, then refresh.
+table 'Forecast 2025'
+	lineageTag: 576f3b14-199d-48c1-ab30-637544401a7e
+
+	column scenario
+		dataType: string
+		lineageTag: 600628f3-47c9-4aed-987f-80e3b7171089
+		summarizeBy: none
+		sourceColumn: scenario
+
+		annotation SummarizationSetBy = User
+
+	column metric
+		dataType: string
+		lineageTag: 20758f95-b4a2-413d-8ac2-585c7e135a9c
+		summarizeBy: none
+		sourceColumn: metric
+
+		annotation SummarizationSetBy = User
+
+	column p10
+		dataType: double
+		formatString: #,##0
+		lineageTag: 52161bfb-cb21-4dc2-946a-adec81cb2276
+		summarizeBy: none
+		sourceColumn: p10
+
+		annotation SummarizationSetBy = User
+
+	column p50
+		dataType: double
+		formatString: #,##0
+		lineageTag: 887e1e29-1e85-475e-9ca5-6e3b7564258f
+		summarizeBy: none
+		sourceColumn: p50
+
+		annotation SummarizationSetBy = User
+
+	column p90
+		dataType: double
+		formatString: #,##0
+		lineageTag: 6648a153-e4ac-4dc7-8b7b-a91aa93fd3e4
+		summarizeBy: none
+		sourceColumn: p90
+
+		annotation SummarizationSetBy = User
+
+	partition 'Forecast 2025' = m
+		mode: import
+		source =
+				let
+				    Source = Csv.Document(File.Contents(ProjectFolder & "\analysis\output\pbi_forecast_2025.csv"), [Delimiter = ",", Encoding = 65001, QuoteStyle = QuoteStyle.Csv]),
+				    Promoted = Table.PromoteHeaders(Source, [PromoteAllScalars = true]),
+				    Blanks = Promoted,
+				    Typed = Table.TransformColumnTypes(Blanks, {{"scenario", type text}, {"metric", type text}, {"p10", type number}, {"p50", type number}, {"p90", type number}}, "en-US")
+				in
+				    Typed
+
+	annotation PBI_ResultType = Table
+
