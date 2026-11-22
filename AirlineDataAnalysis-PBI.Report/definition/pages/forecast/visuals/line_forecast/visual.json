@@ -4,10 +4,10 @@
   "position": {
     "x": 16,
     "y": 184,
-    "z": 9000,
+    "z": 10000,
     "height": 262,
     "width": 1248,
-    "tabOrder": 9000
+    "tabOrder": 10000
   },
   "visual": {
     "visualType": "lineChart",
@@ -184,7 +184,7 @@
                 "color": {
                   "expr": {
                     "Literal": {
-                      "Value": "'#030734'"
+                      "Value": "'#0A2540'"
                     }
                   }
                 }
@@ -202,7 +202,7 @@
                 "color": {
                   "expr": {
                     "Literal": {
-                      "Value": "'#682EFF'"
+                      "Value": "'#1673C8'"
                     }
                   }
                 }
@@ -220,7 +220,7 @@
                 "color": {
                   "expr": {
                     "Literal": {
-                      "Value": "'#D9CCFF'"
+                      "Value": "'#BFDDF5'"
                     }
                   }
                 }
@@ -238,7 +238,7 @@
                 "color": {
                   "expr": {
                     "Literal": {
-                      "Value": "'#D9CCFF'"
+                      "Value": "'#BFDDF5'"
                     }
                   }
                 }
@@ -353,7 +353,7 @@
                 "color": {
                   "expr": {
                     "Literal": {
-                      "Value": "'#020618'"
+                      "Value": "'#0B1B2E'"
                     }
                   }
                 }
@@ -398,7 +398,7 @@
                 "color": {
                   "expr": {
                     "Literal": {
-                      "Value": "'#62748E'"
+                      "Value": "'#5B6B7F'"
                     }
                   }
                 }

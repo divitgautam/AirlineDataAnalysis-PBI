@@ -4,10 +4,10 @@
   "position": {
     "x": 856,
     "y": 458,
-    "z": 11000,
+    "z": 12000,
     "height": 246,
     "width": 408,
-    "tabOrder": 11000
+    "tabOrder": 12000
   },
   "visual": {
     "visualType": "textbox",
@@ -24,8 +24,8 @@
                     "textStyle": {
                       "fontWeight": "bold",
                       "fontSize": "12pt",
-                      "color": "#020618",
-                      "fontFamily": "'Instrument Sans', 'Segoe UI Semibold', sans-serif"
+                      "color": "#0B1B2E",
+                      "fontFamily": "'Bahnschrift SemiBold', 'Bahnschrift', 'Segoe UI Semibold', sans-serif"
                     }
                   }
                 ]
@@ -37,14 +37,14 @@
                     "textStyle": {
                       "fontWeight": "bold",
                       "fontSize": "10pt",
-                      "color": "#682EFF"
+                      "color": "#1673C8"
                     }
                   },
                   {
                     "value": "more passengers and ",
                     "textStyle": {
                       "fontSize": "10pt",
-                      "color": "#020618"
+                      "color": "#0B1B2E"
                     }
                   }
                 ]
@@ -56,14 +56,14 @@
                     "textStyle": {
                       "fontWeight": "bold",
                       "fontSize": "10pt",
-                      "color": "#682EFF"
+                      "color": "#1673C8"
                     }
                   },
                   {
                     "value": "more revenue in Jan to May 2025 than a year earlier.",
                     "textStyle": {
                       "fontSize": "10pt",
-                      "color": "#020618"
+                      "color": "#0B1B2E"
                     }
                   }
                 ]
@@ -75,14 +75,14 @@
                     "textStyle": {
                       "fontWeight": "bold",
                       "fontSize": "10pt",
-                      "color": "#682EFF"
+                      "color": "#1673C8"
                     }
                   },
                   {
                     "value": "median fare jumped about 39% in Nov 2024 and has held since.",
                     "textStyle": {
                       "fontSize": "10pt",
-                      "color": "#020618"
+                      "color": "#0B1B2E"
                     }
                   }
                 ]
@@ -94,14 +94,14 @@
                     "textStyle": {
                       "fontWeight": "bold",
                       "fontSize": "10pt",
-                      "color": "#682EFF"
+                      "color": "#1673C8"
                     }
                   },
                   {
                     "value": "rose +1.9 pp to 60.5%, so higher fares did not empty the planes.",
                     "textStyle": {
                       "fontSize": "10pt",
-                      "color": "#020618"
+                      "color": "#0B1B2E"
                     }
                   }
                 ]
@@ -113,14 +113,14 @@
                     "textStyle": {
                       "fontWeight": "bold",
                       "fontSize": "10pt",
-                      "color": "#682EFF"
+                      "color": "#1673C8"
                     }
                   },
                   {
                     "value": "schedule by route and month, not by day of week.",
                     "textStyle": {
                       "fontSize": "10pt",
-                      "color": "#020618"
+                      "color": "#0B1B2E"
                     }
                   }
                 ]

@@ -4,10 +4,10 @@
   "position": {
     "x": 646,
     "y": 80,
-    "z": 2000,
+    "z": 3000,
     "height": 624,
     "width": 618,
-    "tabOrder": 2000
+    "tabOrder": 3000
   },
   "visual": {
     "visualType": "textbox",
@@ -24,8 +24,8 @@
                     "textStyle": {
                       "fontWeight": "bold",
                       "fontSize": "12pt",
-                      "color": "#020618",
-                      "fontFamily": "'Instrument Sans', 'Segoe UI Semibold', sans-serif"
+                      "color": "#0B1B2E",
+                      "fontFamily": "'Bahnschrift SemiBold', 'Bahnschrift', 'Segoe UI Semibold', sans-serif"
                     }
                   }
                 ]
@@ -37,14 +37,14 @@
                     "textStyle": {
                       "fontWeight": "bold",
                       "fontSize": "11pt",
-                      "color": "#F05100"
+                      "color": "#F5A623"
                     }
                   },
                   {
                     "value": "5,660 flights (14%) on 19 routes carried another route's distance (PNQ-BOM as 1,138 km, the Delhi-Mumbai distance). Great-circle distance from airport coordinates replaces them.",
                     "textStyle": {
                       "fontSize": "11pt",
-                      "color": "#020618"
+                      "color": "#0B1B2E"
                     }
                   }
                 ]
@@ -66,14 +66,14 @@
                     "textStyle": {
                       "fontWeight": "bold",
                       "fontSize": "11pt",
-                      "color": "#F05100"
+                      "color": "#F5A623"
                     }
                   },
                   {
                     "value": "124 km but priced above BLR-BOM (834 km): its fare looks based on the wrong distance, so its RASK (₹1.68) is an outlier.",
                     "textStyle": {
                       "fontSize": "11pt",
-                      "color": "#020618"
+                      "color": "#0B1B2E"
                     }
                   }
                 ]
@@ -95,14 +95,14 @@
                     "textStyle": {
                       "fontWeight": "bold",
                       "fontSize": "11pt",
-                      "color": "#F05100"
+                      "color": "#F5A623"
                     }
                   },
                   {
                     "value": "No flight exceeds 66.7% load and fares average ₹293 per passenger: passengers and revenue look scaled. Comparisons hold; absolute values are illustrative.",
                     "textStyle": {
                       "fontSize": "11pt",
-                      "color": "#020618"
+                      "color": "#0B1B2E"
                     }
                   }
                 ]
@@ -124,14 +124,14 @@
                     "textStyle": {
                       "fontWeight": "bold",
                       "fontSize": "11pt",
-                      "color": "#F05100"
+                      "color": "#F5A623"
                     }
                   },
                   {
                     "value": "86 flights priced above 3x their route's median fare (0.5% of revenue) are flagged, not removed.",
                     "textStyle": {
                       "fontSize": "11pt",
-                      "color": "#020618"
+                      "color": "#0B1B2E"
                     }
                   }
                 ]
@@ -153,14 +153,14 @@
                     "textStyle": {
                       "fontWeight": "bold",
                       "fontSize": "11pt",
-                      "color": "#F05100"
+                      "color": "#F5A623"
                     }
                   },
                   {
                     "value": "930 flights share a number, date and route with another flight but differ in seats, passengers and revenue: kept as separate flights.",
                     "textStyle": {
                       "fontSize": "11pt",
-                      "color": "#020618"
+                      "color": "#0B1B2E"
                     }
                   }
                 ]
@@ -182,14 +182,14 @@
                     "textStyle": {
                       "fontWeight": "bold",
                       "fontSize": "11pt",
-                      "color": "#F05100"
+                      "color": "#F5A623"
                     }
                   },
                   {
                     "value": "ASK = seats x km, RPK = passengers x km, RASK = revenue / ASK. Dates run 1 Jan 2024 to 31 May 2025; year-on-year compares Jan to May.",
                     "textStyle": {
                       "fontSize": "11pt",
-                      "color": "#020618"
+                      "color": "#0B1B2E"
                     }
                   }
                 ]

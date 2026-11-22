@@ -4,10 +4,10 @@
   "position": {
     "x": 708,
     "y": 458,
-    "z": 11000,
+    "z": 12000,
     "height": 246,
     "width": 556,
-    "tabOrder": 11000
+    "tabOrder": 12000
   },
   "visual": {
     "visualType": "textbox",
@@ -24,8 +24,8 @@
                     "textStyle": {
                       "fontWeight": "bold",
                       "fontSize": "12pt",
-                      "color": "#020618",
-                      "fontFamily": "'Instrument Sans', 'Segoe UI Semibold', sans-serif"
+                      "color": "#0B1B2E",
+                      "fontFamily": "'Bahnschrift SemiBold', 'Bahnschrift', 'Segoe UI Semibold', sans-serif"
                     }
                   }
                 ]
@@ -37,14 +37,14 @@
                     "textStyle": {
                       "fontWeight": "bold",
                       "fontSize": "10pt",
-                      "color": "#682EFF"
+                      "color": "#1673C8"
                     }
                   },
                   {
                     "value": "₹63.9 Cr if fares hold, ₹60.2 Cr if they settle at the Mar to May level.",
                     "textStyle": {
                       "fontSize": "10pt",
-                      "color": "#020618"
+                      "color": "#0B1B2E"
                     }
                   }
                 ]
@@ -56,14 +56,14 @@
                     "textStyle": {
                       "fontWeight": "bold",
                       "fontSize": "10pt",
-                      "color": "#682EFF"
+                      "color": "#1673C8"
                     }
                   },
                   {
                     "value": "the passenger model was -0.5% on Mar to May 2025, vs -4.9% for a naive forecast.",
                     "textStyle": {
                       "fontSize": "10pt",
-                      "color": "#020618"
+                      "color": "#0B1B2E"
                     }
                   }
                 ]
@@ -75,14 +75,14 @@
                     "textStyle": {
                       "fontWeight": "bold",
                       "fontSize": "10pt",
-                      "color": "#682EFF"
+                      "color": "#1673C8"
                     }
                   },
                   {
                     "value": "move capacity off the weakest routes, then lift fares 5% on full, low-RASK routes.",
                     "textStyle": {
                       "fontSize": "10pt",
-                      "color": "#020618"
+                      "color": "#0B1B2E"
                     }
                   }
                 ]
@@ -94,14 +94,14 @@
                     "textStyle": {
                       "fontWeight": "bold",
                       "fontSize": "10pt",
-                      "color": "#682EFF"
+                      "color": "#1673C8"
                     }
                   },
                   {
                     "value": "passengers and revenue look scaled, so use the % changes, not the rupee amounts, for decisions.",
                     "textStyle": {
                       "fontSize": "10pt",
-                      "color": "#020618"
+                      "color": "#0B1B2E"
                     }
                   }
                 ]
@@ -113,14 +113,14 @@
                     "textStyle": {
                       "fontWeight": "bold",
                       "fontSize": "10pt",
-                      "color": "#682EFF"
+                      "color": "#1673C8"
                     }
                   },
                   {
                     "value": "re-run analysis notebooks 03 and 04, then refresh this report.",
                     "textStyle": {
                       "fontSize": "10pt",
-                      "color": "#020618"
+                      "color": "#0B1B2E"
                     }
                   }
                 ]

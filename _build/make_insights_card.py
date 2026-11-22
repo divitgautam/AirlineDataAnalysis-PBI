@@ -8,17 +8,21 @@ from matplotlib.patches import FancyBboxPatch
 from matplotlib.colors import LinearSegmentedColormap
 
 OUT = Path(__file__).resolve().parents[1] / "docs"; OUT.mkdir(exist_ok=True)
-NAVY, VIOLET, LILAC, PURPLE, WHITE, INK, MUTED = "#030734", "#682EFF", "#CD83FF", "#AC24FF", "#FFFFFF", "#020618", "#62748E"
-plt.rcParams["font.family"] = "Segoe UI"
+import sys
+sys.path.insert(0, str(Path(__file__).parent))
+import airline_theme as t   # Runway theme: same colours as the dashboard
+NAVY, VIOLET, LILAC, PURPLE, WHITE, INK, MUTED = t.NAVY, t.BLUE, t.CYAN, t.AMBER, t.WHITE, t.INK, t.MUTED
+plt.rcParams["font.family"] = ["Bahnschrift", "Segoe UI"]
 W, H = 10.8, 13.5
 fig = plt.figure(figsize=(W, H), dpi=100)
 ax = fig.add_axes([0, 0, 1, 1]); ax.set_xlim(0, W); ax.set_ylim(0, H); ax.axis("off")
-grad = LinearSegmentedColormap.from_list("bg", [NAVY, NAVY, "#2A0F6E", "#5B19B8"])
+grad = LinearSegmentedColormap.from_list("bg", [NAVY, NAVY, t.NAVY_2, "#1A5694"])
 xx, yy = np.meshgrid(np.linspace(0, 1, 300), np.linspace(0, 1, 375))
 ax.imshow(grad(np.clip(xx * .7 + (1 - yy) * .45 - .2, 0, 1)), extent=[0, W, 0, H], aspect="auto", zorder=0)
 
+ax.text(W - .7, 12.95, "✈", color=LILAC, fontsize=40, ha="right", va="top", fontfamily="Segoe UI Symbol", rotation=30)
 ax.text(.7, 12.85, "What 40,175 flights told us", color=WHITE, fontsize=30, weight="bold", va="top")
-ax.text(.7, 12.1, "Airline network, Jan 2024 to May 2025  |  Power BI + Python", color="#C8C3F5", fontsize=14, va="top")
+ax.text(.7, 12.1, "Airline network, Jan 2024 to May 2025  |  Power BI + Python", color=t.SUBTITLE, fontsize=14, va="top")
 
 cards = [
     ("+71%", "revenue, Jan-May 2025 vs 2024", "on +25% passengers: fares rose 39% from Nov 2024"),

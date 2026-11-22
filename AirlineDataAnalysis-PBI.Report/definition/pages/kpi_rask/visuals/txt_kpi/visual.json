@@ -4,10 +4,10 @@
   "position": {
     "x": 728,
     "y": 458,
-    "z": 11000,
+    "z": 12000,
     "height": 246,
     "width": 536,
-    "tabOrder": 11000
+    "tabOrder": 12000
   },
   "visual": {
     "visualType": "textbox",
@@ -24,8 +24,8 @@
                     "textStyle": {
                       "fontWeight": "bold",
                       "fontSize": "12pt",
-                      "color": "#020618",
-                      "fontFamily": "'Instrument Sans', 'Segoe UI Semibold', sans-serif"
+                      "color": "#0B1B2E",
+                      "fontFamily": "'Bahnschrift SemiBold', 'Bahnschrift', 'Segoe UI Semibold', sans-serif"
                     }
                   }
                 ]
@@ -36,7 +36,7 @@
                     "value": "It is the airline industry's standard measure of how well capacity turns into revenue: every seat flown, every km.",
                     "textStyle": {
                       "fontSize": "10pt",
-                      "color": "#020618"
+                      "color": "#0B1B2E"
                     }
                   }
                 ]
@@ -48,14 +48,14 @@
                     "textStyle": {
                       "fontWeight": "bold",
                       "fontSize": "10pt",
-                      "color": "#682EFF"
+                      "color": "#1673C8"
                     }
                   },
                   {
                     "value": "RASK = seat-km load factor x yield per RPK, so it rises by filling seats or by earning more per passenger-km.",
                     "textStyle": {
                       "fontSize": "10pt",
-                      "color": "#020618"
+                      "color": "#0B1B2E"
                     }
                   }
                 ]
@@ -67,14 +67,14 @@
                     "textStyle": {
                       "fontWeight": "bold",
                       "fontSize": "10pt",
-                      "color": "#682EFF"
+                      "color": "#1673C8"
                     }
                   },
                   {
                     "value": "₹0.176 per seat-km, +15% vs last year (on target).",
                     "textStyle": {
                       "fontSize": "10pt",
-                      "color": "#020618"
+                      "color": "#0B1B2E"
                     }
                   }
                 ]
@@ -86,14 +86,14 @@
                     "textStyle": {
                       "fontWeight": "bold",
                       "fontSize": "10pt",
-                      "color": "#682EFF"
+                      "color": "#1673C8"
                     }
                   },
                   {
                     "value": "short routes earn more per km. Compare routes of similar length, not the whole network.",
                     "textStyle": {
                       "fontSize": "10pt",
-                      "color": "#020618"
+                      "color": "#0B1B2E"
                     }
                   }
                 ]
@@ -104,7 +104,7 @@
                     "value": "Edit the measure [RASK Target Growth %] to change the target.",
                     "textStyle": {
                       "fontSize": "10pt",
-                      "color": "#020618"
+                      "color": "#0B1B2E"
                     }
                   }
                 ]

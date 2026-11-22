@@ -2,12 +2,12 @@
   "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.14.0/schema.json",
   "name": "hdr_band",
   "position": {
-    "x": 0,
+    "x": 64,
     "y": 0,
-    "z": 0,
+    "z": 1000,
     "height": 72,
-    "width": 1280,
-    "tabOrder": 0
+    "width": 1216,
+    "tabOrder": 1000
   },
   "visual": {
     "visualType": "textbox",
@@ -25,7 +25,7 @@
                       "fontWeight": "bold",
                       "fontSize": "18pt",
                       "color": "#FFFFFF",
-                      "fontFamily": "'Instrument Sans', 'Segoe UI Semibold', sans-serif"
+                      "fontFamily": "'Bahnschrift SemiBold', 'Bahnschrift', 'Segoe UI Semibold', sans-serif"
                     }
                   }
                 ]
@@ -36,7 +36,7 @@
                     "value": "RASK = revenue / (seats x km) = seat-km load factor x yield per RPK  |  Target = same period last year + 5%  |  Cards: Jan to May 2025",
                     "textStyle": {
                       "fontSize": "10pt",
-                      "color": "#C8C3F5"
+                      "color": "#A9C7E8"
                     }
                   }
                 ]
@@ -53,7 +53,7 @@
             "show": {
               "expr": {
                 "Literal": {
-                  "Value": "true"
+                  "Value": "false"
                 }
               }
             },
@@ -62,7 +62,7 @@
                 "color": {
                   "expr": {
                     "Literal": {
-                      "Value": "'#030734'"
+                      "Value": "'#0A2540'"
                     }
                   }
                 }

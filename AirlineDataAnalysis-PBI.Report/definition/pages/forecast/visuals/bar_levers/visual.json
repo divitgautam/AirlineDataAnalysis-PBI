@@ -4,10 +4,10 @@
   "position": {
     "x": 16,
     "y": 458,
-    "z": 10000,
+    "z": 11000,
     "height": 246,
     "width": 680,
-    "tabOrder": 10000
+    "tabOrder": 11000
   },
   "visual": {
     "visualType": "clusteredBarChart",
@@ -144,7 +144,7 @@
                 "color": {
                   "expr": {
                     "Literal": {
-                      "Value": "'#CD83FF'"
+                      "Value": "'#5BC0EB'"
                     }
                   }
                 }
@@ -184,7 +184,7 @@
                 "color": {
                   "expr": {
                     "Literal": {
-                      "Value": "'#020618'"
+                      "Value": "'#0B1B2E'"
                     }
                   }
                 }
@@ -229,7 +229,7 @@
                 "color": {
                   "expr": {
                     "Literal": {
-                      "Value": "'#62748E'"
+                      "Value": "'#5B6B7F'"
                     }
                   }
                 }

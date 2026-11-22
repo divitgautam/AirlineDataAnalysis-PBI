@@ -39,7 +39,13 @@ route and network performance, demand trends, a revenue-per-seat-km KPI, a 2025 
 
 ## Power BI report
 
-Five pages in the InXiteOut palette (navy `#030734`, violet `#682EFF`, lilac `#CD83FF`):
+Five pages in a custom **Runway** aviation theme ([`_build/airline_theme.py`](_build/airline_theme.py)):
+
+- **Colours:** night-sky navy `#0A2540` headers, sky blue `#1673C8`, contrail cyan `#5BC0EB`, and runway amber `#F5A623` for highlights.
+- **Fonts:** Bahnschrift (the DIN-style airport-signage face) for titles and numbers.
+- **Header artwork:** a flight-path band with a plane emblem, built as SVG ([docs/theme/header_runway.svg](docs/theme/header_runway.svg)).
+
+The same theme module styles the LinkedIn visuals.
 
 | Page | What it shows |
 |---|---|

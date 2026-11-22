@@ -1,4 +1,4 @@
-"""Builds the AirlineDataAnalysis-PBI report pages (PBIR JSON) in the InXiteOut palette.
+"""Builds the AirlineDataAnalysis-PBI report pages (PBIR JSON) in the Runway aviation theme (_build/airline_theme.py).
 Run: python _build/build_report.py   (then "Apply external changes" in Power BI Desktop)"""
 import json
 import sys
@@ -6,6 +6,8 @@ from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).parent))
 import pbir_kit as k
+import airline_theme
+airline_theme.apply(k)   # 'Runway' aviation theme; must run before the names below are imported
 from pbir_kit import (L, C, col, mea, qref, cat_filter, series_color_by_value, series_color_by_measure, Page,
                       NAVY, TEAL, AMBER, CORAL, SLATE, GREEN, INK, MUTED, WHITE, LINE, W, H, M, G)
 
@@ -245,7 +247,7 @@ p.add("line_forecast", "lineChart", M, row2_y, W - 2 * M, row2_h,
       objects={**NO_AXIS_TITLES, **LEGEND_TOP,
                "categoryAxis": [{"properties": {"showAxisTitle": L(False), "axisType": L("Continuous")}}],
                "dataPoint": [series_color_by_measure(FA_, NAVY), series_color_by_measure(F50, TEAL),
-                             series_color_by_measure(F10, "#D9CCFF"), series_color_by_measure(F90, "#D9CCFF")],
+                             series_color_by_measure(F10, airline_theme.BAND_LIGHT), series_color_by_measure(F90, airline_theme.BAND_LIGHT)],
                "lineStyles": [{"properties": {"strokeWidth": L(2)}, "selector": {"metadata": qref(FA_)}},
                               {"properties": {"strokeWidth": L(3)}, "selector": {"metadata": qref(F50)}},
                               {"properties": {"strokeWidth": L(1), "lineStyle": L("dashed")}, "selector": {"metadata": qref(F10)}},

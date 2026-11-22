@@ -4,10 +4,10 @@
   "position": {
     "x": 16,
     "y": 184,
-    "z": 8000,
+    "z": 9000,
     "height": 262,
     "width": 1248,
-    "tabOrder": 8000
+    "tabOrder": 9000
   },
   "visual": {
     "visualType": "lineClusteredColumnComboChart",
@@ -151,7 +151,7 @@
                 "color": {
                   "expr": {
                     "Literal": {
-                      "Value": "'#682EFF'"
+                      "Value": "'#1673C8'"
                     }
                   }
                 }
@@ -169,7 +169,7 @@
                 "color": {
                   "expr": {
                     "Literal": {
-                      "Value": "'#F05100'"
+                      "Value": "'#F5A623'"
                     }
                   }
                 }
@@ -232,7 +232,7 @@
                 "color": {
                   "expr": {
                     "Literal": {
-                      "Value": "'#020618'"
+                      "Value": "'#0B1B2E'"
                     }
                   }
                 }
@@ -277,7 +277,7 @@
                 "color": {
                   "expr": {
                     "Literal": {
-                      "Value": "'#62748E'"
+                      "Value": "'#5B6B7F'"
                     }
                   }
                 }

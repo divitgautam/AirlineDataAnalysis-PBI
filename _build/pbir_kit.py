@@ -19,6 +19,22 @@ NAVY, TEAL, AMBER, CORAL, SLATE, GREEN = "#030734", "#682EFF", "#CD83FF", "#F051
 FONT, FONT_BOLD = "'Instrument Sans', 'Segoe UI', sans-serif", "'Instrument Sans', 'Segoe UI Semibold', sans-serif"
 INK, MUTED, BG, LINE, WHITE = "#020618", "#62748E", "#F1F5F9", "#E2E8F0", "#FFFFFF"
 W, H, M, G = 1280, 720, 16, 12  # page size, margin, gutter
+SUBTITLE, ROW_ALT, EXTRA_COLORS = "#C8C3F5", "#F6F3FF", ["#AC24FF", "#FCBB00"]
+THEME_NAME, THEME_FILE = "InXiteOut", "InxiteOut.json"
+HEADER_IMAGE, HEADER_TEXT_X = None, 0   # optional SVG banner behind the header text
+IMAGES = {}                              # name -> SVG text, registered as report images
+
+
+def set_theme(**kw):
+    """Override palette/theme globals, e.g. set_theme(NAVY="#0A2540", THEME_NAME="Runway")."""
+    g = globals()
+    for k_, v_ in kw.items():
+        if k_ not in g: raise KeyError(k_)
+        g[k_] = v_
+
+
+def image_ref(item):
+    return {"expr": {"ResourcePackageItem": {"PackageName": "RegisteredResources", "PackageType": 1, "ItemName": item}}}
 
 
 # ---------- literal helpers ----------
@@ -117,11 +133,18 @@ class Page:
 
     # --- composite helpers ---
     def header(self, title, subtitle, width=W - 2 * M):
-        self.add("hdr_band", "textbox", 0, 0, W, 72, objects={"general": [{"properties": {"paragraphs": [
+        if HEADER_IMAGE:
+            self.add("hdr_art", "image", 0, 0, W, 72,
+                     objects={"general": [{"properties": {"imageUrl": image_ref(HEADER_IMAGE)}}],
+                              "imageScaling": [{"properties": {"imageScalingType": L("Fill")}}]},
+                     container={"background": [{"properties": {"show": L(False)}}], "border": [{"properties": {"show": L(False)}}],
+                                "padding": [{"properties": {"top": L(0), "bottom": L(0), "left": L(0), "right": L(0)}}],
+                                "title": [{"properties": {"show": L(False)}}], "visualHeader": [{"properties": {"show": L(False)}}]})
+        self.add("hdr_band", "textbox", HEADER_TEXT_X, 0, W - HEADER_TEXT_X, 72, objects={"general": [{"properties": {"paragraphs": [
             {"textRuns": [{"value": title, "textStyle": {"fontWeight": "bold", "fontSize": "18pt", "color": WHITE,
                                                           "fontFamily": FONT_BOLD}}]},
-            {"textRuns": [{"value": subtitle, "textStyle": {"fontSize": "10pt", "color": "#C8C3F5"}}]}]}}]},
-            container={"background": [{"properties": {"show": L(True), "color": C(NAVY), "transparency": L(0)}}],
+            {"textRuns": [{"value": subtitle, "textStyle": {"fontSize": "10pt", "color": SUBTITLE}}]}]}}]},
+            container={"background": [{"properties": {"show": not HEADER_IMAGE and L(True) or L(False), "color": C(NAVY), "transparency": L(0)}}],
                        "border": [{"properties": {"show": L(False)}}],
                        "padding": [{"properties": {"top": L(8), "left": L(16)}}]})
 
@@ -146,7 +169,8 @@ class Page:
                               "label": [{"properties": {"fontSize": L(10)}, "selector": {"id": "default"}}],
                               "value": [{"properties": {"fontSize": L(14 if name in small else 24)}, "selector": {"id": "default"}}]})
 
-    def textbox(self, name, x, y, w, h, title, lines, accent=TEAL, size="10pt", gap=False):
+    def textbox(self, name, x, y, w, h, title, lines, accent=None, size="10pt", gap=False):
+        accent = accent or TEAL   # read at call time so set_theme() applies
         lines = [tuple(s.replace("Rs ", "₹") for s in ln) if isinstance(ln, tuple) else ln.replace("Rs ", "₹")
                  for ln in lines]
         paras = [{"textRuns": [{"value": title, "textStyle": {"fontWeight": "bold", "fontSize": "12pt", "color": INK,
@@ -195,8 +219,8 @@ def finish(pages):
 
     # ---------- theme ----------
     theme = {
-        "name": "InXiteOut",
-        "dataColors": [TEAL, AMBER, NAVY, CORAL, SLATE, GREEN, "#AC24FF", "#FCBB00"],
+        "name": THEME_NAME,
+        "dataColors": [TEAL, AMBER, NAVY, CORAL, SLATE, GREEN] + EXTRA_COLORS,
         "foreground": INK, "foregroundNeutralSecondary": MUTED, "background": WHITE, "backgroundLight": BG,
         "tableAccent": TEAL, "good": GREEN, "neutral": AMBER, "bad": CORAL,
         "textClasses": {
@@ -216,7 +240,7 @@ def finish(pages):
             "page": {"*": {"background": [{"color": {"solid": {"color": BG}}, "transparency": 0}]}},
             "pivotTable": {"*": {
                 "columnHeaders": [{"backColor": {"solid": {"color": NAVY}}, "fontColor": {"solid": {"color": WHITE}}, "fontSize": 10}],
-                "values": [{"fontSize": 10, "backColorSecondary": {"solid": {"color": "#F6F3FF"}}}],
+                "values": [{"fontSize": 10, "backColorSecondary": {"solid": {"color": ROW_ALT}}}],
                 "subTotals": [{"rowSubtotals": True}],
                 "total": [{"fontColor": {"solid": {"color": NAVY}}}],
             }},
@@ -224,16 +248,19 @@ def finish(pages):
     }
     rr = REPORT / "StaticResources" / "RegisteredResources"
     rr.mkdir(parents=True, exist_ok=True)
-    (rr / "InxiteOut.json").write_text(json.dumps(theme, indent=2), encoding="utf-8")
+    (rr / THEME_FILE).write_text(json.dumps(theme, indent=2), encoding="utf-8")
+    for img, svg in IMAGES.items():
+        (rr / img).write_text(svg, encoding="utf-8")
 
     rj = DEF / "report.json"
     rep = json.loads(rj.read_text(encoding="utf-8"))
     base = rep["themeCollection"]["baseTheme"]
-    rep["themeCollection"]["customTheme"] = {"name": "InxiteOut.json", "reportVersionAtImport": base["reportVersionAtImport"],
+    rep["themeCollection"]["customTheme"] = {"name": THEME_FILE, "reportVersionAtImport": base["reportVersionAtImport"],
                                              "type": "RegisteredResources"}
     pk = [r for r in rep["resourcePackages"] if r["name"] != "RegisteredResources"]
     pk.append({"name": "RegisteredResources", "type": "RegisteredResources",
-               "items": [{"name": "InxiteOut.json", "path": "InxiteOut.json", "type": "CustomTheme"}]})
+               "items": [{"name": THEME_FILE, "path": THEME_FILE, "type": "CustomTheme"}]
+                        + [{"name": img, "path": img, "type": "Image"} for img in IMAGES]})
     rep["resourcePackages"] = pk
     rj.write_text(json.dumps(rep, indent=2), encoding="utf-8")
     print("pages:", [pg.name for pg in pages], "visuals:", sum(len(pg.visuals) for pg in pages))

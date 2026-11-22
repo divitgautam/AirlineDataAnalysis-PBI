@@ -243,8 +243,8 @@ MEASURES = [
      "VAR v = [RASK] VAR t = [RASK Target] RETURN SWITCH ( TRUE (), ISBLANK ( t ), \"No target\", v >= t, \"On target\", "
      "v >= t * 0.95, \"Watch\", \"Below\" )", None, "5 KPI", "Traffic-light status of RASK vs target."),
     ("RASK Status Color",
-     "VAR v = [RASK] VAR t = [RASK Target] RETURN SWITCH ( TRUE (), ISBLANK ( t ), \"#62748E\", v >= t, \"#009588\", "
-     "v >= t * 0.95, \"#FCBB00\", \"#F05100\" )", None, "5 KPI", ""),
+     "VAR v = [RASK] VAR t = [RASK Target] RETURN SWITCH ( TRUE (), ISBLANK ( t ), \"#5B6B7F\", v >= t, \"#2BAE66\", "
+     "v >= t * 0.95, \"#F5A623\", \"#E4572E\" )", None, "5 KPI", ""),
     ("Seat-km Load Factor PY", "CALCULATE ( [Seat-km Load Factor %], SAMEPERIODLASTYEAR ( 'Date'[Date] ) )", PCT, "5 KPI", ""),
     ("Yield per RPK PY", "CALCULATE ( [Yield per RPK], SAMEPERIODLASTYEAR ( 'Date'[Date] ) )", R3, "5 KPI", ""),
 ]

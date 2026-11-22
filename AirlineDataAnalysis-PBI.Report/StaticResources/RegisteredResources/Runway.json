@@ -1,43 +1,43 @@
 {
-  "name": "InXiteOut",
+  "name": "Runway",
   "dataColors": [
-    "#682EFF",
-    "#CD83FF",
-    "#030734",
-    "#F05100",
-    "#62748E",
-    "#009588",
-    "#AC24FF",
-    "#FCBB00"
+    "#1673C8",
+    "#5BC0EB",
+    "#0A2540",
+    "#F5A623",
+    "#5B6B7F",
+    "#2BAE66",
+    "#E4572E",
+    "#8E9AAF"
   ],
-  "foreground": "#020618",
-  "foregroundNeutralSecondary": "#62748E",
+  "foreground": "#0B1B2E",
+  "foregroundNeutralSecondary": "#5B6B7F",
   "background": "#FFFFFF",
-  "backgroundLight": "#F1F5F9",
-  "tableAccent": "#682EFF",
-  "good": "#009588",
-  "neutral": "#CD83FF",
-  "bad": "#F05100",
+  "backgroundLight": "#EEF3F8",
+  "tableAccent": "#1673C8",
+  "good": "#2BAE66",
+  "neutral": "#5BC0EB",
+  "bad": "#F5A623",
   "textClasses": {
     "title": {
-      "fontFace": "'Instrument Sans', 'Segoe UI Semibold', sans-serif",
+      "fontFace": "'Bahnschrift SemiBold', 'Bahnschrift', 'Segoe UI Semibold', sans-serif",
       "fontSize": 11,
-      "color": "#020618"
+      "color": "#0B1B2E"
     },
     "label": {
-      "fontFace": "'Instrument Sans', 'Segoe UI', sans-serif",
+      "fontFace": "'Segoe UI', sans-serif",
       "fontSize": 10,
-      "color": "#62748E"
+      "color": "#5B6B7F"
     },
     "callout": {
-      "fontFace": "'Instrument Sans', 'Segoe UI Semibold', sans-serif",
+      "fontFace": "'Bahnschrift SemiBold', 'Bahnschrift', 'Segoe UI Semibold', sans-serif",
       "fontSize": 24,
-      "color": "#030734"
+      "color": "#0A2540"
     },
     "header": {
-      "fontFace": "'Instrument Sans', 'Segoe UI Semibold', sans-serif",
+      "fontFace": "'Bahnschrift SemiBold', 'Bahnschrift', 'Segoe UI Semibold', sans-serif",
       "fontSize": 11,
-      "color": "#020618"
+      "color": "#0B1B2E"
     }
   },
   "visualStyles": {
@@ -59,7 +59,7 @@
             "show": true,
             "color": {
               "solid": {
-                "color": "#E2E8F0"
+                "color": "#D9E2EC"
               }
             },
             "radius": 8,
@@ -76,11 +76,11 @@
             "show": true,
             "fontColor": {
               "solid": {
-                "color": "#020618"
+                "color": "#0B1B2E"
               }
             },
             "fontSize": 11,
-            "fontFamily": "'Instrument Sans', 'Segoe UI Semibold', sans-serif"
+            "fontFamily": "'Bahnschrift SemiBold', 'Bahnschrift', 'Segoe UI Semibold', sans-serif"
           }
         ],
         "padding": [
@@ -99,7 +99,7 @@
           {
             "color": {
               "solid": {
-                "color": "#F1F5F9"
+                "color": "#EEF3F8"
               }
             },
             "transparency": 0
@@ -113,7 +113,7 @@
           {
             "backColor": {
               "solid": {
-                "color": "#030734"
+                "color": "#0A2540"
               }
             },
             "fontColor": {
@@ -129,7 +129,7 @@
             "fontSize": 10,
             "backColorSecondary": {
               "solid": {
-                "color": "#F6F3FF"
+                "color": "#F2F7FC"
               }
             }
           }
@@ -143,7 +143,7 @@
           {
             "fontColor": {
               "solid": {
-                "color": "#030734"
+                "color": "#0A2540"
               }
             }
           }

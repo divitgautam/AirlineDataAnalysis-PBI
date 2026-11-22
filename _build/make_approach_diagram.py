@@ -9,21 +9,25 @@ from matplotlib.colors import LinearSegmentedColormap
 
 OUT = Path(__file__).resolve().parents[1] / "docs"
 OUT.mkdir(exist_ok=True)
-NAVY, VIOLET, LILAC, PURPLE, WHITE, INK, MUTED = "#030734", "#682EFF", "#CD83FF", "#AC24FF", "#FFFFFF", "#020618", "#62748E"
-plt.rcParams["font.family"] = "Segoe UI"
+import sys
+sys.path.insert(0, str(Path(__file__).parent))
+import airline_theme as t   # Runway theme: same colours as the dashboard
+NAVY, VIOLET, LILAC, PURPLE, WHITE, INK, MUTED = t.NAVY, t.BLUE, t.CYAN, t.AMBER, t.WHITE, t.INK, t.MUTED
+plt.rcParams["font.family"] = ["Bahnschrift", "Segoe UI"]
 
 W, H = 19.2, 10.8
 fig = plt.figure(figsize=(W, H), dpi=100)
 ax = fig.add_axes([0, 0, 1, 1]); ax.set_xlim(0, W); ax.set_ylim(0, H); ax.axis("off")
 
 # background: navy to purple diagonal, like the site's hero bands
-grad = LinearSegmentedColormap.from_list("bg", [NAVY, NAVY, "#2A0F6E", "#5B19B8"])
+grad = LinearSegmentedColormap.from_list("bg", [NAVY, NAVY, t.NAVY_2, "#1A5694"])
 xx, yy = np.meshgrid(np.linspace(0, 1, 400), np.linspace(0, 1, 225))
 ax.imshow(grad(np.clip(xx * .75 + (1 - yy) * .35 - .15, 0, 1)), extent=[0, W, 0, H], aspect="auto", zorder=0)
 
+ax.text(W - .8, 9.85, "✈", color=LILAC, fontsize=46, ha="right", va="top", fontfamily="Segoe UI Symbol", rotation=30)
 ax.text(.8, 9.95, "From 40,175 flights to network decisions", color=WHITE, fontsize=34, weight="bold", va="top")
 ax.text(.8, 9.1, "How AirlineDataAnalysis-PBI was built: audit first, fix the distances, answer in Power BI, go deeper in Python",
-        color="#C8C3F5", fontsize=15, va="top")
+        color=t.SUBTITLE, fontsize=15, va="top")
 
 stages = [
     ("01", "DATA", "One flight-level CSV",
@@ -61,13 +65,13 @@ bx = left + 2 * (cw + gap); bw = 2 * cw + gap
 ax.add_patch(FancyBboxPatch((bx, 1.6), bw, .93, boxstyle="round,pad=0,rounding_size=.18", fc=VIOLET, ec="none", zorder=2))
 ax.text(bx + bw / 2, 2.25, "Reconciled exactly: Python = Power BI", color=WHITE, fontsize=14, weight="bold", ha="center", va="center", zorder=3)
 ax.text(bx + bw / 2, 1.88, "40,175 flights  |  2.21 M passengers  |  4.14 bn seat-km  |  ₹64.9 Cr revenue",
-        color="#E9E2FF", fontsize=12, ha="center", va="center", zorder=3)
+        color="#DCEBFA", fontsize=12, ha="center", va="center", zorder=3)
 for cx in (bx + cw / 2, bx + cw + gap + cw / 2):
     ax.plot([cx, cx], [top - ch, 2.53], color=LILAC, lw=2, ls=(0, (3, 3)), zorder=1)
 ax.text(.8, 1.0, "Key finding: 2025 growth is price-led (fares +39% from Nov 2024) and planes still got fuller; "
         "Pune is the network's hub.", color=WHITE, fontsize=14.5, va="center")
 ax.text(W - .8, .45, "Power BI  |  DAX  |  Power Query  |  Python (pandas, scipy, statsmodels)",
-        color="#C8C3F5", fontsize=11.5, ha="right", va="center")
+        color=t.SUBTITLE, fontsize=11.5, ha="right", va="center")
 
 fig.savefig(OUT / "approach_diagram.png", dpi=100)
 print("saved", OUT / "approach_diagram.png")
