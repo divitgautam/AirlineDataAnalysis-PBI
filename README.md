@@ -62,7 +62,7 @@ The same theme module styles the LinkedIn visuals.
 
 **Model:**
 - `Flights` fact table with role-playing `Origin Airport` and `Destination Airport` dimensions (from [reference/airports.csv](reference/airports.csv)) and a `Date` table.
-- 60 DAX measures in `_Measures`, organised by folder.
+- 59 DAX measures in `_Measures`, organised by folder.
 - Forecast and lever tables are loaded from the notebooks' output.
 
 **Data rules in Power Query** (mirrored in [`analysis/src/metrics.py`](analysis/src/metrics.py)):

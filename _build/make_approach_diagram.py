@@ -36,7 +36,7 @@ stages = [
      ["14 data-quality checks", "14% of flights had another", "route's distance: fixed with", "great-circle km from coordinates",
       "Fare outliers by route median"]),
     ("03", "POWER BI", "Answer the brief",
-     ["60 DAX measures", "5 pages, 52 visuals", "Network & route quadrants", "Demand trends 2025 vs 2024",
+     ["59 DAX measures", "5 pages, 52 visuals", "Network & route quadrants", "Demand trends 2025 vs 2024",
       "KPI: RASK, forecast, levers"]),
     ("04", "PYTHON", "Go deeper",
      ["Audit + EDA notebooks", "Route quadrants, seasonality", "Forecast Jun-Dec 2025,", "backtested on held-out months",
