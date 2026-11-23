@@ -1,9 +1,9 @@
 table 'Destination Airport'
-	lineageTag: 8bf90e2f-aca9-46f2-a4d2-d3d5ff6a58bb
+	lineageTag: ad5d2578-ce0f-4909-8db4-d6c068140a02
 
 	column IATA
 		dataType: string
-		lineageTag: 4f9b4bbb-007a-4e69-a608-f2ebcf04a627
+		lineageTag: 452b179a-2ce8-4931-8509-4e0a98089ba7
 		summarizeBy: none
 		sourceColumn: IATA
 
@@ -11,7 +11,7 @@ table 'Destination Airport'
 
 	column Airport
 		dataType: string
-		lineageTag: a21a367d-c839-480e-83ca-f60551a44859
+		lineageTag: 8ed2cfb6-e289-43dd-93c4-cf3a52564098
 		summarizeBy: none
 		sourceColumn: Airport
 
@@ -19,7 +19,7 @@ table 'Destination Airport'
 
 	column City
 		dataType: string
-		lineageTag: 42decbc8-1a01-4c8a-800a-edfea7aab99c
+		lineageTag: e9f1cd10-3b35-4702-97c2-30b7d9589a82
 		summarizeBy: none
 		sourceColumn: City
 
@@ -27,7 +27,7 @@ table 'Destination Airport'
 
 	column State
 		dataType: string
-		lineageTag: 54c284ab-d41f-4fcf-9a71-7e7bd628fd23
+		lineageTag: 5aff84a9-8408-4f22-9ae3-3a601828c47b
 		summarizeBy: none
 		sourceColumn: State
 
@@ -35,7 +35,7 @@ table 'Destination Airport'
 
 	column Country
 		dataType: string
-		lineageTag: 3aff1ea2-73cf-4542-816b-7b34d8ea1888
+		lineageTag: b6411ade-0743-4ecb-a701-245d553c664e
 		summarizeBy: none
 		sourceColumn: Country
 
@@ -43,7 +43,7 @@ table 'Destination Airport'
 
 	column Region
 		dataType: string
-		lineageTag: c099f546-6104-4d2c-8dfd-9dbe36e15cfb
+		lineageTag: a4c3e9a0-9f88-4aa8-bcc2-22eecf0648cf
 		summarizeBy: none
 		sourceColumn: Region
 
@@ -53,7 +53,7 @@ table 'Destination Airport'
 		dataType: double
 		isHidden
 		formatString: 0.0000
-		lineageTag: 8e498d33-c867-4d32-af07-ba32c2d26598
+		lineageTag: 7689f1eb-db2a-4648-b91e-2d25b90d8e40
 		dataCategory: Latitude
 		summarizeBy: none
 		sourceColumn: Latitude
@@ -64,7 +64,7 @@ table 'Destination Airport'
 		dataType: double
 		isHidden
 		formatString: 0.0000
-		lineageTag: 603ccc80-47bc-443b-8230-35de68ec6683
+		lineageTag: 11c162b7-a877-4384-89c9-cdfbd27aad56
 		dataCategory: Longitude
 		summarizeBy: none
 		sourceColumn: Longitude
@@ -73,7 +73,7 @@ table 'Destination Airport'
 
 	column 'Airport Label'
 		dataType: string
-		lineageTag: 69194e8b-175c-4834-99af-b3f71d1d1443
+		lineageTag: 6f7de3ff-8c30-49eb-9ee3-0a4cbaeaae8d
 		summarizeBy: none
 		sourceColumn: Airport Label
 

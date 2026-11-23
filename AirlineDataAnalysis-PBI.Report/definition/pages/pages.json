@@ -5,7 +5,9 @@
     "trends",
     "kpi_rask",
     "insights",
-    "forecast"
+    "forecast",
+    "route_detail",
+    "route_tip"
   ],
-  "activePageName": "network"
+  "activePageName": "kpi_rask"
 }

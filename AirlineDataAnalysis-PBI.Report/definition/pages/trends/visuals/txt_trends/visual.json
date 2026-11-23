@@ -3,11 +3,11 @@
   "name": "txt_trends",
   "position": {
     "x": 856,
-    "y": 458,
-    "z": 12000,
-    "height": 246,
+    "y": 430,
+    "z": 17000,
+    "height": 252,
     "width": 408,
-    "tabOrder": 12000
+    "tabOrder": 17000
   },
   "visual": {
     "visualType": "textbox",
@@ -79,7 +79,7 @@
                     }
                   },
                   {
-                    "value": "median fare jumped about 39% in Nov 2024 and has held since.",
+                    "value": "the median fare jumped about 39% in Nov 2024 and has held since.",
                     "textStyle": {
                       "fontSize": "10pt",
                       "color": "#0B1B2E"
@@ -109,7 +109,7 @@
               {
                 "textRuns": [
                   {
-                    "value": "No weekday peak: ",
+                    "value": "Action: ",
                     "textStyle": {
                       "fontWeight": "bold",
                       "fontSize": "10pt",
@@ -117,7 +117,7 @@
                     }
                   },
                   {
-                    "value": "schedule by route and month, not by day of week.",
+                    "value": "schedule by route and month (July–October is the soft season), not by day of week.",
                     "textStyle": {
                       "fontSize": "10pt",
                       "color": "#0B1B2E"
@@ -152,6 +152,19 @@
               "expr": {
                 "Literal": {
                   "Value": "14D"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "general": [
+        {
+          "properties": {
+            "altText": {
+              "expr": {
+                "Literal": {
+                  "Value": "'What this tells us'"
                 }
               }
             }

@@ -20,10 +20,10 @@
               {
                 "textRuns": [
                   {
-                    "value": "KPI: Revenue per Available Seat-Km (RASK)",
+                    "value": "RASK is ₹0.176 in 2025, up 15% and ahead of its ₹0.160 target",
                     "textStyle": {
                       "fontWeight": "bold",
-                      "fontSize": "18pt",
+                      "fontSize": "16pt",
                       "color": "#FFFFFF",
                       "fontFamily": "'Bahnschrift SemiBold', 'Bahnschrift', 'Segoe UI Semibold', sans-serif"
                     }
@@ -105,6 +105,19 @@
               "expr": {
                 "Literal": {
                   "Value": "16D"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "general": [
+        {
+          "properties": {
+            "altText": {
+              "expr": {
+                "Literal": {
+                  "Value": "'Page title: RASK is ₹0.176 in 2025, up 15% and ahead of its ₹0.160 target'"
                 }
               }
             }

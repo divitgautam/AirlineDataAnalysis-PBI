@@ -3,7 +3,7 @@
   "name": "card_rev",
   "position": {
     "x": 16,
-    "y": 84,
+    "y": 80,
     "z": 4000,
     "height": 88,
     "width": 198,
@@ -24,11 +24,11 @@
                       "Entity": "_Measures"
                     }
                   },
-                  "Property": "Revenue"
+                  "Property": "Card Revenue"
                 }
               },
-              "queryRef": "_Measures.Revenue",
-              "nativeQueryRef": "Revenue",
+              "queryRef": "_Measures.Card Revenue",
+              "nativeQueryRef": "Card Revenue",
               "displayName": "Revenue"
             }
           ]
@@ -63,6 +63,22 @@
           }
         }
       ],
+      "outline": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "false"
+                }
+              }
+            }
+          },
+          "selector": {
+            "id": "default"
+          }
+        }
+      ],
       "label": [
         {
           "properties": {
@@ -85,13 +101,28 @@
             "fontSize": {
               "expr": {
                 "Literal": {
-                  "Value": "24D"
+                  "Value": "22D"
                 }
               }
             }
           },
           "selector": {
             "id": "default"
+          }
+        }
+      ]
+    },
+    "visualContainerObjects": {
+      "general": [
+        {
+          "properties": {
+            "altText": {
+              "expr": {
+                "Literal": {
+                  "Value": "'Revenue card'"
+                }
+              }
+            }
           }
         }
       ]

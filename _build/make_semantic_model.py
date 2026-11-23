@@ -7,6 +7,8 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
 NAME = "AirlineDataAnalysis-PBI"
+_facts = ROOT / "analysis" / "output" / "report_facts.json"
+FACTS = json.loads(_facts.read_text(encoding="utf-8")) if _facts.exists() else {}
 RPT, SM = ROOT / f"{NAME}.Report", ROOT / f"{NAME}.SemanticModel"
 DEFN = SM / "definition"
 T = "\t"
@@ -49,8 +51,10 @@ w(SM / "definition.pbism", json.dumps({"version": "4.2", "settings": {}}, indent
 if not (SM / ".platform").exists():
     w(SM / ".platform", platform("SemanticModel"))
 w(DEFN / "database.tmdl", "database\n\tcompatibilityLevel: 1606\n\n")
-w(DEFN / "cultures" / "en-IN.tmdl", "cultureInfo en-IN\n")
-TABLES = ["Flights", "Origin Airport", "Destination Airport", "Date", "_Measures", "Forecast", "Forecast 2025", "Levers", "Scenario"]
+if not (DEFN / "cultures" / "en-IN.tmdl").exists():   # keep Desktop's linguistic metadata (synonyms used by Copilot)
+    w(DEFN / "cultures" / "en-IN.tmdl", "cultureInfo en-IN\n")
+TABLES = ["Flights", "Origin Airport", "Destination Airport", "Date", "_Measures", "Forecast", "Forecast 2025", "Levers", "Scenario",
+          "Refresh Info"]
 q = lambda n: f"'{n}'" if " " in n else n
 w(DEFN / "model.tmdl",
   "model Model\n\tculture: en-IN\n\tdefaultPowerBIDataSourceVersion: powerBI_V3\n\tsourceQueryCulture: en-IN\n"
@@ -243,11 +247,86 @@ MEASURES = [
      "VAR v = [RASK] VAR t = [RASK Target] RETURN SWITCH ( TRUE (), ISBLANK ( t ), \"No target\", v >= t, \"On target\", "
      "v >= t * 0.95, \"Watch\", \"Below\" )", None, "5 KPI", "Traffic-light status of RASK vs target."),
     ("RASK Status Color",
-     "VAR v = [RASK] VAR t = [RASK Target] RETURN SWITCH ( TRUE (), ISBLANK ( t ), \"#5B6B7F\", v >= t, \"#2BAE66\", "
-     "v >= t * 0.95, \"#F5A623\", \"#E4572E\" )", None, "5 KPI", ""),
+     "VAR v = [RASK] VAR t = [RASK Target] RETURN SWITCH ( TRUE (), ISBLANK ( t ), \"#5B6B7F\", v >= t, \"#1E7F4B\", "
+     "v >= t * 0.95, \"#B26B00\", \"#C0392B\" )", None, "5 KPI", ""),
     ("Seat-km Load Factor PY", "CALCULATE ( [Seat-km Load Factor %], SAMEPERIODLASTYEAR ( 'Date'[Date] ) )", PCT, "5 KPI", ""),
     ("Yield per RPK PY", "CALCULATE ( [Yield per RPK], SAMEPERIODLASTYEAR ( 'Date'[Date] ) )", R3, "5 KPI", ""),
 ]
+# ---- 7 Display: card text in ₹ Cr / M, change lines with arrows, index and unit measures (scorecard review, Nov 2026)
+UP, DOWN = "▲ ", "▼ "
+GOOD, BAD, NEUTRAL = "#1E7F4B", "#C0392B", "#5B6B7F"      # WCAG AA (≥4.5:1) on white for small text
+CR = f"{RUPEE}#,##0.00 \\C\\r"
+PERIOD = "Jan 2024 – May 2025"
+
+
+def delta(name, cur, py, pp=False, label="vs last year"):
+    """Text + colour measures for a card's change line, e.g. '▲ 24.6% vs last year'."""
+    d = f"( {cur} - {py} ) * 100" if pp else f"DIVIDE ( {cur} - {py}, {py} )"
+    fmt = f'FORMAT ( ABS ( d ), "0.0" ) & " pp"' if pp else 'FORMAT ( ABS ( d ), "0.0%" )'
+    txt = (f"VAR p = {py} VAR d = {d} RETURN IF ( NOT HASONEVALUE ( 'Date'[Year] ), \"{PERIOD}\", "
+           f"IF ( ISBLANK ( p ), \"No prior year\", IF ( d >= 0, \"{UP}\", \"{DOWN}\" ) & {fmt} & \" {label}\" ) )")
+    col_ = (f"VAR p = {py} RETURN IF ( NOT HASONEVALUE ( 'Date'[Year] ) || ISBLANK ( p ), \"{NEUTRAL}\", "
+            f"IF ( {cur} >= p, \"{GOOD}\", \"{BAD}\" ) )")
+    return [(f"Δ {name}", txt, None, "7 Display", f"Card change line for {name}: arrow and change {label}."),
+            (f"Δ {name} Color", col_, None, "7 Display", f"Colour of the {name} change line: green up, red down, grey when not comparable.")]
+
+
+def card(name, expr, desc):
+    return (f"Card {name}", expr, None, "7 Display", desc)
+
+
+base24 = "CALCULATE ( {m}, REMOVEFILTERS ( 'Date' ), 'Date'[Year] = 2024 )"
+MEASURES += [
+    ("Revenue ₹ Cr", "DIVIDE ( [Revenue], 10000000 )", CR, "7 Display", "Revenue in crore, for charts and tables."),
+    ("Review Route Revenue ₹ Cr", "DIVIDE ( [Review Route Revenue], 10000000 )", CR, "7 Display", "Review-route revenue in crore."),
+    ("Δ LF vs Network", 'VAR d = [LF vs Network (pp)] RETURN IF ( ISBLANK ( d ), BLANK (), FORMAT ( d, "+0.0;-0.0;0.0" ) & " pp vs network" )', None, "7 Display",
+     "Card line: load factor gap to the network, in points."),
+    ("Passengers (K)", "DIVIDE ( [Passengers], 1000 )", "#,##0", "7 Display", "Passengers in thousands, for monthly charts."),
+    card("Revenue", f'FORMAT ( [Revenue] / 10000000, "{RUPEE}#,##0.00", "en-US" ) & " Cr"', "Revenue for cards, in crore."),
+    card("Passengers", 'FORMAT ( [Passengers] / 1000000, "0.00" ) & " M"', "Passengers for cards, in millions."),
+    card("Flights", 'FORMAT ( [Flights], "#,##0", "en-US" )', "Flights for cards."),
+    card("Load Factor", 'FORMAT ( [Load Factor %], "0.0%" )', "Load factor for cards."),
+    card("Avg Fare", f'FORMAT ( [Avg Fare], "{RUPEE}#,##0", "en-US" )', "Average fare for cards."),
+    card("RASK", f'FORMAT ( [RASK], "{RUPEE}0.000" )', "RASK for cards."),
+    card("RASK Target", f'FORMAT ( [RASK Target], "{RUPEE}0.000" )', "RASK target for cards."),
+    card("Yield", f'FORMAT ( [Yield per RPK], "{RUPEE}0.000" )', "Yield per RPK for cards."),
+    card("Seat-km LF", 'FORMAT ( [Seat-km Load Factor %], "0.0%" )', "Seat-km load factor for cards."),
+    *delta("Revenue", "[Revenue]", "[Revenue PY]"),
+    *delta("Passengers", "[Passengers]", "[Passengers PY]"),
+    *delta("Flights", "[Flights]", "[Flights PY]"),
+    *delta("Load Factor", "[Load Factor %]", "[Load Factor PY]", pp=True),
+    *delta("Avg Fare", "[Avg Fare]", "[Avg Fare PY]"),
+    *delta("RASK", "[RASK]", "[RASK PY]"),
+    *delta("Yield", "[Yield per RPK]", "[Yield per RPK PY]"),
+    *delta("Seat-km LF", "[Seat-km Load Factor %]", "[Seat-km Load Factor PY]", pp=True),
+    ("Δ RASK Target", "VAR v = [RASK] VAR t = [RASK Target] RETURN IF ( ISBLANK ( t ), \"No target\", "
+     "FORMAT ( ABS ( DIVIDE ( v - t, t ) ), \"0.0%\" ) & IF ( v >= t, \" ahead of target\", \" behind target\" ) )",
+     None, "7 Display", "Card change line: RASK distance from target."),
+    ("Δ RASK Target Color", f'IF ( [RASK] >= [RASK Target], "{GOOD}", "{BAD}" )', None, "7 Display", "Colour of the target line."),
+    ("RASK Index", f"DIVIDE ( [RASK], {base24.format(m='[RASK]')} ) * 100", "0", "5 KPI", "RASK indexed to the 2024 average (= 100)."),
+    ("Yield Index", f"DIVIDE ( [Yield per RPK], {base24.format(m='[Yield per RPK]')} ) * 100", "0", "5 KPI", "Yield per RPK indexed to the 2024 average (= 100)."),
+    ("Seat-km LF Index", f"DIVIDE ( [Seat-km Load Factor %], {base24.format(m='[Seat-km Load Factor %]')} ) * 100", "0", "5 KPI",
+     "Seat-km load factor indexed to the 2024 average (= 100)."),
+    ("Route Quadrant Color", f'SWITCH ( [Route Quadrant], "Star", "#1673C8", "Review route", "#E4572E", "#A7B4C4" )', None, "3 Network",
+     "Scatter colour: blue star routes, red review routes, grey mixed."),
+    ("Selected Route", 'SELECTEDVALUE ( Flights[Route], "All routes" )', None, "7 Display", "Route in the current filter context (drillthrough title)."),
+    ("Footer Text", '"Source: Flight Data Assessment 2025 (" & "' + PERIOD + '" & ")  ·  Refreshed " & '
+     'FORMAT ( MAX ( \'Refresh Info\'[Refreshed] ), "d mmm yyyy" ) & "  ·  Values look scaled: compare % changes"',
+     None, "7 Display", "Footer: source, refresh date and the main caveat."),
+]
+FILL = {  # descriptions for measures that had none
+    "Avg Passengers per Flight": "Passengers / flights.", "Route Revenue Rank": "Dense rank of a route by revenue within the selection.",
+    "LF vs Network (pp)": "Load factor minus the network load factor, in percentage points.",
+    "Revenue PY": "Revenue for the same period last year.", "Revenue YoY %": "Revenue change vs the same period last year.",
+    "Passengers PY": "Passengers for the same period last year.", "Passengers YoY %": "Passenger change vs the same period last year.",
+    "Flights PY": "Flights for the same period last year.", "Flights YoY %": "Flight change vs the same period last year.",
+    "Load Factor PY": "Load factor for the same period last year.", "Load Factor YoY (pp)": "Load factor change vs last year, in points.",
+    "Avg Fare PY": "Average fare for the same period last year.", "Avg Fare YoY %": "Average fare change vs the same period last year.",
+    "RASK YoY %": "RASK change vs the same period last year.", "RASK vs Target %": "RASK distance from target, as a %.",
+    "RASK Status Color": "Colour for the RASK status: green on target, amber within 5%, red below.",
+    "Seat-km Load Factor PY": "Seat-km load factor for the same period last year.", "Yield per RPK PY": "Yield per RPK for the same period last year.",
+}
+MEASURES = [(n, e, f, folder, desc or FILL.get(n, "")) for n, e, f, folder, desc in MEASURES]
 ms = f"/// Central home for report measures\ntable _Measures\n{T}{lt()}\n\n"
 for n, e, f, folder, desc in MEASURES:
     if desc: ms += f"{T}/// {desc}\n"
@@ -299,26 +378,50 @@ w(DEFN / "tables" / "Scenario.tmdl",
   f"{T}partition Scenario = calculated\n{T * 2}mode: import\n{T * 2}source = DISTINCT ( SELECTCOLUMNS ( 'Forecast 2025', \"Scenario\", 'Forecast 2025'[scenario] ) )\n")
 SC = 'VAR sc = SELECTEDVALUE ( Scenario[Scenario], "A · Fares hold (post-Nov 2024 level)" )'
 MT = 'VAR mt = SELECTEDVALUE ( Forecast[metric], "Revenue" )'
-fc = lambda c: f"{SC} {MT} RETURN CALCULATE ( SUM ( Forecast[{c}] ), TREATAS ( {{ sc }}, Scenario[Scenario] ), TREATAS ( {{ mt }}, Forecast[metric] ) )"
+_f = lambda c: f"CALCULATE ( SUM ( Forecast[{c}] ), TREATAS ( {{ sc }}, Scenario[Scenario] ), TREATAS ( {{ mt }}, Forecast[metric] ) )"
+UNIT = 'IF ( mt = "Revenue", 10000000, 1000 )'   # chart in ₹ Cr, or thousands of passengers
+
+
+def fc(c):
+    """Forecast series in chart units. P10/P50/P90 also take the last actual month, so the forecast joins the history line."""
+    if c == "actual":
+        return f"{SC} {MT} RETURN DIVIDE ( {_f('actual')}, {UNIT} )"
+    last = (f"CALCULATE ( MAX ( Forecast[month] ), REMOVEFILTERS ( Forecast[month], Forecast[Month Label] ), "
+            f"NOT ISBLANK ( Forecast[actual] ), TREATAS ( {{ sc }}, Scenario[Scenario] ), TREATAS ( {{ mt }}, Forecast[metric] ) )")
+    return (f"{SC} {MT} VAR v = {_f(c)} VAR lastA = {last} "
+            f"RETURN DIVIDE ( IF ( ISBLANK ( v ) && MAX ( Forecast[month] ) = lastA, {_f('actual')}, v ), {UNIT} )")
 f25 = lambda metric, c="p50": f"{SC} RETURN CALCULATE ( SUM ( 'Forecast 2025'[{c}] ), 'Forecast 2025'[metric] = \"{metric}\", TREATAS ( {{ sc }}, Scenario[Scenario] ) )"
 FC_MEASURES = [
-    ("Fcst Actual", fc("actual"), INT, "6 Forecast", "History rows of the forecast table (defaults: scenario A, Revenue)."),
-    ("Fcst P50", fc("p50"), INT, "6 Forecast", "Forecast median."),
-    ("Fcst P10", fc("p10"), INT, "6 Forecast", "Low case."),
-    ("Fcst P90", fc("p90"), INT, "6 Forecast", "High case."),
+    ("Fcst Actual", fc("actual"), DEC1, "6 Forecast", "History rows of the forecast table (defaults: scenario A, Revenue)."),
+    ("Fcst P50", fc("p50"), DEC1, "6 Forecast", "Forecast median."),
+    ("Fcst P10", fc("p10"), DEC1, "6 Forecast", "Low case."),
+    ("Fcst P90", fc("p90"), DEC1, "6 Forecast", "High case."),
     ("F25 Revenue", f25("Revenue 2025 full year"), R0, "6 Forecast", "Full-year 2025 revenue: actual Jan-May + forecast median Jun-Dec."),
-    ("F25 Revenue (Cr)", f'"{RUPEE}" & FORMAT ( [F25 Revenue] / 10000000, "0.0" ) & " Cr"', None, "6 Forecast", ""),
+    ("F25 Revenue (Cr)", f'"{RUPEE}" & FORMAT ( [F25 Revenue] / 10000000, "0.0" ) & " Cr"', None, "6 Forecast", "Full-year 2025 revenue forecast as text, in crore."),
     ("F25 Revenue Range",
      f'{SC} VAR lo = CALCULATE ( SUM ( \'Forecast 2025\'[p10] ), \'Forecast 2025\'[metric] = "Revenue 2025 full year", TREATAS ( {{ sc }}, Scenario[Scenario] ) ) '
      f'VAR hi = CALCULATE ( SUM ( \'Forecast 2025\'[p90] ), \'Forecast 2025\'[metric] = "Revenue 2025 full year", TREATAS ( {{ sc }}, Scenario[Scenario] ) ) '
      f'RETURN "{RUPEE}" & FORMAT ( lo / 10000000, "0.0" ) & "–" & FORMAT ( hi / 10000000, "0.0" ) & " Cr"', None, "6 Forecast", "80% range of 2025 revenue."),
-    ("F25 Revenue vs 2024 %", 'DIVIDE ( [F25 Revenue], CALCULATE ( [Revenue], \'Date\'[Year] = 2024 ) ) - 1', PCT, "6 Forecast", ""),
+    ("F25 Revenue vs 2024 %", 'DIVIDE ( [F25 Revenue], CALCULATE ( [Revenue], \'Date\'[Year] = 2024 ) ) - 1', PCT, "6 Forecast", "2025 revenue forecast vs 2024 actual."),
     ("F25 Passengers", f25("Passengers 2025 full year"), INT, "6 Forecast", "Full-year 2025 passengers (median)."),
-    ("F25 Passengers vs 2024 %", 'DIVIDE ( [F25 Passengers], CALCULATE ( [Passengers], \'Date\'[Year] = 2024 ) ) - 1', PCT, "6 Forecast", ""),
+    ("F25 Passengers vs 2024 %", 'DIVIDE ( [F25 Passengers], CALCULATE ( [Passengers], \'Date\'[Year] = 2024 ) ) - 1', PCT, "6 Forecast", "2025 passenger forecast vs 2024 actual."),
     ("Lever Uplift", "SUM ( Levers[uplift] )", R0, "6 Forecast", "Annual revenue uplift, sized on Jun 2024-May 2025."),
-    ("Lever Uplift %", "SUM ( Levers[uplift_pct_of_revenue] )", PCT, "6 Forecast", ""),
+    ("Lever Uplift %", "SUM ( Levers[uplift_pct_of_revenue] )", PCT, "6 Forecast", "Lever uplift as a share of annual revenue."),
     ("Lever Uplift (Cr)", f'"{RUPEE}" & FORMAT ( [Lever Uplift] / 10000000, "0.00" ) & " Cr"', None, "6 Forecast", "Total lever uplift per year, in crore."),
     ("F25 Passengers (M)", 'FORMAT ( [F25 Passengers] / 1000000, "0.00" ) & " M"', None, "6 Forecast", "Full-year 2025 passengers, in millions."),
+    ("Lever Uplift ₹ Cr", "DIVIDE ( [Lever Uplift], 10000000 )", CR, "6 Forecast", "Annual lever uplift in crore, for the lever chart."),
+    ("Δ F25 Revenue", f'"{UP}" & FORMAT ( [F25 Revenue vs 2024 %], "0.0%" ) & " vs 2024 (" & FORMAT ( CALCULATE ( [Revenue], REMOVEFILTERS ( \'Date\' ), \'Date\'[Year] = 2024 ) / 10000000, "{RUPEE}0.0" ) & " Cr)"',
+     None, "7 Display", "Card change line: 2025 forecast vs 2024 actual revenue."),
+    ("Δ F25 Passengers", f'"{UP}" & FORMAT ( [F25 Passengers vs 2024 %], "0.0%" ) & " vs 2024"', None, "7 Display",
+     "Card change line: 2025 forecast vs 2024 passengers."),
+    ("Δ Lever Share", '"≈ " & FORMAT ( DIVIDE ( [Lever Uplift], [F25 Revenue] ), "0.0%" ) & " of 2025 revenue"', None, "7 Display",
+     "Card line: lever uplift as a share of forecast 2025 revenue."),
+    ("Card Backtest", f'"{FACTS.get("bt_err", "-0.5%")}"', None, "7 Display",
+     "Passenger model error on the held-out Mar–May 2025 (from notebook 03)."),
+    ("Δ Backtest", f'"Naive forecast: {FACTS.get("bt_naive", "-4.9%")}"', None, "7 Display", "Card line: the naive benchmark's error."),
+    ("Δ Neutral Color", f'"{NEUTRAL}"', None, "7 Display", "Grey for card lines that carry context, not a change."),
+    ("Δ Good Color", f'"{GOOD}"', None, "7 Display", "Green for card lines that are good news."),
+    ("Δ Range", '"80% of simulated outcomes"', None, "7 Display", "Card line for the forecast range."),
 ]
 ms = (DEFN / "tables" / "_Measures.tmdl").read_text(encoding="utf-8")
 add = ""
@@ -326,6 +429,25 @@ for n, e, f_, folder, desc in FC_MEASURES:
     if desc: add += f"{T}/// {desc}\n"
     add += f"{T}measure '{n}' = {e}\n" + (f"{T * 2}formatString: {f_}\n" if f_ else "") + f"{T * 2}displayFolder: {folder}\n{T * 2}{lt()}\n\n"
 w(DEFN / "tables" / "_Measures.tmdl", ms.replace(f"{T}column Hidden\n", add + f"{T}column Hidden\n"))
+
+
+def add_calc_column(table, name, expr, dtype="string", sort_by=None):
+    """Insert a DAX calculated column before the table's partition."""
+    p = DEFN / "tables" / f"{table}.tmdl"
+    s = p.read_text(encoding="utf-8")
+    c = f"{T}column {q(name)} = {expr}\n{T * 2}dataType: {dtype}\n{T * 2}{lt()}\n{T * 2}summarizeBy: none\n"
+    if sort_by: c += f"{T * 2}sortByColumn: {q(sort_by)}\n"
+    c += f"\n{T * 2}annotation SummarizationSetBy = Automatic\n\n"
+    w(p, s.replace(f"{T}partition ", c + f"{T}partition ", 1))
+
+
+add_calc_column("Forecast", "Month Label", 'FORMAT ( Forecast[month], "MMM yy" )', sort_by="month")
+add_calc_column("Levers", "Lever Label", 'Levers[lever] & " (" & LOWER ( Levers[confidence] ) & ")"')
+w(DEFN / "tables" / "Refresh Info.tmdl",
+  f"/// When the model was last refreshed (calculated at refresh time), for the report footer.\ntable 'Refresh Info'\n{T}isHidden\n{T}{lt()}\n\n"
+  f"{T}column Refreshed\n{T * 2}dataType: dateTime\n{T * 2}formatString: dd-mmm-yyyy\n{T * 2}isHidden\n{T * 2}{lt()}\n{T * 2}summarizeBy: none\n"
+  f"{T * 2}isNameInferred\n{T * 2}sourceColumn: [Refreshed]\n\n"
+  f"{T}partition 'Refresh Info' = calculated\n{T * 2}mode: import\n{T * 2}source = ROW ( \"Refreshed\", NOW () )\n")
 rel = (DEFN / "relationships.tmdl").read_text(encoding="utf-8")
 w(DEFN / "relationships.tmdl", rel + "\nrelationship Forecast_Scenario\n\tfromColumn: Forecast.scenario\n\ttoColumn: Scenario.Scenario\n"
   "\nrelationship Forecast2025_Scenario\n\tfromColumn: 'Forecast 2025'.scenario\n\ttoColumn: Scenario.Scenario\n")

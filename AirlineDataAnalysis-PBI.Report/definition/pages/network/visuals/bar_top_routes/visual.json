@@ -3,11 +3,11 @@
   "name": "bar_top_routes",
   "position": {
     "x": 16,
-    "y": 184,
-    "z": 10000,
-    "height": 262,
-    "width": 519,
-    "tabOrder": 10000
+    "y": 178,
+    "z": 16000,
+    "height": 266,
+    "width": 494,
+    "tabOrder": 16000
   },
   "visual": {
     "visualType": "clusteredBarChart",
@@ -42,11 +42,11 @@
                       "Entity": "_Measures"
                     }
                   },
-                  "Property": "Revenue"
+                  "Property": "Revenue ₹ Cr"
                 }
               },
-              "queryRef": "_Measures.Revenue",
-              "nativeQueryRef": "Revenue",
+              "queryRef": "_Measures.Revenue ₹ Cr",
+              "nativeQueryRef": "Revenue ₹ Cr",
               "displayName": "Revenue"
             }
           ]
@@ -62,7 +62,7 @@
                     "Entity": "_Measures"
                   }
                 },
-                "Property": "Revenue"
+                "Property": "Revenue ₹ Cr"
               }
             },
             "direction": "Descending"
@@ -78,6 +78,20 @@
               "expr": {
                 "Literal": {
                   "Value": "false"
+                }
+              }
+            },
+            "fontSize": {
+              "expr": {
+                "Literal": {
+                  "Value": "9D"
+                }
+              }
+            },
+            "innerPadding": {
+              "expr": {
+                "Literal": {
+                  "Value": "20D"
                 }
               }
             }
@@ -149,7 +163,7 @@
             "text": {
               "expr": {
                 "Literal": {
-                  "Value": "'Top 10 routes by revenue'"
+                  "Value": "'Top 8 routes earn 27% of revenue; 4 of them touch Pune'"
                 }
               }
             },
@@ -194,7 +208,7 @@
             "text": {
               "expr": {
                 "Literal": {
-                  "Value": "'Share of network revenue on hover'"
+                  "Value": "'Revenue, Jan 2024–May 2025 · hover a route for its profile'"
                 }
               }
             },
@@ -218,6 +232,53 @@
             }
           }
         }
+      ],
+      "general": [
+        {
+          "properties": {
+            "altText": {
+              "expr": {
+                "Literal": {
+                  "Value": "'Top 8 routes earn 27% of revenue; 4 of them touch Pune. Revenue, Jan 2024–May 2025 · hover a route for its profile'"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "visualTooltip": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "true"
+                }
+              }
+            },
+            "type": {
+              "expr": {
+                "Literal": {
+                  "Value": "'ReportPage'"
+                }
+              }
+            },
+            "section": {
+              "expr": {
+                "Literal": {
+                  "Value": "'route_tip'"
+                }
+              }
+            },
+            "showChartSpecificTooltips": {
+              "expr": {
+                "Literal": {
+                  "Value": "false"
+                }
+              }
+            }
+          }
+        }
       ]
     },
     "drillFilterOtherVisuals": true
@@ -225,7 +286,7 @@
   "filterConfig": {
     "filters": [
       {
-        "name": "top10_routes",
+        "name": "top8_routes",
         "field": {
           "Column": {
             "Expression": {
@@ -286,7 +347,7 @@
                         }
                       }
                     ],
-                    "Top": 10
+                    "Top": 8
                   }
                 }
               },

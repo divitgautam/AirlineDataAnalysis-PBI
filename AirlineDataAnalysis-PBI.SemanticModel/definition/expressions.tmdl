@@ -1,12 +1,12 @@
 expression ProjectFolder = "D:\Wolf\PBI\AirlineDataAnalysis-PBI" meta [IsParameterQuery = true, Type = "Text", IsParameterQueryRequired = true]
-	lineageTag: fb39a465-aca4-4e3a-9184-e402531725cb
+	lineageTag: 99e2712b-63cc-41d7-81b1-ad7c70734389
 
 	annotation PBI_NavigationStepName = Navigation
 
 	annotation PBI_ResultType = Text
 
 expression SourceFile = "D:\Wolf\PBI\AirlineDataAnalysis-PBI\Raw Data\Flight Data Assessment 2025.csv" meta [IsParameterQuery = true, Type = "Text", IsParameterQueryRequired = true]
-	lineageTag: 4d610f31-5e51-4e7a-bd95-c2ec6a63fe90
+	lineageTag: f29d2eb9-b0c9-4cce-8b69-f1557c6f158f
 
 	annotation PBI_NavigationStepName = Navigation
 
@@ -20,7 +20,7 @@ expression AirportsRef =
 		    Typed = Table.TransformColumnTypes(Promoted, {{"IATA", type text}, {"Airport", type text}, {"City", type text}, {"State", type text}, {"Country", type text}, {"Region", type text}, {"Latitude", type number}, {"Longitude", type number}}, "en-US")
 		in
 		    Typed
-	lineageTag: 8f734134-6341-49bd-972e-bb939d4400fd
+	lineageTag: f81ca7b8-3834-4ee5-8df1-485519423c5b
 
 	annotation PBI_ResultType = Table
 

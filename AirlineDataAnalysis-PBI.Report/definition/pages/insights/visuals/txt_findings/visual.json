@@ -5,7 +5,7 @@
     "x": 16,
     "y": 80,
     "z": 2000,
-    "height": 624,
+    "height": 602,
     "width": 618,
     "tabOrder": 2000
   },
@@ -36,14 +36,14 @@
                     "value": "1. Growth is price-led. ",
                     "textStyle": {
                       "fontWeight": "bold",
-                      "fontSize": "11pt",
+                      "fontSize": "13pt",
                       "color": "#1673C8"
                     }
                   },
                   {
                     "value": "Jan to May 2025 vs 2024: passengers +25%, revenue +71%. Fares rose 39% from Nov 2024 and load factor still went up.",
                     "textStyle": {
-                      "fontSize": "11pt",
+                      "fontSize": "13pt",
                       "color": "#0B1B2E"
                     }
                   }
@@ -65,14 +65,14 @@
                     "value": "2. Pune is the network. ",
                     "textStyle": {
                       "fontWeight": "bold",
-                      "fontSize": "11pt",
+                      "fontSize": "13pt",
                       "color": "#1673C8"
                     }
                   },
                   {
                     "value": "31% of revenue departs PNQ; 86% of flights touch PNQ, BOM or BLR. 45 of 179 routes make 80% of revenue.",
                     "textStyle": {
-                      "fontSize": "11pt",
+                      "fontSize": "13pt",
                       "color": "#0B1B2E"
                     }
                   }
@@ -94,14 +94,14 @@
                     "value": "3. 53 star routes carry 40% of revenue. ",
                     "textStyle": {
                       "fontWeight": "bold",
-                      "fontSize": "11pt",
+                      "fontSize": "13pt",
                       "color": "#1673C8"
                     }
                   },
                   {
                     "value": "48 routes sit below the network on both load factor and RASK (19% of revenue), led by BLR-BOM and DEL-GOX.",
                     "textStyle": {
-                      "fontSize": "11pt",
+                      "fontSize": "13pt",
                       "color": "#0B1B2E"
                     }
                   }
@@ -123,14 +123,14 @@
                     "value": "4. RASK is on target. ",
                     "textStyle": {
                       "fontWeight": "bold",
-                      "fontSize": "11pt",
+                      "fontSize": "13pt",
                       "color": "#1673C8"
                     }
                   },
                   {
                     "value": "₹0.176 per seat-km in 2025, +15% vs last year; yield explains almost 90% of the gain.",
                     "textStyle": {
-                      "fontSize": "11pt",
+                      "fontSize": "13pt",
                       "color": "#0B1B2E"
                     }
                   }
@@ -152,14 +152,14 @@
                     "value": "5. International underperforms. ",
                     "textStyle": {
                       "fontWeight": "bold",
-                      "fontSize": "11pt",
+                      "fontSize": "13pt",
                       "color": "#1673C8"
                     }
                   },
                   {
                     "value": "4% of flights, 7% of revenue, but load factor 49% vs 59% domestic.",
                     "textStyle": {
-                      "fontSize": "11pt",
+                      "fontSize": "13pt",
                       "color": "#0B1B2E"
                     }
                   }
@@ -181,14 +181,14 @@
                     "value": "6. Summer is the soft spot. ",
                     "textStyle": {
                       "fontWeight": "bold",
-                      "fontSize": "11pt",
+                      "fontSize": "13pt",
                       "color": "#1673C8"
                     }
                   },
                   {
                     "value": "Jul to Oct 2024 ran at 55.9% load factor and the lowest RASK; there is no weekday pattern.",
                     "textStyle": {
-                      "fontSize": "11pt",
+                      "fontSize": "13pt",
                       "color": "#0B1B2E"
                     }
                   }
@@ -210,14 +210,14 @@
                     "value": "7. 2025 outlook: ",
                     "textStyle": {
                       "fontWeight": "bold",
-                      "fontSize": "11pt",
+                      "fontSize": "13pt",
                       "color": "#1673C8"
                     }
                   },
                   {
                     "value": "about ₹63.9 Cr revenue if fares hold, ₹60.2 Cr if they settle, vs ₹40.1 Cr in 2024.",
                     "textStyle": {
-                      "fontSize": "11pt",
+                      "fontSize": "13pt",
                       "color": "#0B1B2E"
                     }
                   }
@@ -239,14 +239,14 @@
                     "value": "8. Biggest lever: ",
                     "textStyle": {
                       "fontWeight": "bold",
-                      "fontSize": "11pt",
+                      "fontSize": "13pt",
                       "color": "#1673C8"
                     }
                   },
                   {
                     "value": "move capacity off the weakest routes (+₹1.42 Cr a year), then a 5% fare rise on full, low-RASK routes (+₹0.74 Cr).",
                     "textStyle": {
-                      "fontSize": "11pt",
+                      "fontSize": "13pt",
                       "color": "#0B1B2E"
                     }
                   }
@@ -289,6 +289,19 @@
               "expr": {
                 "Literal": {
                   "Value": "14D"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "general": [
+        {
+          "properties": {
+            "altText": {
+              "expr": {
+                "Literal": {
+                  "Value": "'Business findings'"
                 }
               }
             }

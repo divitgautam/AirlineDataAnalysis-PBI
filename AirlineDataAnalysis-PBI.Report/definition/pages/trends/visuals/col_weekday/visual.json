@@ -3,11 +3,11 @@
   "name": "col_weekday",
   "position": {
     "x": 436,
-    "y": 458,
-    "z": 11000,
-    "height": 246,
+    "y": 430,
+    "z": 16000,
+    "height": 252,
     "width": 408,
-    "tabOrder": 11000
+    "tabOrder": 16000
   },
   "visual": {
     "visualType": "clusteredColumnChart",
@@ -87,17 +87,10 @@
       "valueAxis": [
         {
           "properties": {
-            "showAxisTitle": {
+            "show": {
               "expr": {
                 "Literal": {
                   "Value": "false"
-                }
-              }
-            },
-            "gridlineShow": {
-              "expr": {
-                "Literal": {
-                  "Value": "true"
                 }
               }
             }
@@ -156,7 +149,7 @@
             "text": {
               "expr": {
                 "Literal": {
-                  "Value": "'Passengers per flight by weekday'"
+                  "Value": "'No weekday peak: 54–56 passengers per flight every day'"
                 }
               }
             },
@@ -201,7 +194,7 @@
             "text": {
               "expr": {
                 "Literal": {
-                  "Value": "'Demand is flat across the week'"
+                  "Value": "'Average passengers per flight by weekday'"
                 }
               }
             },
@@ -220,6 +213,19 @@
                       "Value": "'#5B6B7F'"
                     }
                   }
+                }
+              }
+            }
+          }
+        }
+      ],
+      "general": [
+        {
+          "properties": {
+            "altText": {
+              "expr": {
+                "Literal": {
+                  "Value": "'No weekday peak: 54–56 passengers per flight every day. Average passengers per flight by weekday'"
                 }
               }
             }

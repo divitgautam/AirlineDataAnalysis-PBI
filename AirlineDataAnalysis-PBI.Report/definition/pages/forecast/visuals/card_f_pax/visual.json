@@ -2,12 +2,12 @@
   "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.14.0/schema.json",
   "name": "card_f_pax",
   "position": {
-    "x": 646,
-    "y": 84,
-    "z": 7000,
+    "x": 520,
+    "y": 80,
+    "z": 8000,
     "height": 88,
-    "width": 198,
-    "tabOrder": 7000
+    "width": 240,
+    "tabOrder": 8000
   },
   "visual": {
     "visualType": "cardVisual",
@@ -29,7 +29,7 @@
               },
               "queryRef": "_Measures.F25 Passengers (M)",
               "nativeQueryRef": "F25 Passengers (M)",
-              "displayName": "2025 Passengers"
+              "displayName": "2025 passengers"
             }
           ]
         }
@@ -51,9 +51,25 @@
                 "color": {
                   "expr": {
                     "Literal": {
-                      "Value": "'#5BC0EB'"
+                      "Value": "'#1673C8'"
                     }
                   }
+                }
+              }
+            }
+          },
+          "selector": {
+            "id": "default"
+          }
+        }
+      ],
+      "outline": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "false"
                 }
               }
             }
@@ -85,13 +101,28 @@
             "fontSize": {
               "expr": {
                 "Literal": {
-                  "Value": "24D"
+                  "Value": "22D"
                 }
               }
             }
           },
           "selector": {
             "id": "default"
+          }
+        }
+      ]
+    },
+    "visualContainerObjects": {
+      "general": [
+        {
+          "properties": {
+            "altText": {
+              "expr": {
+                "Literal": {
+                  "Value": "'2025 passengers card'"
+                }
+              }
+            }
           }
         }
       ]

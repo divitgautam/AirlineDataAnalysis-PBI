@@ -208,7 +208,25 @@
             }
           }
         }
+      ],
+      "general": [
+        {
+          "properties": {
+            "altText": {
+              "expr": {
+                "Literal": {
+                  "Value": "'Market filter'"
+                }
+              }
+            }
+          }
+        }
       ]
+    },
+    "syncGroup": {
+      "groupName": "Market",
+      "fieldChanges": true,
+      "filterChanges": true
     }
   }
 }

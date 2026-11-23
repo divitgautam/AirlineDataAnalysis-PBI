@@ -3,10 +3,10 @@
   "name": "card_rask",
   "position": {
     "x": 16,
-    "y": 84,
+    "y": 80,
     "z": 3000,
     "height": 88,
-    "width": 198,
+    "width": 240,
     "tabOrder": 3000
   },
   "visual": {
@@ -24,11 +24,11 @@
                       "Entity": "_Measures"
                     }
                   },
-                  "Property": "RASK"
+                  "Property": "Card RASK"
                 }
               },
-              "queryRef": "_Measures.RASK",
-              "nativeQueryRef": "RASK",
+              "queryRef": "_Measures.Card RASK",
+              "nativeQueryRef": "Card RASK",
               "displayName": "RASK 2025 YTD"
             }
           ]
@@ -63,6 +63,22 @@
           }
         }
       ],
+      "outline": [
+        {
+          "properties": {
+            "show": {
+              "expr": {
+                "Literal": {
+                  "Value": "false"
+                }
+              }
+            }
+          },
+          "selector": {
+            "id": "default"
+          }
+        }
+      ],
       "label": [
         {
           "properties": {
@@ -85,13 +101,28 @@
             "fontSize": {
               "expr": {
                 "Literal": {
-                  "Value": "24D"
+                  "Value": "22D"
                 }
               }
             }
           },
           "selector": {
             "id": "default"
+          }
+        }
+      ]
+    },
+    "visualContainerObjects": {
+      "general": [
+        {
+          "properties": {
+            "altText": {
+              "expr": {
+                "Literal": {
+                  "Value": "'RASK 2025 YTD card'"
+                }
+              }
+            }
           }
         }
       ]

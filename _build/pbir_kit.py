@@ -11,6 +11,7 @@ def init(report_path):
     global REPORT, DEF, PAGES
     REPORT = Path(report_path); DEF = REPORT / "definition"; PAGES = DEF / "pages"
 VC_SCHEMA = "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.14.0/schema.json"
+MOBILE_SCHEMA = "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainerMobileState/2.9.0/schema.json"
 PAGE_SCHEMA = "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/page/2.1.0/schema.json"
 
 # ---------- palette ----------
@@ -97,12 +98,22 @@ def series_color_by_measure(field, hex_):
 
 
 # ---------- page builder ----------
+PLAIN_CARD = {"accentBar": [{"properties": {"show": L(False)}, "selector": {"id": "default"}}],   # new card without its inner box
+              "outline": [{"properties": {"show": L(False)}, "selector": {"id": "default"}}],
+              "fillCustom": [{"properties": {"show": L(False)}}]}
+NO_CHROME = {"background": [{"properties": {"show": L(False)}}], "border": [{"properties": {"show": L(False)}}],
+             "title": [{"properties": {"show": L(False)}}], "visualHeader": [{"properties": {"show": L(False)}}],
+             "dropShadow": [{"properties": {"show": L(False)}}]}
+
+
 class Page:
-    def __init__(self, name, display):
+    def __init__(self, name, display, page_type=None, hidden=False, binding=None, filters=None, size=None):
         self.name, self.display, self.visuals, self.z = name, display, [], 0
+        self.page_type, self.hidden, self.binding, self.filters = page_type, hidden, binding, filters
+        self.w, self.h = size or (W, H)
 
     def add(self, name, vtype, x, y, w, h, roles=None, title=None, subtitle=None, objects=None,
-            sort=None, filters=None, container=None):
+            sort=None, filters=None, container=None, alt=None, tooltip_page=None):
         vis = {"visualType": vtype, "drillFilterOtherVisuals": True}
         if roles is not None:
             vis["query"] = {"queryState": {r: {"projections": [proj(*f) if isinstance(f, tuple) else proj(f) for f in fs]}
@@ -120,6 +131,12 @@ class Page:
             vco["subTitle"] = [{"properties": {"show": L(True), "text": L(subtitle), "fontSize": L(9),
                                                "fontColor": C(MUTED)}}]
         vco.update(container or {})
+        alt = alt or (f"{title}. {subtitle}" if title and subtitle else title)
+        if alt:   # screen-reader text (accessibility)
+            vco.setdefault("general", []).append({"properties": {"altText": L(alt[:250])}})
+        if tooltip_page:
+            vco["visualTooltip"] = [{"properties": {"show": L(True), "type": L("ReportPage"), "section": L(tooltip_page),
+                                                    "showChartSpecificTooltips": L(False)}}]
         if vco:
             vis["visualContainerObjects"] = vco
         v = {"$schema": VC_SCHEMA, "name": name,
@@ -140,8 +157,8 @@ class Page:
                      container={"background": [{"properties": {"show": L(False)}}], "border": [{"properties": {"show": L(False)}}],
                                 "padding": [{"properties": {"top": L(0), "bottom": L(0), "left": L(0), "right": L(0)}}],
                                 "title": [{"properties": {"show": L(False)}}], "visualHeader": [{"properties": {"show": L(False)}}]})
-        self.add("hdr_band", "textbox", HEADER_TEXT_X, 0, W - HEADER_TEXT_X, 72, objects={"general": [{"properties": {"paragraphs": [
-            {"textRuns": [{"value": title, "textStyle": {"fontWeight": "bold", "fontSize": "18pt", "color": WHITE,
+        self.add("hdr_band", "textbox", HEADER_TEXT_X, 0, W - HEADER_TEXT_X, 72, alt=f"Page title: {title}", objects={"general": [{"properties": {"paragraphs": [
+            {"textRuns": [{"value": title, "textStyle": {"fontWeight": "bold", "fontSize": "16pt", "color": WHITE,
                                                           "fontFamily": FONT_BOLD}}]},
             {"textRuns": [{"value": subtitle, "textStyle": {"fontSize": "10pt", "color": SUBTITLE}}]}]}}]},
             container={"background": [{"properties": {"show": not HEADER_IMAGE and L(True) or L(False), "color": C(NAVY), "transparency": L(0)}}],
@@ -149,7 +166,7 @@ class Page:
                        "padding": [{"properties": {"top": L(8), "left": L(16)}}]})
 
     def slicer(self, name, field, label, x, w):
-        self.add(name, "slicer", x, 8, w, 56, roles={"Values": [field]},
+        self.add(name, "slicer", x, 8, w, 56, roles={"Values": [field]}, alt=f"{label} filter",
                  objects={"data": [{"properties": {"mode": L("Dropdown")}}],
                           "header": [{"properties": {"show": L(True), "text": L(label), "fontColor": C(MUTED),
                                                      "textSize": L(9)}}],
@@ -158,16 +175,47 @@ class Page:
                             "border": [{"properties": {"show": L(True), "color": C(LINE), "radius": L(6)}}],
                             "padding": [{"properties": {"top": L(2), "bottom": L(2), "left": L(8), "right": L(8)}}]})
 
-    def cards(self, items, y=84, h=88, filters=None, small=()):
+    def cards(self, items, y=80, h=88, filters=None, small=(), x0=M, width=None):
+        """items: (name, value field, label[, change-line field, change-line colour field])."""
         n = len(items)
-        cw = (W - 2 * M - (n - 1) * G) / n
-        for i, (name, field, label) in enumerate(items):
-            self.add(name, "cardVisual", round(M + i * (cw + G)), y, round(cw), h,
-                     roles={"Data": [(field, label)]}, filters=filters,
+        width = width or W - 2 * M
+        cw = (width - (n - 1) * G) / n
+        for i, it in enumerate(items):
+            name, field, label = it[:3]
+            x = round(x0 + i * (cw + G))
+            self.add(name, "cardVisual", x, y, round(cw), h,
+                     roles={"Data": [(field, label)]}, filters=filters, alt=f"{label} card",
                      objects={"accentBar": [{"properties": {"show": L(True), "color": C(TEAL if i % 2 == 0 else AMBER)},
                                              "selector": {"id": "default"}}],
+                              "outline": [{"properties": {"show": L(False)}, "selector": {"id": "default"}}],
                               "label": [{"properties": {"fontSize": L(10)}, "selector": {"id": "default"}}],
-                              "value": [{"properties": {"fontSize": L(14 if name in small else 24)}, "selector": {"id": "default"}}]})
+                              "value": [{"properties": {"fontSize": L(14 if name in small else 22)}, "selector": {"id": "default"}}]})
+            if len(it) > 3:   # change line ("▲ 24.6% vs last year") overlaid at the bottom of the card
+                self.add(name + "_d", "cardVisual", x + 4, y + h - 28, round(cw) - 8, 24,
+                         roles={"Data": [(it[3], label + " change")]}, filters=filters, alt=f"{label} change",
+                         objects={**PLAIN_CARD,
+                                  "label": [{"properties": {"show": L(False)}, "selector": {"id": "default"}}],
+                                  "value": [{"properties": {"fontSize": L(9), "fontColor": {"solid": {"color": {"expr": it[4]}}}},
+                                             "selector": {"id": "default"}}]},
+                         container={**NO_CHROME, "padding": [{"properties": {"top": L(0), "bottom": L(0), "left": L(12), "right": L(4)}}]})
+
+    def footer(self, field, nav=True):
+        """Source / refresh / caveat line, plus a page navigator on the right."""
+        fy = self.h - 32
+        self.add("ftr_text", "cardVisual", M, fy, 780 if nav else self.w - 2 * M, 30, roles={"Data": [(field, "Source")]},
+                 alt="Report footer: data source, refresh date and caveat",
+                 objects={**PLAIN_CARD,
+                          "label": [{"properties": {"show": L(False)}, "selector": {"id": "default"}}],
+                          "value": [{"properties": {"fontSize": L(8), "fontColor": C(MUTED)}, "selector": {"id": "default"}}]},
+                 container={**NO_CHROME, "padding": [{"properties": {"top": L(0), "bottom": L(0), "left": L(0), "right": L(0)}}]})
+        if nav:
+            zero = {"expr": {"Literal": {"Value": "0L"}}}
+            self.add("ftr_nav", "pageNavigator", self.w - M - 460, fy, 460, 30, alt="Page navigation",
+                     objects={"text": [{"properties": {"fontSize": L(8), "topMargin": zero, "bottomMargin": zero,
+                                                       **({"fontColor": C(WHITE)} if s == "selected" else {})}, "selector": {"id": s}}
+                                       for s in ("default", "hover", "press", "selected")],
+                              "pages": [{"properties": {"showHiddenPages": L(False)}}]},
+                     container={**NO_CHROME})
 
     def textbox(self, name, x, y, w, h, title, lines, accent=None, size="10pt", gap=False):
         accent = accent or TEAL   # read at call time so set_theme() applies
@@ -184,7 +232,7 @@ class Page:
                 paras.append({"textRuns": [{"value": ln, "textStyle": {"fontSize": size, "color": INK}}]})
             if gap:
                 paras.append({"textRuns": [{"value": "", "textStyle": {"fontSize": "6pt"}}]})
-        self.add(name, "textbox", x, y, w, h, objects={"general": [{"properties": {"paragraphs": paras}}]},
+        self.add(name, "textbox", x, y, w, h, alt=title, objects={"general": [{"properties": {"paragraphs": paras}}]},
                  container={"padding": [{"properties": {"top": L(10), "left": L(14), "right": L(14)}}]})
 
     def write(self):
@@ -193,14 +241,58 @@ class Page:
             shutil.rmtree(pdir)
         (pdir / "visuals").mkdir(parents=True)
         page = {"$schema": PAGE_SCHEMA, "name": self.name, "displayName": self.display, "displayOption": "FitToPage",
-                "height": H, "width": W,
+                "height": self.h, "width": self.w,
                 "objects": {"background": [{"properties": {"color": C(BG), "transparency": L(0)}}],
                             "outspace": [{"properties": {"color": C(BG)}}]}}
+        if self.page_type: page["type"] = self.page_type
+        if self.hidden: page["visibility"] = "HiddenInViewMode"
+        if self.binding: page["pageBinding"] = self.binding
+        if self.filters: page["filterConfig"] = {"filters": self.filters}
         (pdir / "page.json").write_text(json.dumps(page, indent=2), encoding="utf-8")
+        mobile = self.mobile_positions() if self.page_type != "Tooltip" else {}
         for v in self.visuals:
             d = pdir / "visuals" / v["name"]
             d.mkdir()
             (d / "visual.json").write_text(json.dumps(v, indent=2, ensure_ascii=False), encoding="utf-8")
+            if v["name"] in mobile:
+                x, y, w_, h_ = mobile[v["name"]]
+                (d / "mobile.json").write_text(json.dumps({"$schema": MOBILE_SCHEMA, "position": {
+                    "x": x, "y": y, "z": v["position"]["z"], "height": h_, "width": w_, "tabOrder": v["position"]["tabOrder"]}}, indent=2),
+                    encoding="utf-8")
+
+    def mobile_positions(self, mw=324, gap=8):
+        """Phone layout (canvas 324 px wide): header, slicers, KPI cards two per row with their change lines, then each
+        chart/table/text full width in desktop reading order (top-to-bottom, left-to-right), footer last."""
+        pos, y = {}, 0
+        by = {v["name"]: v for v in self.visuals}
+        for n in ("hdr_art", "hdr_band"):
+            if n in by: pos[n] = (0, 0, mw, 110)
+        y = 116
+        slicers = [v for v in self.visuals if v["visual"]["visualType"] == "slicer"]
+        for i, v in enumerate(slicers):
+            sw = (mw - gap * (len(slicers) - 1)) / len(slicers)
+            pos[v["name"]] = (round(i * (sw + gap)), y, round(sw), 56)
+        if slicers: y += 56 + gap
+        cards = [v for v in self.visuals if v["visual"]["visualType"] == "cardVisual" and not v["name"].endswith("_d")
+                 and not v["name"].startswith("ftr_") and v["position"]["y"] < 200]
+        cw = (mw - gap) / 2
+        for i, v in enumerate(cards):
+            cx, cy = round((i % 2) * (cw + gap)), y + (i // 2) * (88 + gap)
+            pos[v["name"]] = (cx, cy, round(cw), 88)
+            if v["name"] + "_d" in by:
+                pos[v["name"] + "_d"] = (cx + 4, cy + 60, round(cw) - 8, 24)
+        if cards: y += ((len(cards) + 1) // 2) * (88 + gap)
+        rest = sorted((v for v in self.visuals if v["name"] not in pos and not v["name"].endswith("_d")
+                       and not v["name"].startswith("ftr_") and v["name"] not in ("btn_back",)),
+                      key=lambda v: (v["position"]["y"], v["position"]["x"]))
+        for v in rest:
+            h_ = 320 if v["visual"]["visualType"] == "textbox" and v["position"]["height"] > 300 else 260
+            pos[v["name"]] = (0, y, mw, h_)
+            y += h_ + gap
+        if "btn_back" in by: pos["btn_back"] = (mw - 90, 70, 90, 36)
+        if "ftr_text" in by: pos["ftr_text"] = (0, y, mw, 44); y += 44 + gap
+        if "ftr_nav" in by: pos["ftr_nav"] = (0, y, mw, 34)
+        return pos
 
 
 

@@ -1,10 +1,10 @@
 /// From analysis/output/pbi_forecast_2025.csv. Re-run the notebooks, then refresh.
 table 'Forecast 2025'
-	lineageTag: 576f3b14-199d-48c1-ab30-637544401a7e
+	lineageTag: 8e1adf7e-d125-4857-b2a5-02988c444dc5
 
 	column scenario
 		dataType: string
-		lineageTag: 600628f3-47c9-4aed-987f-80e3b7171089
+		lineageTag: 890d59b0-8bad-44aa-82df-fe2773afbd58
 		summarizeBy: none
 		sourceColumn: scenario
 
@@ -12,7 +12,7 @@ table 'Forecast 2025'
 
 	column metric
 		dataType: string
-		lineageTag: 20758f95-b4a2-413d-8ac2-585c7e135a9c
+		lineageTag: c766eaff-9435-49fd-92c1-ca96b93b4bad
 		summarizeBy: none
 		sourceColumn: metric
 
@@ -21,7 +21,7 @@ table 'Forecast 2025'
 	column p10
 		dataType: double
 		formatString: #,##0
-		lineageTag: 52161bfb-cb21-4dc2-946a-adec81cb2276
+		lineageTag: 3aa70731-e691-4608-930d-fd290eab6ec7
 		summarizeBy: none
 		sourceColumn: p10
 
@@ -30,7 +30,7 @@ table 'Forecast 2025'
 	column p50
 		dataType: double
 		formatString: #,##0
-		lineageTag: 887e1e29-1e85-475e-9ca5-6e3b7564258f
+		lineageTag: 35b817f4-e982-4361-93c5-61a36ba0d613
 		summarizeBy: none
 		sourceColumn: p50
 
@@ -39,7 +39,7 @@ table 'Forecast 2025'
 	column p90
 		dataType: double
 		formatString: #,##0
-		lineageTag: 6648a153-e4ac-4dc7-8b7b-a91aa93fd3e4
+		lineageTag: 4820c011-da1c-4e98-a698-1b39b36b3ff1
 		summarizeBy: none
 		sourceColumn: p90
 

@@ -275,6 +275,19 @@
             }
           }
         }
+      ],
+      "general": [
+        {
+          "properties": {
+            "altText": {
+              "expr": {
+                "Literal": {
+                  "Value": "'Fare scenario filter'"
+                }
+              }
+            }
+          }
+        }
       ]
     }
   }

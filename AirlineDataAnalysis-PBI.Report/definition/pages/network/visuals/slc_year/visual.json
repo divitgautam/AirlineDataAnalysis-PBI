@@ -208,6 +208,19 @@
             }
           }
         }
+      ],
+      "general": [
+        {
+          "properties": {
+            "altText": {
+              "expr": {
+                "Literal": {
+                  "Value": "'Year filter'"
+                }
+              }
+            }
+          }
+        }
       ]
     }
   }

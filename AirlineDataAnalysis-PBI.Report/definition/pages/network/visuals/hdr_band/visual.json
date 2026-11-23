@@ -20,10 +20,10 @@
               {
                 "textRuns": [
                   {
-                    "value": "Network & Route Performance",
+                    "value": "Pune is the hub (31% of revenue); 48 routes trail the network",
                     "textStyle": {
                       "fontWeight": "bold",
-                      "fontSize": "18pt",
+                      "fontSize": "16pt",
                       "color": "#FFFFFF",
                       "fontFamily": "'Bahnschrift SemiBold', 'Bahnschrift', 'Segoe UI Semibold', sans-serif"
                     }
@@ -33,7 +33,7 @@
               {
                 "textRuns": [
                   {
-                    "value": "40,175 flights  |  179 routes  |  38 airports  |  Jan 2024 to May 2025  |  RASK = revenue per available seat-km",
+                    "value": "40,175 flights  |  179 routes  |  38 airports  |  Jan 2024 to May 2025  |  Titles describe all flights; visuals follow the slicers",
                     "textStyle": {
                       "fontSize": "10pt",
                       "color": "#A9C7E8"
@@ -105,6 +105,19 @@
               "expr": {
                 "Literal": {
                   "Value": "16D"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "general": [
+        {
+          "properties": {
+            "altText": {
+              "expr": {
+                "Literal": {
+                  "Value": "'Page title: Pune is the hub (31% of revenue); 48 routes trail the network'"
                 }
               }
             }

@@ -3,11 +3,11 @@
   "name": "line_lf_month",
   "position": {
     "x": 16,
-    "y": 458,
-    "z": 10000,
-    "height": 246,
+    "y": 430,
+    "z": 15000,
+    "height": 252,
     "width": 408,
-    "tabOrder": 10000
+    "tabOrder": 15000
   },
   "visual": {
     "visualType": "lineChart",
@@ -151,7 +151,7 @@
                 "color": {
                   "expr": {
                     "Literal": {
-                      "Value": "'#5BC0EB'"
+                      "Value": "'#A7B4C4'"
                     }
                   }
                 }
@@ -262,7 +262,7 @@
             "text": {
               "expr": {
                 "Literal": {
-                  "Value": "'Load factor by month'"
+                  "Value": "'Load factor rose in Jan–Apr 2025 and held level in May'"
                 }
               }
             },
@@ -307,7 +307,7 @@
             "text": {
               "expr": {
                 "Literal": {
-                  "Value": "'2024 vs 2025'"
+                  "Value": "'Load factor by month, 2024 (grey) vs 2025 (blue)'"
                 }
               }
             },
@@ -326,6 +326,19 @@
                       "Value": "'#5B6B7F'"
                     }
                   }
+                }
+              }
+            }
+          }
+        }
+      ],
+      "general": [
+        {
+          "properties": {
+            "altText": {
+              "expr": {
+                "Literal": {
+                  "Value": "'Load factor rose in Jan–Apr 2025 and held level in May. Load factor by month, 2024 (grey) vs 2025 (blue)'"
                 }
               }
             }

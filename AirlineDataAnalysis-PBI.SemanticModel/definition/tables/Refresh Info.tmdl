@@ -1,0 +1,18 @@
+/// When the model was last refreshed (calculated at refresh time), for the report footer.
+table 'Refresh Info'
+	isHidden
+	lineageTag: e403a871-058c-4f24-bcc8-0dc036d2213c
+
+	column Refreshed
+		dataType: dateTime
+		isHidden
+		formatString: dd-mmm-yyyy
+		lineageTag: 28e7cd95-b959-4fa9-8fa2-0ab8fa74c337
+		summarizeBy: none
+		isNameInferred
+		sourceColumn: [Refreshed]
+
+	partition 'Refresh Info' = calculated
+		mode: import
+		source = ROW ( "Refreshed", NOW () )
+

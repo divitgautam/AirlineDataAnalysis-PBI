@@ -3,11 +3,11 @@
   "name": "mx_market",
   "position": {
     "x": 16,
-    "y": 458,
-    "z": 11000,
-    "height": 246,
+    "y": 496,
+    "z": 14000,
+    "height": 186,
     "width": 700,
-    "tabOrder": 11000
+    "tabOrder": 14000
   },
   "visual": {
     "visualType": "pivotTable",
@@ -159,7 +159,7 @@
             "text": {
               "expr": {
                 "Literal": {
-                  "Value": "'RASK drivers: domestic vs international'"
+                  "Value": "'International earns ₹0.114 per seat-km vs ₹0.162 domestic'"
                 }
               }
             },
@@ -223,6 +223,19 @@
                       "Value": "'#5B6B7F'"
                     }
                   }
+                }
+              }
+            }
+          }
+        }
+      ],
+      "general": [
+        {
+          "properties": {
+            "altText": {
+              "expr": {
+                "Literal": {
+                  "Value": "'International earns ₹0.114 per seat-km vs ₹0.162 domestic. Longer stages earn less per km: compare like with like'"
                 }
               }
             }

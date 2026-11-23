@@ -1,10 +1,10 @@
 /// From analysis/output/pbi_forecast.csv. Re-run the notebooks, then refresh.
 table Forecast
-	lineageTag: f927020b-44e7-464f-9012-92c0b08f9098
+	lineageTag: 3462576c-cef0-45ce-b4b0-e12eab0a6f69
 
 	column scenario
 		dataType: string
-		lineageTag: 8cb7902f-fad7-4811-a70c-21ca7d626dd1
+		lineageTag: cb5df72d-2d2b-40ea-be0a-d20fe3245303
 		summarizeBy: none
 		sourceColumn: scenario
 
@@ -13,7 +13,7 @@ table Forecast
 	column month
 		dataType: dateTime
 		formatString: mmm yyyy
-		lineageTag: 6139727d-088c-48b1-8160-04a91fd626e7
+		lineageTag: d3bfc092-f599-4ae4-a005-226b07c4c7b6
 		summarizeBy: none
 		sourceColumn: month
 
@@ -23,7 +23,7 @@ table Forecast
 
 	column metric
 		dataType: string
-		lineageTag: 548d0e49-b1bf-4ecb-a93a-5319eefe6dd9
+		lineageTag: aae338bf-fd4b-4201-8b85-f119a7ba9fb2
 		summarizeBy: none
 		sourceColumn: metric
 
@@ -31,7 +31,7 @@ table Forecast
 
 	column kind
 		dataType: string
-		lineageTag: e0191b6b-994f-466e-a6f9-0dd510058cf0
+		lineageTag: a9fe5335-371b-48fd-b4a8-8478836e0672
 		summarizeBy: none
 		sourceColumn: kind
 
@@ -40,7 +40,7 @@ table Forecast
 	column actual
 		dataType: double
 		formatString: #,##0
-		lineageTag: f80eed36-741a-4436-ac92-efe8f70877ef
+		lineageTag: f1223711-8ae5-488b-8ada-640c61ce6021
 		summarizeBy: none
 		sourceColumn: actual
 
@@ -49,7 +49,7 @@ table Forecast
 	column p10
 		dataType: double
 		formatString: #,##0
-		lineageTag: 6e1f2939-83ba-4a89-962f-04c6b545bd07
+		lineageTag: 12049224-cb97-44bb-a26a-b4531be64f98
 		summarizeBy: none
 		sourceColumn: p10
 
@@ -58,7 +58,7 @@ table Forecast
 	column p50
 		dataType: double
 		formatString: #,##0
-		lineageTag: 0ef8ef8f-0ea1-441e-be0c-8c70888fd838
+		lineageTag: 6b871861-587b-4468-a67a-0bf178e32b64
 		summarizeBy: none
 		sourceColumn: p50
 
@@ -67,11 +67,19 @@ table Forecast
 	column p90
 		dataType: double
 		formatString: #,##0
-		lineageTag: f35b7d6b-983a-4a2e-915b-2bc06d757303
+		lineageTag: 1148d3da-8d07-4737-b6d0-b863644ecf0e
 		summarizeBy: none
 		sourceColumn: p90
 
 		annotation SummarizationSetBy = User
+
+	column 'Month Label' = FORMAT ( Forecast[month], "MMM yy" )
+		dataType: string
+		lineageTag: 8f6a5bff-f9b9-4915-a8cd-07603d5dbef2
+		summarizeBy: none
+		sortByColumn: month
+
+		annotation SummarizationSetBy = Automatic
 
 	partition Forecast = m
 		mode: import

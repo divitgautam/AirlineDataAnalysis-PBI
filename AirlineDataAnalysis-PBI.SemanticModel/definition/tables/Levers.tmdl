@@ -1,10 +1,10 @@
 /// From analysis/output/pbi_levers.csv. Re-run the notebooks, then refresh.
 table Levers
-	lineageTag: 9c862649-1629-4e39-9c2a-d88d058c18ea
+	lineageTag: abb3c641-a7f8-48be-bbe8-52267a4e316d
 
 	column lever
 		dataType: string
-		lineageTag: 86bfef62-eb07-4346-9a7c-7919166c0ce8
+		lineageTag: a2200236-a14e-4e48-badf-54d7ebb5ed94
 		summarizeBy: none
 		sourceColumn: lever
 
@@ -13,7 +13,7 @@ table Levers
 	column uplift
 		dataType: double
 		formatString: #,##0
-		lineageTag: b4668940-64ef-4f2d-95aa-b2cf22a74ea1
+		lineageTag: f69a2726-c52a-485b-8fb4-96cdc92af2ef
 		summarizeBy: none
 		sourceColumn: uplift
 
@@ -21,7 +21,7 @@ table Levers
 
 	column basis
 		dataType: string
-		lineageTag: 29242743-7934-4ee8-a8a5-b00b2d195360
+		lineageTag: dd5d8bd8-1197-4b36-be13-393fcc8ac046
 		summarizeBy: none
 		sourceColumn: basis
 
@@ -29,7 +29,7 @@ table Levers
 
 	column confidence
 		dataType: string
-		lineageTag: f3fb8a62-b6f6-498d-b8b3-48c32d521f08
+		lineageTag: c1d5e2f5-0919-4522-970f-f2a993a48358
 		summarizeBy: none
 		sourceColumn: confidence
 
@@ -38,11 +38,18 @@ table Levers
 	column uplift_pct_of_revenue
 		dataType: double
 		formatString: 0.0%
-		lineageTag: c1e5d891-2986-4dca-aef3-d569a3606f5b
+		lineageTag: 99667250-9e5c-45e3-a87d-449263694960
 		summarizeBy: none
 		sourceColumn: uplift_pct_of_revenue
 
 		annotation SummarizationSetBy = User
+
+	column 'Lever Label' = Levers[lever] & " (" & LOWER ( Levers[confidence] ) & ")"
+		dataType: string
+		lineageTag: 92342e09-ce10-40d1-8ed8-40ab4f5a8b38
+		summarizeBy: none
+
+		annotation SummarizationSetBy = Automatic
 
 	partition Levers = m
 		mode: import

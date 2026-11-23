@@ -1,0 +1,176 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/item/report/definition/visualContainer/2.14.0/schema.json",
+  "name": "txt_plan",
+  "position": {
+    "x": 708,
+    "y": 430,
+    "z": 16000,
+    "height": 252,
+    "width": 556,
+    "tabOrder": 16000
+  },
+  "visual": {
+    "visualType": "textbox",
+    "drillFilterOtherVisuals": true,
+    "objects": {
+      "general": [
+        {
+          "properties": {
+            "paragraphs": [
+              {
+                "textRuns": [
+                  {
+                    "value": "Recommended plan (₹2.95 Cr a year, about 4.6% of 2025 revenue)",
+                    "textStyle": {
+                      "fontWeight": "bold",
+                      "fontSize": "12pt",
+                      "color": "#0B1B2E",
+                      "fontFamily": "'Bahnschrift SemiBold', 'Bahnschrift', 'Segoe UI Semibold', sans-serif"
+                    }
+                  }
+                ]
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": "1. ",
+                    "textStyle": {
+                      "fontWeight": "bold",
+                      "fontSize": "10pt",
+                      "color": "#1673C8"
+                    }
+                  },
+                  {
+                    "value": "Move capacity off the 12 weakest review routes: +₹1.42 Cr.",
+                    "textStyle": {
+                      "fontSize": "10pt",
+                      "color": "#0B1B2E"
+                    }
+                  }
+                ]
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": "2. ",
+                    "textStyle": {
+                      "fontWeight": "bold",
+                      "fontSize": "10pt",
+                      "color": "#1673C8"
+                    }
+                  },
+                  {
+                    "value": "Raise fares 5% on 35 full, low-RASK routes: +₹0.74 Cr.",
+                    "textStyle": {
+                      "fontSize": "10pt",
+                      "color": "#0B1B2E"
+                    }
+                  }
+                ]
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": "3. ",
+                    "textStyle": {
+                      "fontWeight": "bold",
+                      "fontSize": "10pt",
+                      "color": "#1673C8"
+                    }
+                  },
+                  {
+                    "value": "Lift international load factor from 50% to 54%: +₹0.47 Cr.",
+                    "textStyle": {
+                      "fontSize": "10pt",
+                      "color": "#0B1B2E"
+                    }
+                  }
+                ]
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": "4. ",
+                    "textStyle": {
+                      "fontWeight": "bold",
+                      "fontSize": "10pt",
+                      "color": "#1673C8"
+                    }
+                  },
+                  {
+                    "value": "Fill seats on 33 high-RASK routes to the network average: +₹0.32 Cr.",
+                    "textStyle": {
+                      "fontSize": "10pt",
+                      "color": "#0B1B2E"
+                    }
+                  }
+                ]
+              },
+              {
+                "textRuns": [
+                  {
+                    "value": "Caveat: ",
+                    "textStyle": {
+                      "fontWeight": "bold",
+                      "fontSize": "10pt",
+                      "color": "#1673C8"
+                    }
+                  },
+                  {
+                    "value": "figures look scaled; decide on the % effects. Re-run notebooks 03 and 04, then refresh, to update.",
+                    "textStyle": {
+                      "fontSize": "10pt",
+                      "color": "#0B1B2E"
+                    }
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      ]
+    },
+    "visualContainerObjects": {
+      "padding": [
+        {
+          "properties": {
+            "top": {
+              "expr": {
+                "Literal": {
+                  "Value": "10D"
+                }
+              }
+            },
+            "left": {
+              "expr": {
+                "Literal": {
+                  "Value": "14D"
+                }
+              }
+            },
+            "right": {
+              "expr": {
+                "Literal": {
+                  "Value": "14D"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "general": [
+        {
+          "properties": {
+            "altText": {
+              "expr": {
+                "Literal": {
+                  "Value": "'Recommended plan (₹2.95 Cr a year, about 4.6% of 2025 revenue)'"
+                }
+              }
+            }
+          }
+        }
+      ]
+    }
+  }
+}

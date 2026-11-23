@@ -49,11 +49,22 @@ The same theme module styles the LinkedIn visuals.
 
 | Page | What it shows |
 |---|---|
-| 1. Network & Routes | Top routes, route map (load factor vs RASK, sized by revenue), airports by region, biggest routes to review |
-| 2. Demand Trends | 2025 vs 2024 cards, monthly passengers and fare, load factor by month, weekday pattern |
-| 3. KPI: RASK | RASK vs target, monthly RASK and seat-km load factor, domestic vs international drivers |
-| 4. Key Insights | Business findings and data/model notes |
-| 5. Forecast & Levers | Jun–Dec 2025 forecast under two fare scenarios with P10–P90 bands, revenue levers |
+| 1. Network | Top 8 routes, route map coloured by quadrant (star / review), revenue by departure region, biggest review routes |
+| 2. Demand | 2025 vs 2024 cards with change lines, monthly passengers, monthly fare, load factor by month, weekday pattern |
+| 3. RASK | RASK vs target and its drivers, RASK by market, RASK / yield / load factor indexed to 2024 = 100 |
+| 4. Insights | Eight ranked findings and the data/model notes |
+| 5. Forecast | 2025 forecast under two fare scenarios with an 80% band, backtest, sized levers and a recommended plan |
+| Route detail | Drill-through page: right-click any route for its revenue, load factor vs network, fares and weekday pattern |
+| Route tooltip | Report-page tooltip on the route visuals: position, revenue, load factor, RASK and a mini trend |
+
+**Report design (v2, reviewed against [a 10-point dashboard scorecard](docs/review/scorecard.md)):**
+- Every page and chart title states its finding ("Growth is price-led: revenue +71% on passengers +25%").
+- Units are consistent: ₹ Cr for revenue, M for passengers.
+- KPI cards show a ▲▼ change line in green or red.
+- There are no dual-axis charts: the RASK drivers are indexed to one scale.
+- Every page has a footer with the source, the refresh date and the main caveat, plus a page navigator.
+- The Market slicer is synced across pages 1–3.
+- Accessibility: alt text on every visual, AA-contrast status colours and phone layouts for every page.
 
 | | | |
 |---|---|---|
@@ -62,7 +73,8 @@ The same theme module styles the LinkedIn visuals.
 
 **Model:**
 - `Flights` fact table with role-playing `Origin Airport` and `Destination Airport` dimensions (from [reference/airports.csv](reference/airports.csv)) and a `Date` table.
-- 59 DAX measures in `_Measures`, organised by folder.
+- 105 DAX measures in `_Measures`, organised in 7 display folders, every one with a description.
+- Folder 7 holds the display measures: card text, change lines and colours, and the footer.
 - Forecast and lever tables are loaded from the notebooks' output.
 
 **Data rules in Power Query** (mirrored in [`analysis/src/metrics.py`](analysis/src/metrics.py)):

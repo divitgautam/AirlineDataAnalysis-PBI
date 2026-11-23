@@ -1,9 +1,9 @@
 table 'Origin Airport'
-	lineageTag: 3d391be0-d7ca-4d84-bcf8-4ef2e525a11c
+	lineageTag: ef9561d9-f32e-481a-b0ed-927ad7007e37
 
 	column IATA
 		dataType: string
-		lineageTag: d6b948fb-5d74-4a88-b919-3a8b199d6989
+		lineageTag: ebe62133-1414-48d4-97d7-bba35701a45f
 		summarizeBy: none
 		sourceColumn: IATA
 
@@ -11,7 +11,7 @@ table 'Origin Airport'
 
 	column Airport
 		dataType: string
-		lineageTag: 41f68392-6469-4bf6-81e1-a090517371d0
+		lineageTag: d29baf88-4485-46cd-bcc2-29287162916c
 		summarizeBy: none
 		sourceColumn: Airport
 
@@ -19,7 +19,7 @@ table 'Origin Airport'
 
 	column City
 		dataType: string
-		lineageTag: 8cb8e093-0800-4d17-b1bb-eda6cacbb5ff
+		lineageTag: 884b9f4c-3b47-4ece-9794-6bb72bb3cc56
 		summarizeBy: none
 		sourceColumn: City
 
@@ -27,7 +27,7 @@ table 'Origin Airport'
 
 	column State
 		dataType: string
-		lineageTag: 42720bfb-317b-4238-88c2-37a02a9a4363
+		lineageTag: 9ccaa1b7-7785-46d3-88ba-7e854db8ae74
 		summarizeBy: none
 		sourceColumn: State
 
@@ -35,7 +35,7 @@ table 'Origin Airport'
 
 	column Country
 		dataType: string
-		lineageTag: 5cca9e93-3744-49e1-902d-34c5588bca9c
+		lineageTag: a1c01387-926b-496a-a3dc-fb6c3afe091b
 		summarizeBy: none
 		sourceColumn: Country
 
@@ -43,7 +43,7 @@ table 'Origin Airport'
 
 	column Region
 		dataType: string
-		lineageTag: 6aac8241-bdb2-499a-a787-44bc69f3fd5a
+		lineageTag: 75a2b355-c312-4b44-b6b5-4f927a2f1543
 		summarizeBy: none
 		sourceColumn: Region
 
@@ -53,7 +53,7 @@ table 'Origin Airport'
 		dataType: double
 		isHidden
 		formatString: 0.0000
-		lineageTag: 12bbb9bd-1351-4c2e-bb7e-ac6ebc4ec7b7
+		lineageTag: 66665508-60c3-481f-ba94-dbc62c964f2a
 		dataCategory: Latitude
 		summarizeBy: none
 		sourceColumn: Latitude
@@ -64,7 +64,7 @@ table 'Origin Airport'
 		dataType: double
 		isHidden
 		formatString: 0.0000
-		lineageTag: 3b211f66-60d3-40be-aaa4-5534a2072b89
+		lineageTag: 0a0c374c-35ff-4df0-8201-571f00416e8a
 		dataCategory: Longitude
 		summarizeBy: none
 		sourceColumn: Longitude
@@ -73,7 +73,7 @@ table 'Origin Airport'
 
 	column 'Airport Label'
 		dataType: string
-		lineageTag: c0043e8b-8b0f-4f26-a9c9-cd04c28affba
+		lineageTag: 9642fa2a-c138-43a6-abad-a1bdab21afb3
 		summarizeBy: none
 		sourceColumn: Airport Label
 

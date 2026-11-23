@@ -21,6 +21,7 @@ ref table Forecast
 ref table 'Forecast 2025'
 ref table Levers
 ref table Scenario
+ref table 'Refresh Info'
 
 ref cultureInfo en-IN
 

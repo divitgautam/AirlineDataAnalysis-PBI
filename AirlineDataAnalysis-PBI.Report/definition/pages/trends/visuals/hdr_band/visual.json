@@ -20,10 +20,10 @@
               {
                 "textRuns": [
                   {
-                    "value": "Demand Trends: 2025 vs 2024",
+                    "value": "Growth is price-led: revenue +71% on passengers +25% (Jan–May 2025 vs 2024)",
                     "textStyle": {
                       "fontWeight": "bold",
-                      "fontSize": "18pt",
+                      "fontSize": "16pt",
                       "color": "#FFFFFF",
                       "fontFamily": "'Bahnschrift SemiBold', 'Bahnschrift', 'Segoe UI Semibold', sans-serif"
                     }
@@ -33,7 +33,7 @@
               {
                 "textRuns": [
                   {
-                    "value": "Cards compare Jan to May 2025 with Jan to May 2024 (like-for-like)  |  Load factor = passengers / seats",
+                    "value": "Cards: Jan to May 2025 vs Jan to May 2024 (like-for-like)  |  Load factor = passengers / seats",
                     "textStyle": {
                       "fontSize": "10pt",
                       "color": "#A9C7E8"
@@ -105,6 +105,19 @@
               "expr": {
                 "Literal": {
                   "Value": "16D"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "general": [
+        {
+          "properties": {
+            "altText": {
+              "expr": {
+                "Literal": {
+                  "Value": "'Page title: Growth is price-led: revenue +71% on passengers +25% (Jan–May 2025 vs 2024)'"
                 }
               }
             }

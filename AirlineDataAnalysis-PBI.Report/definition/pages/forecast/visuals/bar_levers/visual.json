@@ -3,11 +3,11 @@
   "name": "bar_levers",
   "position": {
     "x": 16,
-    "y": 458,
-    "z": 11000,
-    "height": 246,
+    "y": 430,
+    "z": 15000,
+    "height": 252,
     "width": 680,
-    "tabOrder": 11000
+    "tabOrder": 15000
   },
   "visual": {
     "visualType": "clusteredBarChart",
@@ -23,11 +23,11 @@
                       "Entity": "Levers"
                     }
                   },
-                  "Property": "lever"
+                  "Property": "Lever Label"
                 }
               },
-              "queryRef": "Levers.lever",
-              "nativeQueryRef": "lever",
+              "queryRef": "Levers.Lever Label",
+              "nativeQueryRef": "Lever Label",
               "active": true
             }
           ]
@@ -61,11 +61,11 @@
                       "Entity": "_Measures"
                     }
                   },
-                  "Property": "Lever Uplift"
+                  "Property": "Lever Uplift ₹ Cr"
                 }
               },
-              "queryRef": "_Measures.Lever Uplift",
-              "nativeQueryRef": "Lever Uplift",
+              "queryRef": "_Measures.Lever Uplift ₹ Cr",
+              "nativeQueryRef": "Lever Uplift ₹ Cr",
               "displayName": "Revenue uplift per year"
             }
           ]
@@ -81,7 +81,7 @@
                     "Entity": "_Measures"
                   }
                 },
-                "Property": "Lever Uplift"
+                "Property": "Lever Uplift ₹ Cr"
               }
             },
             "direction": "Descending"
@@ -168,7 +168,7 @@
             "text": {
               "expr": {
                 "Literal": {
-                  "Value": "'Revenue levers'"
+                  "Value": "'Re-deploying weak-route capacity is the biggest lever'"
                 }
               }
             },
@@ -213,7 +213,7 @@
             "text": {
               "expr": {
                 "Literal": {
-                  "Value": "'Sized on Jun 2024 to May 2025; hover for % of revenue'"
+                  "Value": "'Revenue uplift per year, sized on Jun 2024 to May 2025 · label shows confidence'"
                 }
               }
             },
@@ -232,6 +232,19 @@
                       "Value": "'#5B6B7F'"
                     }
                   }
+                }
+              }
+            }
+          }
+        }
+      ],
+      "general": [
+        {
+          "properties": {
+            "altText": {
+              "expr": {
+                "Literal": {
+                  "Value": "'Re-deploying weak-route capacity is the biggest lever. Revenue uplift per year, sized on Jun 2024 to May 2025 · label shows confidence'"
                 }
               }
             }

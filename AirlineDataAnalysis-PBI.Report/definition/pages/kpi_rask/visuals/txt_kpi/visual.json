@@ -3,11 +3,11 @@
   "name": "txt_kpi",
   "position": {
     "x": 728,
-    "y": 458,
-    "z": 12000,
-    "height": 246,
+    "y": 496,
+    "z": 15000,
+    "height": 186,
     "width": 536,
-    "tabOrder": 12000
+    "tabOrder": 15000
   },
   "visual": {
     "visualType": "textbox",
@@ -33,17 +33,6 @@
               {
                 "textRuns": [
                   {
-                    "value": "It is the airline industry's standard measure of how well capacity turns into revenue: every seat flown, every km.",
-                    "textStyle": {
-                      "fontSize": "10pt",
-                      "color": "#0B1B2E"
-                    }
-                  }
-                ]
-              },
-              {
-                "textRuns": [
-                  {
                     "value": "Formula: ",
                     "textStyle": {
                       "fontWeight": "bold",
@@ -52,7 +41,7 @@
                     }
                   },
                   {
-                    "value": "RASK = seat-km load factor x yield per RPK, so it rises by filling seats or by earning more per passenger-km.",
+                    "value": "seat-km load factor x yield per RPK: it rises by filling seats or by earning more per passenger-km.",
                     "textStyle": {
                       "fontSize": "10pt",
                       "color": "#0B1B2E"
@@ -63,7 +52,7 @@
               {
                 "textRuns": [
                   {
-                    "value": "2025 YTD: ",
+                    "value": "2025: ",
                     "textStyle": {
                       "fontWeight": "bold",
                       "fontSize": "10pt",
@@ -71,7 +60,7 @@
                     }
                   },
                   {
-                    "value": "₹0.176 per seat-km, +15% vs last year (on target).",
+                    "value": "₹0.176 per seat-km, +15% vs last year; yield explains almost 90% of the gain.",
                     "textStyle": {
                       "fontSize": "10pt",
                       "color": "#0B1B2E"
@@ -82,7 +71,7 @@
               {
                 "textRuns": [
                   {
-                    "value": "Watch: ",
+                    "value": "Action: ",
                     "textStyle": {
                       "fontWeight": "bold",
                       "fontSize": "10pt",
@@ -90,18 +79,7 @@
                     }
                   },
                   {
-                    "value": "short routes earn more per km. Compare routes of similar length, not the whole network.",
-                    "textStyle": {
-                      "fontSize": "10pt",
-                      "color": "#0B1B2E"
-                    }
-                  }
-                ]
-              },
-              {
-                "textRuns": [
-                  {
-                    "value": "Edit the measure [RASK Target Growth %] to change the target.",
+                    "value": "protect yield on full routes; grow load factor on international, where seats sit empty.",
                     "textStyle": {
                       "fontSize": "10pt",
                       "color": "#0B1B2E"
@@ -136,6 +114,19 @@
               "expr": {
                 "Literal": {
                   "Value": "14D"
+                }
+              }
+            }
+          }
+        }
+      ],
+      "general": [
+        {
+          "properties": {
+            "altText": {
+              "expr": {
+                "Literal": {
+                  "Value": "'Why RASK'"
                 }
               }
             }

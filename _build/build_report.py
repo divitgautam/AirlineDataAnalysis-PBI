@@ -1,5 +1,9 @@
 """Builds the AirlineDataAnalysis-PBI report pages (PBIR JSON) in the Runway aviation theme (_build/airline_theme.py).
-Run: python _build/build_report.py   (then "Apply external changes" in Power BI Desktop)"""
+Run: python _build/build_report.py   (then "Apply external changes" in Power BI Desktop)
+
+v2 (Nov 2026, after the dashboard scorecard review): action titles, ₹ Cr / M units everywhere, change lines (▲▼) on every
+KPI card, no dual-axis charts (index chart instead), route tooltip + drillthrough pages, footer with source/refresh/caveat,
+page navigator, alt text on every visual."""
 import json
 import sys
 from pathlib import Path
@@ -8,32 +12,42 @@ sys.path.insert(0, str(Path(__file__).parent))
 import pbir_kit as k
 import airline_theme
 airline_theme.apply(k)   # 'Runway' aviation theme; must run before the names below are imported
-from pbir_kit import (L, C, col, mea, qref, cat_filter, series_color_by_value, series_color_by_measure, Page,
+from pbir_kit import (L, C, col, mea, qref, cat_filter, series_color_by_value, series_color_by_measure, Page, NO_CHROME,
                       NAVY, TEAL, AMBER, CORAL, SLATE, GREEN, INK, MUTED, WHITE, LINE, W, H, M, G)
 
 ROOT = Path(__file__).resolve().parents[1]
 k.init(ROOT / "AirlineDataAnalysis-PBI.Report")
 OUT = ROOT / "analysis" / "output"
 facts = json.loads((OUT / "report_facts.json").read_text(encoding="utf-8")) if (OUT / "report_facts.json").exists() else {}
+fx = lambda key, default="…": facts.get(key, default).replace("Rs ", "₹")
 
-ROUTE, MARKET = col("Flights", "Route"), col("Flights", "Market")
+RED, GREY = airline_theme.CORAL, "#A7B4C4"
+ROUTE, MARKET, REGION = col("Flights", "Route"), col("Flights", "Market"), col("Origin Airport", "Region")
 YEAR, YM, MONTH, WEEKDAY = col("Date", "Year"), col("Date", "Year Month"), col("Date", "Month"), col("Date", "Weekday")
-O_CITY, O_REGION = col("Origin Airport", "Airport Label"), col("Origin Airport", "Region")
 NO_AXIS_TITLES = {"categoryAxis": [{"properties": {"showAxisTitle": L(False)}}],
                   "valueAxis": [{"properties": {"showAxisTitle": L(False), "gridlineShow": L(True)}}]}
 LABELS = {"labels": [{"properties": {"show": L(True), "fontSize": L(9)}}]}
 LEGEND_TOP = {"legend": [{"properties": {"show": L(True), "position": L("Top")}}]}
+NO_LEGEND = {"legend": [{"properties": {"show": L(False)}}]}
 Y2025 = [cat_filter("year_2025", "Date", "Year", ["2025L"])]
-MARKET_COLORS = [series_color_by_value("Flights", "Market", "Domestic", TEAL),
-                 series_color_by_value("Flights", "Market", "International", AMBER)]
-YEAR_COLORS = [{"properties": {"fill": C(AMBER)}, "selector": {"data": [{"scopeId": {"Comparison": {"ComparisonKind": 0, "Left": YEAR,
-                                                                                                    "Right": {"Literal": {"Value": "2024L"}}}}}]}},
+YEAR_COLORS = [{"properties": {"fill": C(GREY)}, "selector": {"data": [{"scopeId": {"Comparison": {"ComparisonKind": 0, "Left": YEAR,
+                                                                                                   "Right": {"Literal": {"Value": "2024L"}}}}}]}},
                {"properties": {"fill": C(TEAL)}, "selector": {"data": [{"scopeId": {"Comparison": {"ComparisonKind": 0, "Left": YEAR,
-                                                                                                   "Right": {"Literal": {"Value": "2025L"}}}}}]}}]
-row2_y, row2_h = 184, 262
+                                                                                                  "Right": {"Literal": {"Value": "2025L"}}}}}]}}]
+COMPACT = {"values": [{"properties": {"fontSize": L(9)}}], "rowHeaders": [{"properties": {"fontSize": L(9)}}],
+           "columnHeaders": [{"properties": {"fontSize": L(9)}}], "total": [{"properties": {"fontSize": L(9)}}]}
+ALL_POINTS = {"data": [{"dataViewWildcard": {"matchingOption": 1}}]}   # conditional formatting applies to every data point
+FOOTER = mea("Footer Text")
+TIP = "route_tip"
+
+# vertical grid: header 0-72 | cards 80-176 | row 2 | row 3 | footer H-26
+row2_y = 178
+row3_end = H - 38
+row2_h = 240
 row3_y = row2_y + row2_h + G
-row3_h = H - M - row3_y
-fx = lambda key, default="…": facts.get(key, default)
+row3_h = row3_end - row3_y
+D = lambda m: mea(f"Δ {m}")
+DC = lambda m: mea(f"Δ {m} Color")
 
 
 def top_n_filter(name, t, c, measure, n, descending=True):
@@ -51,171 +65,197 @@ def top_n_filter(name, t, c, measure, n, descending=True):
                                                        "Table": {"SourceRef": {"Source": "subquery"}}}}}]}}
 
 
+def line_styles(*fields_widths):
+    return [{"properties": {"strokeWidth": L(w_), "showMarker": L(mk)}, "selector": {"metadata": qref(f)}} for f, w_, mk in fields_widths]
+
+
 pages = []
 # =====================================================================
 # PAGE 1 - Network and route performance  (brief Q1)
 # =====================================================================
-p = Page("network", "1. Network & Routes")
-p.header("Network & Route Performance",
-         "40,175 flights  |  179 routes  |  38 airports  |  Jan 2024 to May 2025  |  RASK = revenue per available seat-km")
+p = Page("network", "1 Network")
+p1_h2 = 266
+p1_r3 = row2_y + p1_h2 + G
+p1_h3 = row3_end - p1_r3
+p.header("Pune is the hub (31% of revenue); 48 routes trail the network",
+         "40,175 flights  |  179 routes  |  38 airports  |  Jan 2024 to May 2025  |  Titles describe all flights; visuals follow the slicers")
 p.slicer("slc_market", MARKET, "Market", 900, 170)
 p.slicer("slc_year", YEAR, "Year", 1086, 178)
 p.cards([
-    ("card_rev", mea("Revenue"), "Revenue"),
-    ("card_flights", mea("Flights"), "Flights"),
-    ("card_pax", mea("Passengers"), "Passengers"),
-    ("card_lf", mea("Load Factor %"), "Load Factor"),
-    ("card_fare", mea("Avg Fare"), "Avg Fare"),
-    ("card_rask", mea("RASK"), "RASK (₹ / seat-km)"),
+    ("card_rev", mea("Card Revenue"), "Revenue", D("Revenue"), DC("Revenue")),
+    ("card_flights", mea("Card Flights"), "Flights", D("Flights"), DC("Flights")),
+    ("card_pax", mea("Card Passengers"), "Passengers", D("Passengers"), DC("Passengers")),
+    ("card_lf", mea("Card Load Factor"), "Load factor", D("Load Factor"), DC("Load Factor")),
+    ("card_fare", mea("Card Avg Fare"), "Average fare", D("Avg Fare"), DC("Avg Fare")),
+    ("card_rask", mea("Card RASK"), "RASK (₹ per seat-km)", D("RASK"), DC("RASK")),
 ])
-c2a = round((W - 2 * M - G) * 0.42)
+c2a = round((W - 2 * M - G) * 0.40)
 c2b = W - 2 * M - G - c2a
-p.add("bar_top_routes", "clusteredBarChart", M, row2_y, c2a, row2_h,
-      roles={"Category": [ROUTE], "Y": [(mea("Revenue"), "Revenue")]},
-      title="Top 10 routes by revenue", subtitle="Share of network revenue on hover",
+p.add("bar_top_routes", "clusteredBarChart", M, row2_y, c2a, p1_h2,
+      roles={"Category": [ROUTE], "Y": [(mea("Revenue ₹ Cr"), "Revenue")]},
+      title="Top 8 routes earn 27% of revenue; 4 of them touch Pune", subtitle="Revenue, Jan 2024–May 2025 · hover a route for its profile",
       objects={**NO_AXIS_TITLES, **LABELS, "dataPoint": [{"properties": {"fill": C(TEAL)}}],
+               "categoryAxis": [{"properties": {"showAxisTitle": L(False), "fontSize": L(9), "innerPadding": L(20)}}],
                "valueAxis": [{"properties": {"show": L(False)}}]},
-      sort=[(mea("Revenue"), "Descending")],
-      filters=[top_n_filter("top10_routes", "Flights", "Route", "Revenue", 10)])
-p.add("scatter_routes", "scatterChart", M + c2a + G, row2_y, c2b, row2_h,
+      sort=[(mea("Revenue ₹ Cr"), "Descending")], tooltip_page=TIP,
+      filters=[top_n_filter("top8_routes", "Flights", "Route", "Revenue", 8)])
+p.add("scatter_routes", "scatterChart", M + c2a + G, row2_y, c2b, p1_h2,
       roles={"Category": [ROUTE], "X": [(mea("Load Factor %"), "Load factor")], "Y": [(mea("RASK"), "RASK")],
              "Size": [(mea("Revenue"), "Revenue")]},
-      title="Route map: load factor vs RASK", subtitle="Each bubble is a route, sized by revenue. Lower-left = review. PNQ-BOM (RASK 1.68) off-scale",
-      objects={"dataPoint": [{"properties": {"fill": C(TEAL)}}],
+      title="53 star routes (blue) earn 40% of revenue; 48 review routes (red) earn 19%",
+      subtitle="Each bubble is a route sized by revenue; grey = above the network on one measure. PNQ-BOM left out (RASK ₹1.68, mis-priced)",
+      objects={"dataPoint": [{"properties": {"fill": C(TEAL)}},
+                             {"properties": {"fill": {"solid": {"color": {"expr": mea("Route Quadrant Color")}}}}, "selector": ALL_POINTS}],
                "categoryAxis": [{"properties": {"showAxisTitle": L(True), "titleText": L("Load factor"), "start": L(0.3), "end": L(0.7)}}],
-               "valueAxis": [{"properties": {"showAxisTitle": L(True), "titleText": L("RASK (₹ per seat-km)"), "start": L(0), "end": L(0.6)}}]})
-mw = round((W - 2 * M - G) * 0.58)
-p.add("mx_airports", "pivotTable", M, row3_y, mw, row3_h,
-      roles={"Rows": [O_REGION, O_CITY],
-             "Values": [(mea("Revenue"), "Revenue"), (mea("Flights"), "Flights"), (mea("Load Factor %"), "Load factor"),
-                        (mea("Avg Fare"), "Avg fare"), (mea("RASK"), "RASK"), (mea("Revenue Share %"), "Share")]},
-      title="Departure airports by region", subtitle="Expand a region to see its airports",
-      sort=[(mea("Revenue"), "Descending")])
-p.add("tbl_weak_routes", "pivotTable", M + mw + G, row3_y, W - 2 * M - mw - G, row3_h,
-      roles={"Rows": [ROUTE], "Values": [(mea("Review Route Revenue"), "Revenue"), (mea("Load Factor %"), "LF"), (mea("RASK"), "RASK")]},
-      objects={"subTotals": [{"properties": {"rowSubtotals": L(False)}}], "total": [{"properties": {"show": L(False)}}]},
-      title="Biggest routes to review", subtitle="Below the network on both load factor and RASK, by revenue",
-      sort=[(mea("Review Route Revenue"), "Descending")],
-      filters=[top_n_filter("top10_review", "Flights", "Route", "Review Route Revenue", 10)])
+               "valueAxis": [{"properties": {"showAxisTitle": L(True), "titleText": L("RASK (₹ per seat-km)"), "start": L(0), "end": L(0.6)}}]},
+      tooltip_page=TIP, filters=[cat_filter("no_pnq_bom", "Flights", "Route", ["'PNQ-BOM'"], exclude=True)])
+mw = round((W - 2 * M - G) * 0.56)
+p.add("bar_regions", "clusteredBarChart", M, p1_r3, mw, p1_h3,
+      roles={"Category": [REGION], "Y": [(mea("Revenue ₹ Cr"), "Revenue")],
+             "Tooltips": [(mea("Revenue Share %"), "Share of revenue"), (mea("Load Factor %"), "Load factor"), (mea("RASK"), "RASK")]},
+      title="West departures earn 42% of revenue, led by Pune", subtitle="Revenue by departure region · hover for share, LF and RASK · Central (3 flights) not shown",
+      objects={**NO_AXIS_TITLES, **LABELS, "dataPoint": [{"properties": {"fill": C(TEAL)}}],
+               "categoryAxis": [{"properties": {"showAxisTitle": L(False), "fontSize": L(9), "innerPadding": L(20)}}],
+               "valueAxis": [{"properties": {"show": L(False)}}]},
+      sort=[(mea("Revenue ₹ Cr"), "Descending")],
+      filters=[cat_filter("no_central", "Origin Airport", "Region", ["'Central'"], exclude=True)])
+p.add("tbl_weak_routes", "pivotTable", M + mw + G, p1_r3, W - 2 * M - mw - G, p1_h3,
+      roles={"Rows": [ROUTE], "Values": [(mea("Review Route Revenue ₹ Cr"), "Revenue"), (mea("LF vs Network (pp)"), "LF vs network (pp)"),
+                                         (mea("RASK"), "RASK")]},
+      objects={**COMPACT, "subTotals": [{"properties": {"rowSubtotals": L(False)}}], "total": [{"properties": {"show": L(False)}}]},
+      title="Biggest review routes: below the network on LF and RASK", subtitle="Top 5 by revenue · right-click a route › Drill through › Route detail",
+      sort=[(mea("Review Route Revenue ₹ Cr"), "Descending")], tooltip_page=TIP,
+      filters=[top_n_filter("top5_review", "Flights", "Route", "Review Route Revenue", 5)])
+p.footer(FOOTER)
 pages.append(p)
 
 # =====================================================================
 # PAGE 2 - Demand trends  (brief Q2)
 # =====================================================================
-p = Page("trends", "2. Demand Trends")
-p.header("Demand Trends: 2025 vs 2024",
-         "Cards compare Jan to May 2025 with Jan to May 2024 (like-for-like)  |  Load factor = passengers / seats")
+p = Page("trends", "2 Demand")
+p.header("Growth is price-led: revenue +71% on passengers +25% (Jan–May 2025 vs 2024)",
+         "Cards: Jan to May 2025 vs Jan to May 2024 (like-for-like)  |  Load factor = passengers / seats")
 p.slicer("slc_market", MARKET, "Market", 1086, 178)
 p.cards([
-    ("card_pax_yoy", mea("Passengers YoY %"), "Passengers vs LY"),
-    ("card_flights_yoy", mea("Flights YoY %"), "Flights vs LY"),
-    ("card_rev_yoy", mea("Revenue YoY %"), "Revenue vs LY"),
-    ("card_fare_yoy", mea("Avg Fare YoY %"), "Avg Fare vs LY"),
-    ("card_lf_yoy", mea("Load Factor YoY (pp)"), "Load Factor vs LY (pp)"),
-    ("card_lf_2025", mea("Load Factor %"), "Load Factor 2025"),
+    ("card_pax", mea("Card Passengers"), "Passengers 2025 YTD", D("Passengers"), DC("Passengers")),
+    ("card_rev", mea("Card Revenue"), "Revenue 2025 YTD", D("Revenue"), DC("Revenue")),
+    ("card_fare", mea("Card Avg Fare"), "Average fare", D("Avg Fare"), DC("Avg Fare")),
+    ("card_flights", mea("Card Flights"), "Flights", D("Flights"), DC("Flights")),
+    ("card_lf", mea("Card Load Factor"), "Load factor", D("Load Factor"), DC("Load Factor")),
 ], filters=Y2025)
-p.add("combo_monthly", "lineClusteredColumnComboChart", M, row2_y, W - 2 * M, row2_h,
-      roles={"Category": [YM], "Y": [(mea("Passengers"), "Passengers")], "Y2": [(mea("Avg Fare"), "Avg fare")]},
-      title="Monthly passengers and average fare", subtitle="Fares stepped up in Nov 2024 while traffic kept growing",
-      objects={**NO_AXIS_TITLES, **LEGEND_TOP,
-               "dataPoint": [series_color_by_measure(mea("Passengers"), TEAL), series_color_by_measure(mea("Avg Fare"), CORAL)],
-               "lineStyles": [{"properties": {"strokeWidth": L(3), "showMarker": L(True)}}]},
+half = (W - 2 * M - G) // 2
+p.add("col_pax_month", "clusteredColumnChart", M, row2_y, half, row2_h,
+      roles={"Category": [YM], "Y": [(mea("Passengers (K)"), "Passengers (thousands)")]},
+      title="Passengers grew steadily: every 2025 month beat the same month of 2024", subtitle="Passengers per month, thousands",
+      objects={**NO_AXIS_TITLES, "dataPoint": [{"properties": {"fill": C(TEAL)}}]},
+      sort=[(YM, "Ascending")])
+p.add("line_fare_month", "lineChart", M + half + G, row2_y, W - 2 * M - half - G, row2_h,
+      roles={"Category": [YM], "Y": [(mea("Avg Fare"), "Average fare")]},
+      title="Fares stepped up about 39% from Nov 2024 and held", subtitle="Average fare per passenger, ₹ · the rise did not cut load factor",
+      objects={**NO_AXIS_TITLES, **LABELS, "dataPoint": [{"properties": {"fill": C(AMBER)}}],
+               "lineStyles": [{"properties": {"strokeWidth": L(3), "showMarker": L(True)}}],
+               "valueAxis": [{"properties": {"start": L(0), "showAxisTitle": L(False)}}]},
       sort=[(YM, "Ascending")])
 c3 = (W - 2 * M - 2 * G) / 3
 x1, x2, x3 = M, round(M + c3 + G), round(M + 2 * (c3 + G))
 p.add("line_lf_month", "lineChart", x1, row3_y, round(c3), row3_h,
       roles={"Category": [MONTH], "Y": [(mea("Load Factor %"), "Load factor")], "Series": [YEAR]},
-      title="Load factor by month", subtitle="2024 vs 2025",
+      title="Load factor rose in Jan–Apr 2025 and held level in May", subtitle="Load factor by month, 2024 (grey) vs 2025 (blue)",
       objects={**NO_AXIS_TITLES, **LEGEND_TOP, "dataPoint": YEAR_COLORS,
                "lineStyles": [{"properties": {"strokeWidth": L(3), "showMarker": L(True)}}]},
       sort=[(MONTH, "Ascending")])
 p.add("col_weekday", "clusteredColumnChart", x2, row3_y, round(c3), row3_h,
       roles={"Category": [WEEKDAY], "Y": [(mea("Avg Passengers per Flight"), "Passengers per flight")]},
-      title="Passengers per flight by weekday", subtitle="Demand is flat across the week",
-      objects={**NO_AXIS_TITLES, **LABELS, "dataPoint": [{"properties": {"fill": C(TEAL)}}]},
+      title="No weekday peak: 54–56 passengers per flight every day", subtitle="Average passengers per flight by weekday",
+      objects={**NO_AXIS_TITLES, **LABELS, "dataPoint": [{"properties": {"fill": C(TEAL)}}],
+               "valueAxis": [{"properties": {"show": L(False)}}]},
       sort=[(WEEKDAY, "Ascending")])
 p.textbox("txt_trends", x3, row3_y, round(c3), row3_h, "What this tells us", [
     (f"{fx('pax_yoy')} ", "more passengers and "),
-    (f"{fx('rev_yoy')} ", f"more revenue in Jan to May 2025 than a year earlier."),
-    ("Fares drove it: ", f"median fare jumped about {fx('fare_step', '35%')} in Nov 2024 and has held since."),
+    (f"{fx('rev_yoy')} ", "more revenue in Jan to May 2025 than a year earlier."),
+    ("Fares drove it: ", f"the median fare jumped about {fx('fare_step', '35%')} in Nov 2024 and has held since."),
     ("Load factor ", f"rose {fx('lf_yoy_pp')} pp to {fx('lf_2025')}, so higher fares did not empty the planes."),
-    ("No weekday peak: ", "schedule by route and month, not by day of week."),
+    ("Action: ", "schedule by route and month (July–October is the soft season), not by day of week."),
 ])
+p.footer(FOOTER)
 pages.append(p)
 
 # =====================================================================
 # PAGE 3 - KPI: RASK  (brief Q3)
 # =====================================================================
-p = Page("kpi_rask", "3. KPI: RASK")
-p.header("KPI: Revenue per Available Seat-Km (RASK)",
+p = Page("kpi_rask", "3 RASK")
+p.header("RASK is ₹0.176 in 2025, up 15% and ahead of its ₹0.160 target",
          "RASK = revenue / (seats x km) = seat-km load factor x yield per RPK  |  Target = same period last year + 5%  |  Cards: Jan to May 2025")
 p.slicer("slc_market", MARKET, "Market", 1086, 178)
 p.cards([
-    ("card_rask", mea("RASK"), "RASK 2025 YTD"),
-    ("card_target", mea("RASK Target"), "Target (PY + 5%)"),
-    ("card_vs_target", mea("RASK vs Target %"), "vs Target"),
-    ("card_yoy", mea("RASK YoY %"), "vs Last Year"),
+    ("card_rask", mea("Card RASK"), "RASK 2025 YTD", D("RASK"), DC("RASK")),
+    ("card_target", mea("Card RASK Target"), "Target (last year + 5%)", mea("Δ RASK Target"), mea("Δ RASK Target Color")),
     ("card_status", mea("RASK Status"), "Status"),
-    ("card_yield", mea("Yield per RPK"), "Yield per RPK"),
+    ("card_slf", mea("Card Seat-km LF"), "Seat-km load factor", D("Seat-km LF"), DC("Seat-km LF")),
+    ("card_yield", mea("Card Yield"), "Yield per RPK", D("Yield"), DC("Yield")),
 ], filters=Y2025, small=("card_status",))
 for v in p.visuals:
     if v["name"] == "card_status":
-        v["visual"]["objects"]["value"] = [{"properties": {"fontSize": L(16), "fontColor": {"solid": {"color": {"expr": mea("RASK Status Color")}}}},
+        v["visual"]["objects"]["value"] = [{"properties": {"fontSize": L(18), "fontColor": {"solid": {"color": {"expr": mea("RASK Status Color")}}}},
                                             "selector": {"id": "default"}}]
         v["visual"]["objects"]["accentBar"] = [{"properties": {"show": L(True), "color": {"solid": {"color": {"expr": mea("RASK Status Color")}}}},
                                                 "selector": {"id": "default"}}]
-kw = 300
-p.add("kpi_rask", "kpi", M, row2_y, kw, row2_h,
-      roles={"Indicator": [(mea("RASK"), "RASK")], "Goal": [(mea("RASK Target"), "Target")], "TrendLine": [YEAR]},
-      title="RASK vs target", subtitle="Latest year (2025 YTD) against goal",
-      objects={"goals": [{"properties": {"showGoal": L(True), "showDistance": L(True)}}],
-               "trendline": [{"properties": {"show": L(False)}}]},
-      sort=[(YEAR, "Ascending")])
-p.add("combo_rask_month", "lineClusteredColumnComboChart", M + kw + G, row2_y, W - 2 * M - kw - G, row2_h,
-      roles={"Category": [YM], "Y": [(mea("RASK"), "RASK")], "Y2": [(mea("Seat-km Load Factor %"), "Seat-km load factor")]},
-      title="Monthly RASK and seat-km load factor", subtitle="RASK moves with fares (yield) more than with load factor",
+r2h = 306
+r3y = row2_y + r2h + G
+r3h = row3_end - r3y
+lw = round((W - 2 * M - G) * 0.38)
+p.add("col_rask_market", "clusteredColumnChart", M, row2_y, lw, r2h,
+      roles={"Category": [MARKET], "Y": [(mea("RASK"), "RASK")], "Series": [YEAR]},
+      title="Both markets lifted RASK; international still trails", subtitle="RASK (₹ per seat-km) by market, 2024 (grey) vs 2025 YTD (blue)",
+      objects={**NO_AXIS_TITLES, **LABELS, **LEGEND_TOP, "dataPoint": YEAR_COLORS, "valueAxis": [{"properties": {"show": L(False)}}]},
+      sort=[(MARKET, "Ascending")])
+RI, YI, SI = mea("RASK Index"), mea("Yield Index"), mea("Seat-km LF Index")
+p.add("line_rask_index", "lineChart", M + lw + G, row2_y, W - 2 * M - lw - G, r2h,
+      roles={"Category": [YM], "Y": [(RI, "RASK"), (YI, "Yield per RPK"), (SI, "Seat-km load factor")]},
+      title="RASK follows yield, not load factor", subtitle="Index, 2024 average = 100 · one scale, so the lines compare directly",
       objects={**NO_AXIS_TITLES, **LEGEND_TOP,
-               "dataPoint": [series_color_by_measure(mea("RASK"), TEAL), series_color_by_measure(mea("Seat-km Load Factor %"), CORAL)],
-               "lineStyles": [{"properties": {"strokeWidth": L(3), "showMarker": L(True)}}]},
+               "dataPoint": [series_color_by_measure(RI, NAVY), series_color_by_measure(YI, airline_theme.AMBER), series_color_by_measure(SI, GREY)],
+               "lineStyles": line_styles((RI, 4, True), (YI, 2, False), (SI, 2, False))},
       sort=[(YM, "Ascending")])
 mw = 700
-p.add("mx_market", "pivotTable", M, row3_y, mw, row3_h,
+p.add("mx_market", "pivotTable", M, r3y, mw, r3h,
       roles={"Rows": [MARKET],
              "Values": [(mea("Flights"), "Flights"), (mea("Avg Stage Length Km"), "Stage km"),
                         (mea("Seat-km Load Factor %"), "Seat-km LF"), (mea("Yield per RPK"), "Yield / RPK"),
                         (mea("RASK"), "RASK"), (mea("Revenue Share %"), "Revenue share")]},
-      title="RASK drivers: domestic vs international", subtitle="Longer stages earn less per km: compare like with like",
+      title="International earns ₹0.114 per seat-km vs ₹0.162 domestic", subtitle="Longer stages earn less per km: compare like with like",
       sort=[(mea("Revenue"), "Descending")])
-p.textbox("txt_kpi", M + mw + G, row3_y, W - 2 * M - mw - G, row3_h, "Why RASK", [
-    "It is the airline industry's standard measure of how well capacity turns into revenue: every seat flown, every km.",
-    ("Formula: ", "RASK = seat-km load factor x yield per RPK, so it rises by filling seats or by earning more per passenger-km."),
-    ("2025 YTD: ", f"{fx('rask_2025')} per seat-km, {fx('rask_yoy')} vs last year ({fx('rask_status', 'see status card')})."),
-    ("Watch: ", "short routes earn more per km. Compare routes of similar length, not the whole network."),
-    "Edit the measure [RASK Target Growth %] to change the target.",
+p.textbox("txt_kpi", M + mw + G, r3y, W - 2 * M - mw - G, r3h, "Why RASK", [
+    ("Formula: ", "seat-km load factor x yield per RPK: it rises by filling seats or by earning more per passenger-km."),
+    ("2025: ", f"{fx('rask_2025')} per seat-km, {fx('rask_yoy')} vs last year; yield explains almost 90% of the gain."),
+    ("Action: ", "protect yield on full routes; grow load factor on international, where seats sit empty."),
 ])
+p.footer(FOOTER)
 pages.append(p)
 
 # =====================================================================
 # PAGE 4 - Key insights (text comes from analysis/output/report_facts.json)
 # =====================================================================
 if facts.get("findings"):
-    p = Page("insights", "4. Key Insights")
-    p.header("Key Insights and Data Notes", "Findings from 40,175 flights, Jan 2024 to May 2025, ranked by business impact")
+    p = Page("insights", "4 Insights")
+    p.header("Eight findings, ranked by business impact", "From 40,175 flights, Jan 2024 to May 2025  |  Data notes explain every rule applied")
     half = (W - 2 * M - G) // 2
-    p.textbox("txt_findings", M, 80, half, H - 80 - M, "Business findings", [tuple(x) for x in facts["findings"]], accent=TEAL,
-              size="11pt", gap=True)
-    p.textbox("txt_dq", M + half + G, 80, W - 2 * M - half - G, H - 80 - M, "Data and model notes",
-              [tuple(x) for x in facts["data_notes"]], accent=CORAL, size="11pt", gap=True)
+    p.textbox("txt_findings", M, 80, half, row3_end - 80, "Business findings", [tuple(x) for x in facts["findings"]], accent=TEAL,
+              size="13pt", gap=True)
+    p.textbox("txt_dq", M + half + G, 80, W - 2 * M - half - G, row3_end - 80, "Data and model notes",
+              [tuple(x) for x in facts["data_notes"]], accent=CORAL, size="13pt", gap=True)
+    p.footer(FOOTER)
     pages.append(p)
 
+
 # =====================================================================
-# PAGE 5 - Forecast Jun-Dec 2025 and profit levers (analysis/03_forecast, 04_levers)
+# PAGE 5 - Forecast Jun-Dec 2025 and revenue levers (analysis/03_forecast, 04_levers)
 # =====================================================================
 def default_slicer(pg, name, t, c, label, x, w, value):
     flt = {"Version": 2, "From": [{"Name": "s", "Entity": t, "Type": 0}],
            "Where": [{"Condition": {"In": {"Expressions": [{"Column": {"Expression": {"SourceRef": {"Source": "s"}}, "Property": c}}],
                                            "Values": [[{"Literal": {"Value": f"'{value}'"}}]]}}}]}
-    pg.add(name, "slicer", x, 8, w, 56, roles={"Values": [col(t, c)]},
+    pg.add(name, "slicer", x, 8, w, 56, roles={"Values": [col(t, c)]}, alt=f"{label} filter",
            objects={"data": [{"properties": {"mode": L("Dropdown")}}],
                     "selection": [{"properties": {"singleSelect": L(True), "strictSingleSelect": L(True)}}],
                     "general": [{"properties": {"filter": {"filter": flt}}}],
@@ -226,48 +266,126 @@ def default_slicer(pg, name, t, c, label, x, w, value):
                       "padding": [{"properties": {"top": L(2), "bottom": L(2), "left": L(8), "right": L(8)}}]})
 
 
-p = Page("forecast", "5. Forecast & Levers")
-p.header("Forecast 2025 and Revenue Levers",
+p = Page("forecast", "5 Forecast")
+p.header("2025 revenue heads for ₹63.9 Cr; levers add ₹2.95 Cr a year",
          "Passengers: trend + seasonality, backtested  |  Fares: two scenarios after the Nov 2024 step  |  Median with 80% range")
 default_slicer(p, "slc_scenario", "Scenario", "Scenario", "Fare scenario", 790, 280, "A · Fares hold (post-Nov 2024 level)")
 default_slicer(p, "slc_metric", "Forecast", "metric", "Chart metric", 1086, 178, "Revenue")
+NEU, GOODC = mea("Δ Neutral Color"), mea("Δ Good Color")
 p.cards([
-    ("card_f_rev", mea("F25 Revenue (Cr)"), "2025 Revenue"),
-    ("card_f_range", mea("F25 Revenue Range"), "80% Range"),
-    ("card_f_rev_yoy", mea("F25 Revenue vs 2024 %"), "vs 2024"),
-    ("card_f_pax", mea("F25 Passengers (M)"), "2025 Passengers"),
-    ("card_f_pax_yoy", mea("F25 Passengers vs 2024 %"), "Passengers vs 2024"),
-    ("card_lever_total", mea("Lever Uplift (Cr)"), "Levers, per year"),
+    ("card_f_rev", mea("F25 Revenue (Cr)"), "2025 revenue (forecast)", mea("Δ F25 Revenue"), GOODC),
+    ("card_f_range", mea("F25 Revenue Range"), "80% range", mea("Δ Range"), NEU),
+    ("card_f_pax", mea("F25 Passengers (M)"), "2025 passengers", mea("Δ F25 Passengers"), GOODC),
+    ("card_backtest", mea("Card Backtest"), "Backtest error (Mar–May 2025)", mea("Δ Backtest"), NEU),
+    ("card_lever_total", mea("Lever Uplift (Cr)"), "Levers, per year", mea("Δ Lever Share"), NEU),
 ], small=("card_f_range",))
 FA_, F50, F10, F90 = mea("Fcst Actual"), mea("Fcst P50"), mea("Fcst P10"), mea("Fcst P90")
 p.add("line_forecast", "lineChart", M, row2_y, W - 2 * M, row2_h,
-      roles={"Category": [col("Forecast", "month")],
+      roles={"Category": [col("Forecast", "Month Label")],
              "Y": [(FA_, "Actual"), (F50, "Forecast (median)"), (F10, "Low case (P10)"), (F90, "High case (P90)")]},
-      title="Monthly history and forecast to Dec 2025", subtitle="Switch the chart metric between revenue and passengers",
+      title="The forecast continues the post-November fare level", subtitle="₹ Cr per month (thousands of passengers when the metric is switched) · dashed = 80% range",
       objects={**NO_AXIS_TITLES, **LEGEND_TOP,
-               "categoryAxis": [{"properties": {"showAxisTitle": L(False), "axisType": L("Continuous")}}],
                "dataPoint": [series_color_by_measure(FA_, NAVY), series_color_by_measure(F50, TEAL),
                              series_color_by_measure(F10, airline_theme.BAND_LIGHT), series_color_by_measure(F90, airline_theme.BAND_LIGHT)],
-               "lineStyles": [{"properties": {"strokeWidth": L(2)}, "selector": {"metadata": qref(FA_)}},
+               "lineStyles": [{"properties": {"strokeWidth": L(3)}, "selector": {"metadata": qref(FA_)}},
                               {"properties": {"strokeWidth": L(3)}, "selector": {"metadata": qref(F50)}},
                               {"properties": {"strokeWidth": L(1), "lineStyle": L("dashed")}, "selector": {"metadata": qref(F10)}},
                               {"properties": {"strokeWidth": L(1), "lineStyle": L("dashed")}, "selector": {"metadata": qref(F90)}}]},
-      sort=[(col("Forecast", "month"), "Ascending")])
+      sort=[(col("Forecast", "Month Label"), "Ascending")])
 lw = round((W - 2 * M - G) * 0.55)
 p.add("bar_levers", "clusteredBarChart", M, row3_y, lw, row3_h,
-      roles={"Category": [col("Levers", "lever")], "Y": [(mea("Lever Uplift"), "Revenue uplift per year")],
+      roles={"Category": [col("Levers", "Lever Label")], "Y": [(mea("Lever Uplift ₹ Cr"), "Revenue uplift per year")],
              "Tooltips": [(mea("Lever Uplift %"), "% of revenue")]},
-      title="Revenue levers", subtitle="Sized on Jun 2024 to May 2025; hover for % of revenue",
+      title="Re-deploying weak-route capacity is the biggest lever", subtitle="Revenue uplift per year, sized on Jun 2024 to May 2025 · label shows confidence",
       objects={**NO_AXIS_TITLES, **LABELS, "dataPoint": [{"properties": {"fill": C(AMBER)}}],
                "valueAxis": [{"properties": {"show": L(False)}}]},
-      sort=[(mea("Lever Uplift"), "Descending")])
-p.textbox("txt_forecast_notes", M + lw + G, row3_y, W - 2 * M - lw - G, row3_h, "How to read this page", [
-    ("2025 revenue: ", f"{fx('f25_a', 'see card')} if fares hold, {fx('f25_b', '…')} if they settle at the Mar to May level."),
-    ("Backtest: ", f"the passenger model was {fx('bt_err', 'within 1%')} on Mar to May 2025, vs {fx('bt_naive', '-5%')} for a naive forecast."),
-    ("Biggest lever: ", "move capacity off the weakest routes, then lift fares 5% on full, low-RASK routes."),
-    ("Caveat: ", "passengers and revenue look scaled, so use the % changes, not the rupee amounts, for decisions."),
-    ("To update: ", "re-run analysis notebooks 03 and 04, then refresh this report."),
+      sort=[(mea("Lever Uplift ₹ Cr"), "Descending")])
+p.textbox("txt_plan", M + lw + G, row3_y, W - 2 * M - lw - G, row3_h, "Recommended plan (₹2.95 Cr a year, about 4.6% of 2025 revenue)", [
+    ("1. ", "Move capacity off the 12 weakest review routes: +₹1.42 Cr."),
+    ("2. ", "Raise fares 5% on 35 full, low-RASK routes: +₹0.74 Cr."),
+    ("3. ", "Lift international load factor from 50% to 54%: +₹0.47 Cr."),
+    ("4. ", "Fill seats on 33 high-RASK routes to the network average: +₹0.32 Cr."),
+    ("Caveat: ", "figures look scaled; decide on the % effects. Re-run notebooks 03 and 04, then refresh, to update."),
 ])
+p.footer(FOOTER)
 pages.append(p)
 
+# =====================================================================
+# Route detail: drillthrough page (right-click a route anywhere)
+# =====================================================================
+DT_FILTER = "dt_route"
+p = Page("route_detail", "Route detail", page_type="Drillthrough", hidden=True,
+         binding={"name": "route_detail_binding", "type": "Drillthrough",
+                  "parameters": [{"name": "route_param", "boundFilter": DT_FILTER, "fieldExpr": ROUTE}]},
+         filters=[{"name": DT_FILTER, "field": ROUTE, "type": "Categorical", "howCreated": "Drillthrough"}])
+p.header("Route detail", "Drill-through page: one route against the network  |  Use the back arrow (Ctrl+click in Desktop) to return")
+p.add("btn_back", "actionButton", W - M - 120, 18, 120, 36, alt="Back to the previous page",
+      objects={"icon": [{"properties": {"shapeType": L("back")}, "selector": {"id": "default"}}],
+               "text": [{"properties": {"show": L(True), "text": L("Back"), "fontColor": C(WHITE)}, "selector": {"id": "default"}}]},
+      container={"visualLink": [{"properties": {"show": L(True), "type": L("Back")}}],
+                 "background": [{"properties": {"show": L(False)}}], "border": [{"properties": {"show": L(False)}}],
+                 "title": [{"properties": {"show": L(False)}}]})
+p.cards([
+    ("card_route", mea("Selected Route"), "Route"),
+    ("card_quadrant", mea("Route Quadrant"), "Position vs network"),
+    ("card_rev", mea("Card Revenue"), "Revenue"),
+    ("card_lf", mea("Card Load Factor"), "Load factor", mea("Δ LF vs Network"), mea("Δ Neutral Color")),
+    ("card_rask", mea("Card RASK"), "RASK"),
+    ("card_fare", mea("Card Avg Fare"), "Average fare"),
+])
+p.add("col_route_rev", "clusteredColumnChart", M, row2_y, half, row2_h,
+      roles={"Category": [YM], "Y": [(mea("Revenue ₹ Cr"), "Revenue")]},
+      title="Revenue by month", subtitle="₹ Cr", objects={**NO_AXIS_TITLES, "dataPoint": [{"properties": {"fill": C(TEAL)}}]},
+      sort=[(YM, "Ascending")])
+NLF = mea("Network Load Factor %")
+p.add("line_route_lf", "lineChart", M + half + G, row2_y, W - 2 * M - half - G, row2_h,
+      roles={"Category": [YM], "Y": [(mea("Load Factor %"), "Route"), (NLF, "Network")]},
+      title="Load factor vs the network", subtitle="Route (blue) and network average (grey), by month",
+      objects={**NO_AXIS_TITLES, **LEGEND_TOP,
+               "dataPoint": [series_color_by_measure(mea("Load Factor %"), TEAL), series_color_by_measure(NLF, GREY)],
+               "lineStyles": line_styles((mea("Load Factor %"), 3, True), (NLF, 2, False))},
+      sort=[(YM, "Ascending")])
+p.add("line_route_fare", "lineChart", M, row3_y, half, row3_h,
+      roles={"Category": [YM], "Y": [(mea("Avg Fare"), "Average fare")]},
+      title="Average fare by month", subtitle="₹ per passenger",
+      objects={**NO_AXIS_TITLES, **LABELS, "dataPoint": [{"properties": {"fill": C(AMBER)}}],
+               "lineStyles": [{"properties": {"strokeWidth": L(3), "showMarker": L(True)}}]},
+      sort=[(YM, "Ascending")])
+p.add("col_route_weekday", "clusteredColumnChart", M + half + G, row3_y, W - 2 * M - half - G, row3_h,
+      roles={"Category": [WEEKDAY], "Y": [(mea("Avg Passengers per Flight"), "Passengers per flight")]},
+      title="Passengers per flight by weekday", subtitle="Average",
+      objects={**NO_AXIS_TITLES, **LABELS, "dataPoint": [{"properties": {"fill": C(TEAL)}}], "valueAxis": [{"properties": {"show": L(False)}}]},
+      sort=[(WEEKDAY, "Ascending")])
+p.footer(FOOTER, nav=False)
+pages.append(p)
+
+# =====================================================================
+# Route tooltip: report-page tooltip shown when hovering a route
+# =====================================================================
+TW, TH = 400, 300
+p = Page(TIP, "Route tooltip", page_type="Tooltip", hidden=True, binding={"name": "route_tip_binding", "type": "Tooltip"}, size=(TW, TH))
+tw = (TW - 2 * 8 - 2 * 6) / 3
+p.cards([("tip_route", mea("Selected Route"), "Route"), ("tip_quad", mea("Route Quadrant"), "Position")],
+        y=6, h=64, x0=8, width=TW - 16, small=("tip_route", "tip_quad"))
+p.cards([("tip_rev", mea("Card Revenue"), "Revenue"), ("tip_lf", mea("Card Load Factor"), "Load factor"), ("tip_rask", mea("Card RASK"), "RASK")],
+        y=76, h=64, x0=8, width=TW - 16, small=("tip_rev", "tip_lf", "tip_rask"))
+# (values set to 12pt below so ₹ Cr amounts fit)
+p.add("tip_line", "lineChart", 8, 146, TW - 16, TH - 152,
+      roles={"Category": [col("Date", "Month Start")], "Y": [(mea("Revenue ₹ Cr"), "Revenue")]},
+      title="Revenue by month, Jan 2024–May 2025 (₹ Cr)", container={"subTitle": [{"properties": {"show": L(False)}}],
+                                                 "padding": [{"properties": {"top": L(4), "bottom": L(4), "left": L(6), "right": L(6)}}]},
+      objects={**NO_AXIS_TITLES, "dataPoint": [{"properties": {"fill": C(TEAL)}}], "lineStyles": [{"properties": {"strokeWidth": L(2)}}],
+               "categoryAxis": [{"properties": {"show": L(False), "axisType": L("Continuous")}}]},
+      sort=[(col("Date", "Month Start"), "Ascending")])
+for v in p.visuals:   # compact text for the small canvas
+    if v["visual"]["visualType"] == "cardVisual":
+        v["visual"]["objects"]["value"] = [{"properties": {"fontSize": L(12)}, "selector": {"id": "default"}}]
+        v["visual"]["objects"]["label"] = [{"properties": {"fontSize": L(8)}, "selector": {"id": "default"}}]
+pages.append(p)
+
+# keep the Market slicer in sync across the network, demand and RASK pages
+for pg in pages:
+    for v in pg.visuals:
+        if v["name"] == "slc_market":
+            v["visual"]["syncGroup"] = {"groupName": "Market", "fieldChanges": True, "filterChanges": True}
 k.finish(pages)

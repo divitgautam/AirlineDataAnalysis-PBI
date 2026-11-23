@@ -3,11 +3,11 @@
   "name": "line_forecast",
   "position": {
     "x": 16,
-    "y": 184,
-    "z": 10000,
-    "height": 262,
+    "y": 178,
+    "z": 14000,
+    "height": 240,
     "width": 1248,
-    "tabOrder": 10000
+    "tabOrder": 14000
   },
   "visual": {
     "visualType": "lineChart",
@@ -23,11 +23,11 @@
                       "Entity": "Forecast"
                     }
                   },
-                  "Property": "month"
+                  "Property": "Month Label"
                 }
               },
-              "queryRef": "Forecast.month",
-              "nativeQueryRef": "month",
+              "queryRef": "Forecast.Month Label",
+              "nativeQueryRef": "Month Label",
               "active": true
             }
           ]
@@ -107,7 +107,7 @@
                     "Entity": "Forecast"
                   }
                 },
-                "Property": "month"
+                "Property": "Month Label"
               }
             },
             "direction": "Ascending"
@@ -123,13 +123,6 @@
               "expr": {
                 "Literal": {
                   "Value": "false"
-                }
-              }
-            },
-            "axisType": {
-              "expr": {
-                "Literal": {
-                  "Value": "'Continuous'"
                 }
               }
             }
@@ -256,7 +249,7 @@
             "strokeWidth": {
               "expr": {
                 "Literal": {
-                  "Value": "2D"
+                  "Value": "3D"
                 }
               }
             }
@@ -337,7 +330,7 @@
             "text": {
               "expr": {
                 "Literal": {
-                  "Value": "'Monthly history and forecast to Dec 2025'"
+                  "Value": "'The forecast continues the post-November fare level'"
                 }
               }
             },
@@ -382,7 +375,7 @@
             "text": {
               "expr": {
                 "Literal": {
-                  "Value": "'Switch the chart metric between revenue and passengers'"
+                  "Value": "'₹ Cr per month (thousands of passengers when the metric is switched) · dashed = 80% range'"
                 }
               }
             },
@@ -401,6 +394,19 @@
                       "Value": "'#5B6B7F'"
                     }
                   }
+                }
+              }
+            }
+          }
+        }
+      ],
+      "general": [
+        {
+          "properties": {
+            "altText": {
+              "expr": {
+                "Literal": {
+                  "Value": "'The forecast continues the post-November fare level. ₹ Cr per month (thousands of passengers when the metric is switched) · dashed = 80% range'"
                 }
               }
             }
