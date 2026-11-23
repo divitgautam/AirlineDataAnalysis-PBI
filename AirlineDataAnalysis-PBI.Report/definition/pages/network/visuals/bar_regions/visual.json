@@ -4,10 +4,10 @@
   "position": {
     "x": 16,
     "y": 456,
-    "z": 18000,
+    "z": 19000,
     "height": 226,
     "width": 692,
-    "tabOrder": 18000
+    "tabOrder": 19000
   },
   "visual": {
     "visualType": "clusteredBarChart",
@@ -211,8 +211,13 @@
             },
             "text": {
               "expr": {
-                "Literal": {
-                  "Value": "'West departures earn 42% of revenue, led by Pune'"
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "_Measures"
+                    }
+                  },
+                  "Property": "Title Regions"
                 }
               }
             },
@@ -288,7 +293,7 @@
             "altText": {
               "expr": {
                 "Literal": {
-                  "Value": "'West departures earn 42% of revenue, led by Pune. Revenue by departure region · hover for share, LF and RASK · Central (3 flights) not shown'"
+                  "Value": "'Revenue by departure region · hover for share, LF and RASK · Central (3 flights) not shown'"
                 }
               }
             }

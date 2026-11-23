@@ -1,82 +1,93 @@
+/// Calendar from 1 Jan 2024 to the last flight date (31 May 2025); marked date table.
 table Date
-	lineageTag: 3fb9fd4e-e320-48cb-b49d-8631ed580eeb
+	lineageTag: 0a524b3f-7eba-4e19-b7a4-d256a5c3d29b
 	dataCategory: Time
 
+	/// Calendar date (key).
 	column Date
 		dataType: dateTime
 		isKey
 		formatString: dd-mmm-yyyy
-		lineageTag: a30c19cb-e8b3-44a1-b4e9-8c92e8aa637b
+		lineageTag: 180a4f9a-73d3-46e0-81bb-0347e2765276
 		summarizeBy: none
 		isNameInferred
 		sourceColumn: [Date]
 
+	/// Calendar year.
 	column Year
 		dataType: int64
 		formatString: 0
-		lineageTag: 5f7085c2-21d1-417f-a908-58bbec83a1ae
+		lineageTag: ffffacfb-247f-446a-9bc9-b4abe768aeca
 		summarizeBy: none
 		isNameInferred
 		sourceColumn: [Year]
 
+	/// Calendar quarter, Q1-Q4.
 	column Quarter
 		dataType: string
-		lineageTag: 63b9ecc5-e431-4da0-80a1-f69f3b1df605
+		lineageTag: 15e30a13-d872-4242-82b3-72678586c58e
 		summarizeBy: none
 		isNameInferred
 		sourceColumn: [Quarter]
 
+	/// Month number, 1-12 (sorts Month).
 	column 'Month No'
 		dataType: int64
 		formatString: 0
-		lineageTag: 5ed64d03-3c5a-4295-94e5-5d61f4f8d437
+		lineageTag: ac1d12bb-33ab-44ec-ab56-0944e50e832c
 		summarizeBy: none
 		isNameInferred
 		sourceColumn: [Month No]
 
+	/// Month name, e.g. Jan.
 	column Month
 		dataType: string
-		lineageTag: b84dc332-6067-45d5-a027-413c86d9b8a8
+		lineageTag: d53cdf5a-b32b-4093-93eb-06baef122bdd
 		summarizeBy: none
 		isNameInferred
 		sourceColumn: [Month]
 		sortByColumn: 'Month No'
 
+	/// First day of the month.
 	column 'Month Start'
 		dataType: dateTime
 		formatString: mmm yyyy
-		lineageTag: e3f74ee5-d0e0-4fc5-993a-0c4724399b61
+		lineageTag: 3fa92eec-0ca7-4617-8e3b-fcef474ee995
 		summarizeBy: none
 		isNameInferred
 		sourceColumn: [Month Start]
 
+	/// Month label, e.g. Jan 24.
 	column 'Year Month'
 		dataType: string
-		lineageTag: cef2d25e-4314-4052-99c1-c62d0fd51d0e
+		lineageTag: 1a94b017-8034-4822-89a6-b9199bc0b35e
 		summarizeBy: none
 		isNameInferred
 		sourceColumn: [Year Month]
 		sortByColumn: 'Year Month Key'
 
+	/// yyyymm number (sorts Year Month).
 	column 'Year Month Key'
 		dataType: int64
 		formatString: 0
-		lineageTag: b17051d1-4466-4dfb-a8b8-a34117f0198f
+		lineageTag: 2a263114-393e-46cd-9e3d-186abca6d892
 		summarizeBy: none
 		isNameInferred
 		sourceColumn: [Year Month Key]
 
+	/// Weekday number, Monday = 1.
 	column 'Weekday No'
 		dataType: int64
 		formatString: 0
-		lineageTag: 53c4edd5-435f-4b56-876b-d1c163eda075
+		lineageTag: 9e669ce2-ff76-4025-93cd-9c5ddd094e72
 		summarizeBy: none
 		isNameInferred
 		sourceColumn: [Weekday No]
 
+	/// Weekday name, e.g. Mon.
 	column Weekday
 		dataType: string
-		lineageTag: 4f7f6d52-69bb-4801-8531-5685a66dce4d
+		lineageTag: e93465f4-ee81-4758-8aec-ad1509e6b24a
 		summarizeBy: none
 		isNameInferred
 		sourceColumn: [Weekday]

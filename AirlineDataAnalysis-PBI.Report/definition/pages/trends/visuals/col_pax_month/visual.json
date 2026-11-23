@@ -4,10 +4,10 @@
   "position": {
     "x": 16,
     "y": 178,
-    "z": 13000,
+    "z": 14000,
     "height": 240,
     "width": 618,
-    "tabOrder": 13000
+    "tabOrder": 14000
   },
   "visual": {
     "visualType": "clusteredColumnChart",
@@ -135,8 +135,13 @@
             },
             "text": {
               "expr": {
-                "Literal": {
-                  "Value": "'Passengers grew steadily: every 2025 month beat the same month of 2024'"
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "_Measures"
+                    }
+                  },
+                  "Property": "Title Pax Months"
                 }
               }
             },
@@ -212,7 +217,7 @@
             "altText": {
               "expr": {
                 "Literal": {
-                  "Value": "'Passengers grew steadily: every 2025 month beat the same month of 2024. Passengers per month, thousands'"
+                  "Value": "'Passengers per month, thousands'"
                 }
               }
             }

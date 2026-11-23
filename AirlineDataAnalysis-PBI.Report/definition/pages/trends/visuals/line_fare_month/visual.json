@@ -4,10 +4,10 @@
   "position": {
     "x": 646,
     "y": 178,
-    "z": 14000,
+    "z": 15000,
     "height": 240,
     "width": 618,
-    "tabOrder": 14000
+    "tabOrder": 15000
   },
   "visual": {
     "visualType": "lineChart",
@@ -175,8 +175,13 @@
             },
             "text": {
               "expr": {
-                "Literal": {
-                  "Value": "'Fares stepped up about 39% from Nov 2024 and held'"
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "_Measures"
+                    }
+                  },
+                  "Property": "Title Fare Step"
                 }
               }
             },
@@ -221,7 +226,7 @@
             "text": {
               "expr": {
                 "Literal": {
-                  "Value": "'Average fare per passenger, ₹ · the rise did not cut load factor'"
+                  "Value": "'Average fare per passenger, ₹ · Nov 2024–May 2025 vs Jan–Oct 2024'"
                 }
               }
             },
@@ -252,7 +257,7 @@
             "altText": {
               "expr": {
                 "Literal": {
-                  "Value": "'Fares stepped up about 39% from Nov 2024 and held. Average fare per passenger, ₹ · the rise did not cut load factor'"
+                  "Value": "'Average fare per passenger, ₹ · Nov 2024–May 2025 vs Jan–Oct 2024'"
                 }
               }
             }

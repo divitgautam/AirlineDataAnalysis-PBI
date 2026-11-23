@@ -4,10 +4,10 @@
   "position": {
     "x": 1086,
     "y": 8,
-    "z": 3000,
+    "z": 4000,
     "height": 56,
     "width": 178,
-    "tabOrder": 3000
+    "tabOrder": 4000
   },
   "visual": {
     "visualType": "slicer",
@@ -24,11 +24,11 @@
                       "Entity": "Forecast"
                     }
                   },
-                  "Property": "metric"
+                  "Property": "Metric"
                 }
               },
-              "queryRef": "Forecast.metric",
-              "nativeQueryRef": "metric",
+              "queryRef": "Forecast.Metric",
+              "nativeQueryRef": "Metric",
               "active": true
             }
           ]
@@ -94,7 +94,7 @@
                                   "Source": "s"
                                 }
                               },
-                              "Property": "metric"
+                              "Property": "Metric"
                             }
                           }
                         ],

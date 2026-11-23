@@ -4,10 +4,10 @@
   "position": {
     "x": 436,
     "y": 430,
-    "z": 16000,
+    "z": 17000,
     "height": 252,
     "width": 408,
-    "tabOrder": 16000
+    "tabOrder": 17000
   },
   "visual": {
     "visualType": "clusteredColumnChart",
@@ -148,8 +148,13 @@
             },
             "text": {
               "expr": {
-                "Literal": {
-                  "Value": "'No weekday peak: 54–56 passengers per flight every day'"
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "_Measures"
+                    }
+                  },
+                  "Property": "Title Weekday"
                 }
               }
             },
@@ -225,7 +230,7 @@
             "altText": {
               "expr": {
                 "Literal": {
-                  "Value": "'No weekday peak: 54–56 passengers per flight every day. Average passengers per flight by weekday'"
+                  "Value": "'Average passengers per flight by weekday'"
                 }
               }
             }

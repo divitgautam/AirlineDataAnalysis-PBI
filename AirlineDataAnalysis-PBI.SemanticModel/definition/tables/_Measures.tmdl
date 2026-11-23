@@ -1,594 +1,665 @@
 /// Central home for report measures
 table _Measures
-	lineageTag: 4373dde7-f2a7-4ebe-8cce-c3f6f089b00a
+	lineageTag: 613e3cbf-1385-4fa0-a2bc-e0de024a9533
 
 	/// Number of flights.
 	measure Flights = COUNTROWS ( Flights )
 		formatString: #,##0
 		displayFolder: 1 Volume
-		lineageTag: becb2e2f-138d-415a-9826-f97917a48986
+		lineageTag: 5d8a5d8d-b059-46e9-9349-3997175f1fb8
 
 	/// Passengers carried.
 	measure Passengers = SUM ( Flights[PaxCount] )
 		formatString: #,##0
 		displayFolder: 1 Volume
-		lineageTag: e6a76ef7-427c-4c2a-87a7-1ec770d0cc92
+		lineageTag: e91c93ae-5edf-4ef0-aa1a-c26c8927b6c6
 
 	/// Seats flown.
 	measure Seats = SUM ( Flights[Capacity] )
 		formatString: #,##0
 		displayFolder: 1 Volume
-		lineageTag: 2b345549-7d67-4594-910a-ad01713b1173
+		lineageTag: f37560ea-0422-4195-ae57-2130ff64aa70
 
 	/// Revenue as recorded.
 	measure Revenue = SUM ( Flights[Revenue] )
 		formatString: ₹#,##0
 		displayFolder: 1 Volume
-		lineageTag: ef1c576b-ae24-474f-bc4d-fd11a36ab625
+		lineageTag: 9276eb87-0206-4d8c-b561-8d640931979f
 
 	/// Available seat-km: seats x distance (corrected).
 	measure ASK = SUM ( Flights[ASK] )
 		formatString: #,##0
 		displayFolder: 1 Volume
-		lineageTag: 007b0ffb-9021-4187-b14d-bb97480d6414
+		lineageTag: 8f4204df-7550-4332-9659-dfd6187c9f0c
 
 	/// Revenue passenger-km: passengers x distance (corrected).
 	measure RPK = SUM ( Flights[RPK] )
 		formatString: #,##0
 		displayFolder: 1 Volume
-		lineageTag: 26bb3b33-49d2-43ce-a042-0486f9b5dfcb
+		lineageTag: 9df2eff1-f504-481b-8a6a-c4b2984fc965
 
 	/// Distinct origin-destination routes.
 	measure 'Routes Served' = DISTINCTCOUNT ( Flights[Route] )
 		formatString: #,##0
 		displayFolder: 1 Volume
-		lineageTag: 830847ba-ffa0-4f54-bab2-d2938d3063c5
+		lineageTag: 82d1396a-eb1a-47e3-a9fb-03ba65d1f899
 
 	/// Distinct departure airports.
 	measure 'Airports Served' = DISTINCTCOUNT ( Flights[Origin] )
 		formatString: #,##0
 		displayFolder: 1 Volume
-		lineageTag: f3493535-18c8-4dbe-8a3f-df402f50a0db
+		lineageTag: a4ffb7b8-624a-43a3-81ab-f3e38c5f3352
 
 	/// Passengers / seats.
 	measure 'Load Factor %' = DIVIDE ( [Passengers], [Seats] )
 		formatString: 0.0%
 		displayFolder: 2 Efficiency
-		lineageTag: c8e2577f-7351-46d3-b494-06c078825320
+		lineageTag: dd0ab878-e710-4053-aca1-521766d23d72
 
 	/// RPK / ASK: load factor weighted by distance.
 	measure 'Seat-km Load Factor %' = DIVIDE ( [RPK], [ASK] )
 		formatString: 0.0%
 		displayFolder: 2 Efficiency
-		lineageTag: 402073af-ef3c-4ee4-b277-ced30a22031d
+		lineageTag: 05af149b-1f49-41d3-be23-f8213b0dc4d2
 
 	/// Revenue per passenger.
 	measure 'Avg Fare' = DIVIDE ( [Revenue], [Passengers] )
 		formatString: ₹#,##0
 		displayFolder: 2 Efficiency
-		lineageTag: 75144563-f8a2-4751-9a67-4391a4f3267b
+		lineageTag: cafdd1b4-0447-41cc-9ba2-2e0d24b2e0fc
 
 	/// Revenue per flight.
 	measure 'Revenue per Flight' = DIVIDE ( [Revenue], [Flights] )
 		formatString: ₹#,##0
 		displayFolder: 2 Efficiency
-		lineageTag: 265ea967-a8b9-4f1d-ab73-ee06925bae72
+		lineageTag: a4923249-b565-4949-b2d8-9d7d702f9844
 
 	/// Passengers / flights.
 	measure 'Avg Passengers per Flight' = DIVIDE ( [Passengers], [Flights] )
 		formatString: #,##0.0
 		displayFolder: 2 Efficiency
-		lineageTag: 59ace4f5-5f5a-44b3-ac6d-d1e1d34906de
+		lineageTag: 76c79b43-08c2-4477-b076-021381cad9ad
 
 	/// Revenue per revenue passenger-km.
 	measure 'Yield per RPK' = DIVIDE ( [Revenue], [RPK] )
 		formatString: ₹0.000
 		displayFolder: 2 Efficiency
-		lineageTag: cf6476ef-9ae8-4316-8191-f734873b6310
+		lineageTag: cb0194a3-c498-40f7-99e3-37c270b65e9a
 
 	/// HEADLINE KPI. Revenue per available seat-km = Seat-km load factor x Yield per RPK.
 	measure RASK = DIVIDE ( [Revenue], [ASK] )
 		formatString: ₹0.000
 		displayFolder: 2 Efficiency
-		lineageTag: 30668951-9e60-4efa-b2a6-061e7978ad89
+		lineageTag: eb623650-f7c5-446b-9d23-7d9c5d439181
 
 	/// Average distance per seat flown.
 	measure 'Avg Stage Length Km' = DIVIDE ( [ASK], [Seats] )
 		formatString: #,##0
 		displayFolder: 2 Efficiency
-		lineageTag: 03587ceb-e267-4c3f-9407-2b4a7fcb750a
+		lineageTag: 4f6628b7-d895-48fa-b80e-d4bb489802a9
 
 	/// Share of the revenue in the current selection (works for routes, airports and markets).
 	measure 'Revenue Share %' = DIVIDE ( [Revenue], CALCULATE ( [Revenue], ALLSELECTED () ) )
 		formatString: 0.0%
 		displayFolder: 3 Network
-		lineageTag: 1ea3e003-0f53-482d-86df-95455b6ae9dc
+		lineageTag: 1c47e7c6-5b75-47c3-a488-42f5dc184dd8
 
 	/// Dense rank of a route by revenue within the selection.
 	measure 'Route Revenue Rank' = IF ( NOT ISBLANK ( [Revenue] ), RANKX ( ALLSELECTED ( Flights[Route] ), [Revenue], , DESC, DENSE ) )
 		formatString: 0
 		displayFolder: 3 Network
-		lineageTag: cd29e916-67c5-4fa6-a270-416465e01f50
+		lineageTag: 8dfc9864-f053-4881-8af8-982491fca647
 
 	/// Whole-network benchmark: ignores route filters, keeps market/year/date slicers.
 	measure 'Network Load Factor %' = CALCULATE ( [Load Factor %], REMOVEFILTERS ( Flights[Route] ) )
 		formatString: 0.0%
 		displayFolder: 3 Network
-		lineageTag: 99e68abd-98f9-49be-a660-bf34bc67b685
+		lineageTag: 4f87f121-4a0f-4491-9952-82681e52f1aa
 
 	/// Whole-network benchmark: ignores route filters, keeps market/year/date slicers.
 	measure 'Network RASK' = CALCULATE ( [RASK], REMOVEFILTERS ( Flights[Route] ) )
 		formatString: ₹0.000
 		displayFolder: 3 Network
-		lineageTag: 3dbac7dd-aafc-4317-9fc3-6cb730d2f1d6
+		lineageTag: 915aa39a-81c7-4540-94f1-388cba49fa41
 
 	/// Load factor minus the network load factor, in percentage points.
 	measure 'LF vs Network (pp)' = IF ( NOT ISBLANK ( [Flights] ), ( [Load Factor %] - [Network Load Factor %] ) * 100 )
 		formatString: +0.0;-0.0;0.0
 		displayFolder: 3 Network
-		lineageTag: 1acd855c-9c0b-4298-be42-f92e166b1cec
+		lineageTag: 08d5f35e-a1a7-40bd-867a-dfeaba4a7a6a
 
 	/// Route position vs network: load factor and RASK above or below the network average.
 	measure 'Route Quadrant' = VAR lf = [Load Factor %] VAR r = [RASK] VAR nlf = [Network Load Factor %] VAR nr = [Network RASK] RETURN IF ( NOT ISBLANK ( [Flights] ), SWITCH ( TRUE (), lf >= nlf && r >= nr, "Star", lf < nlf && r >= nr, "Fill seats", lf >= nlf && r < nr, "Raise yield", "Review route" ) )
 		displayFolder: 3 Network
-		lineageTag: fdc67d6e-320e-4471-bf98-b56d4b8decfc
+		lineageTag: a21e838a-1c3c-4314-96ad-3208f726164e
 
 	/// Routes below the network on both load factor and RASK.
-	measure 'Underperforming Routes' = COUNTROWS ( FILTER ( ALLSELECTED ( Flights[Route] ), [Load Factor %] < [Network Load Factor %] && [RASK] < [Network RASK] ) )
+	measure 'Underperforming Routes' = COUNTROWS ( FILTER ( ALLSELECTED ( Flights[Route] ), NOT ISBLANK ( [Flights] ) && [Load Factor %] < [Network Load Factor %] && [RASK] < [Network RASK] ) )
 		formatString: #,##0
 		displayFolder: 3 Network
-		lineageTag: 1e15a889-a4be-4de1-8e2c-fb3b9441ec4c
+		lineageTag: 6afa1f01-62ee-4f56-8f42-e6a5b2802b47
 
 	/// Flights whose recorded distance was replaced by the great-circle distance.
-	measure 'Distance-Corrected Flights' = CALCULATE ( [Flights], Flights[Distance Corrected] = TRUE () ) + 0
+	measure 'Distance-Corrected Flights' = CALCULATE ( [Flights], Flights[Distance Corrected] = TRUE () )
 		formatString: #,##0
 		displayFolder: 3 Network
-		lineageTag: f3aac09e-fba9-438d-8051-b189dc5281e3
+		lineageTag: f83103e7-f5a0-43d8-9291-55ba86b6f036
 
 	/// Flights with fare per passenger above 3x the route median.
-	measure 'Fare Outlier Flights' = CALCULATE ( [Flights], Flights[Fare Outlier] = TRUE () ) + 0
+	measure 'Fare Outlier Flights' = CALCULATE ( [Flights], Flights[Fare Outlier] = TRUE () )
 		formatString: #,##0
 		displayFolder: 3 Network
-		lineageTag: 0b7f5912-76a6-484e-8b27-380cb10ad9af
+		lineageTag: 88f0a81c-9614-4b13-b816-d8bb46251ec9
 
 	/// Revenue for the same period last year.
 	measure 'Revenue PY' = CALCULATE ( [Revenue], SAMEPERIODLASTYEAR ( 'Date'[Date] ) )
 		formatString: ₹#,##0
 		displayFolder: 4 Trends
-		lineageTag: 78c60deb-4e20-4d14-a012-acb3d6c78404
+		lineageTag: 162118f2-78f9-4f60-b816-bcc6b9c42921
 
 	/// Revenue change vs the same period last year.
 	measure 'Revenue YoY %' = DIVIDE ( [Revenue] - [Revenue PY], [Revenue PY] )
 		formatString: 0.0%
 		displayFolder: 4 Trends
-		lineageTag: 16139de3-b278-449c-9abc-9cf42b5820c6
+		lineageTag: 4deb0cf3-19f1-4449-ae00-0fb2440c968a
 
 	/// Passengers for the same period last year.
 	measure 'Passengers PY' = CALCULATE ( [Passengers], SAMEPERIODLASTYEAR ( 'Date'[Date] ) )
 		formatString: #,##0
 		displayFolder: 4 Trends
-		lineageTag: ce9d5c18-c4d7-4757-a6ab-b8eedf73897c
+		lineageTag: 5e754a2f-b966-431e-9083-229a80bf5fce
 
 	/// Passenger change vs the same period last year.
 	measure 'Passengers YoY %' = DIVIDE ( [Passengers] - [Passengers PY], [Passengers PY] )
 		formatString: 0.0%
 		displayFolder: 4 Trends
-		lineageTag: 90b4c1d7-2233-4734-8899-1bf6c7ea0de1
+		lineageTag: cf628586-2469-4ed7-97ac-61b580a43fa3
 
 	/// Flights for the same period last year.
 	measure 'Flights PY' = CALCULATE ( [Flights], SAMEPERIODLASTYEAR ( 'Date'[Date] ) )
 		formatString: #,##0
 		displayFolder: 4 Trends
-		lineageTag: 1294eba1-4062-4869-87f0-c14e3fe4df7d
+		lineageTag: 11d5e65d-a41f-4b00-822c-429e35e50fa9
 
 	/// Flight change vs the same period last year.
 	measure 'Flights YoY %' = DIVIDE ( [Flights] - [Flights PY], [Flights PY] )
 		formatString: 0.0%
 		displayFolder: 4 Trends
-		lineageTag: f0d0344a-dd75-4b25-a338-cd5ceca158dc
+		lineageTag: e44b330f-3fb0-4fe9-b052-fed4f9d53ca7
 
 	/// Load factor for the same period last year.
 	measure 'Load Factor PY' = CALCULATE ( [Load Factor %], SAMEPERIODLASTYEAR ( 'Date'[Date] ) )
 		formatString: 0.0%
 		displayFolder: 4 Trends
-		lineageTag: 7a59e48f-3807-4261-ae34-567d9ba7c5be
+		lineageTag: 479c4a72-8086-41e5-b60b-8e22e44206d8
 
 	/// Load factor change vs last year, in points.
 	measure 'Load Factor YoY (pp)' = IF ( NOT ISBLANK ( [Load Factor PY] ), ( [Load Factor %] - [Load Factor PY] ) * 100 )
 		formatString: +0.0;-0.0;0.0
 		displayFolder: 4 Trends
-		lineageTag: 310826e7-37cf-4b13-b7a9-96f194aee3e4
+		lineageTag: 9d118e0e-37fc-42cb-bfcd-0f43849b5fd7
 
 	/// Average fare for the same period last year.
 	measure 'Avg Fare PY' = CALCULATE ( [Avg Fare], SAMEPERIODLASTYEAR ( 'Date'[Date] ) )
 		formatString: ₹#,##0
 		displayFolder: 4 Trends
-		lineageTag: 0bdff24f-162a-419d-ab77-8806ce2131f1
+		lineageTag: af82489d-ce8b-413f-a660-899d3f1b1d98
 
 	/// Average fare change vs the same period last year.
 	measure 'Avg Fare YoY %' = DIVIDE ( [Avg Fare] - [Avg Fare PY], [Avg Fare PY] )
 		formatString: 0.0%
 		displayFolder: 4 Trends
-		lineageTag: 6af60950-843d-4c66-9e96-5f8f284b409f
+		lineageTag: fa687820-996b-4baa-9f83-f3240bddec80
 
 	/// RASK for the same period last year.
 	measure 'RASK PY' = CALCULATE ( [RASK], SAMEPERIODLASTYEAR ( 'Date'[Date] ) )
 		formatString: ₹0.000
 		displayFolder: 5 KPI
-		lineageTag: 79d906b2-356b-4c58-957f-1af2ae7c4a52
+		lineageTag: a5e49239-ca3a-4aeb-adc3-a611a0a1b957
 
 	/// RASK change vs the same period last year.
 	measure 'RASK YoY %' = DIVIDE ( [RASK] - [RASK PY], [RASK PY] )
 		formatString: 0.0%
 		displayFolder: 5 KPI
-		lineageTag: b2d19c93-2a64-4c18-b079-32f4f19f9e95
+		lineageTag: 964a889b-0446-44b7-af52-f33fb244d9c8
 
 	/// Assumed growth target over last year. Edit to change the target.
 	measure 'RASK Target Growth %' = 0.05
 		formatString: 0.0%
 		displayFolder: 5 KPI
-		lineageTag: ef24736c-b9b1-43a8-a11e-b83df8be2192
+		lineageTag: 7f48bd24-46ca-457d-885a-b60e8141172a
 
 	/// Last year's RASK plus the target growth.
 	measure 'RASK Target' = [RASK PY] * ( 1 + [RASK Target Growth %] )
 		formatString: ₹0.000
 		displayFolder: 5 KPI
-		lineageTag: 47194f5e-31bd-44a7-b538-107405d6beef
+		lineageTag: 2a8e0dec-065a-4212-9591-ce02e6698a0f
 
 	/// RASK distance from target, as a %.
 	measure 'RASK vs Target %' = DIVIDE ( [RASK] - [RASK Target], [RASK Target] )
 		formatString: 0.0%
 		displayFolder: 5 KPI
-		lineageTag: 962fca64-b87f-4e62-8824-6ab7538adebc
+		lineageTag: 262f65fa-4ea8-48d5-a1eb-1c693a802a11
 
 	/// Traffic-light status of RASK vs target.
 	measure 'RASK Status' = VAR v = [RASK] VAR t = [RASK Target] RETURN SWITCH ( TRUE (), ISBLANK ( t ), "No target", v >= t, "On target", v >= t * 0.95, "Watch", "Below" )
 		displayFolder: 5 KPI
-		lineageTag: 5ff1628c-2ed5-4098-83ef-1b282c217054
+		lineageTag: 75c20594-2d01-4ea1-8958-f0f5cc38f13f
 
 	/// Colour for the RASK status: green on target, amber within 5%, red below.
 	measure 'RASK Status Color' = VAR v = [RASK] VAR t = [RASK Target] RETURN SWITCH ( TRUE (), ISBLANK ( t ), "#5B6B7F", v >= t, "#1E7F4B", v >= t * 0.95, "#B26B00", "#C0392B" )
 		displayFolder: 5 KPI
-		lineageTag: f3051422-3f2b-4edb-9dc7-5952752c79cf
+		lineageTag: 76e16eec-4470-4e83-957f-c0ef026ff73b
 
 	/// Seat-km load factor for the same period last year.
 	measure 'Seat-km Load Factor PY' = CALCULATE ( [Seat-km Load Factor %], SAMEPERIODLASTYEAR ( 'Date'[Date] ) )
 		formatString: 0.0%
 		displayFolder: 5 KPI
-		lineageTag: 16b0abde-3d1e-477c-af24-cd656b70f517
+		lineageTag: 2c539fde-5f18-4333-a44a-60a538663056
 
 	/// Yield per RPK for the same period last year.
 	measure 'Yield per RPK PY' = CALCULATE ( [Yield per RPK], SAMEPERIODLASTYEAR ( 'Date'[Date] ) )
 		formatString: ₹0.000
 		displayFolder: 5 KPI
-		lineageTag: d311b1f1-2874-40e1-a9c0-68c2154c5830
+		lineageTag: 6e179833-efc8-4c53-9637-bee9200ef5bb
 
 	/// History rows of the forecast table (defaults: scenario A, Revenue).
-	measure 'Fcst Actual' = VAR sc = SELECTEDVALUE ( Scenario[Scenario], "A · Fares hold (post-Nov 2024 level)" ) VAR mt = SELECTEDVALUE ( Forecast[metric], "Revenue" ) RETURN DIVIDE ( CALCULATE ( SUM ( Forecast[actual] ), TREATAS ( { sc }, Scenario[Scenario] ), TREATAS ( { mt }, Forecast[metric] ) ), IF ( mt = "Revenue", 10000000, 1000 ) )
+	measure 'Fcst Actual' = VAR sc = SELECTEDVALUE ( Scenario[Scenario], "A · Fares hold (post-Nov 2024 level)" ) VAR mt = SELECTEDVALUE ( Forecast[Metric], "Revenue" ) RETURN DIVIDE ( CALCULATE ( SUM ( Forecast[Actual] ), TREATAS ( { sc }, Scenario[Scenario] ), TREATAS ( { mt }, Forecast[Metric] ) ), IF ( mt = "Revenue", 10000000, 1000 ) )
 		formatString: #,##0.0
 		displayFolder: 6 Forecast
-		lineageTag: c1f576dd-bccb-4373-8ed6-37715c6d565a
+		lineageTag: f26376af-b67d-47d6-acea-4a92b841e9d2
 
 	/// Forecast median.
-	measure 'Fcst P50' = VAR sc = SELECTEDVALUE ( Scenario[Scenario], "A · Fares hold (post-Nov 2024 level)" ) VAR mt = SELECTEDVALUE ( Forecast[metric], "Revenue" ) VAR v = CALCULATE ( SUM ( Forecast[p50] ), TREATAS ( { sc }, Scenario[Scenario] ), TREATAS ( { mt }, Forecast[metric] ) ) VAR lastA = CALCULATE ( MAX ( Forecast[month] ), REMOVEFILTERS ( Forecast[month], Forecast[Month Label] ), NOT ISBLANK ( Forecast[actual] ), TREATAS ( { sc }, Scenario[Scenario] ), TREATAS ( { mt }, Forecast[metric] ) ) RETURN DIVIDE ( IF ( ISBLANK ( v ) && MAX ( Forecast[month] ) = lastA, CALCULATE ( SUM ( Forecast[actual] ), TREATAS ( { sc }, Scenario[Scenario] ), TREATAS ( { mt }, Forecast[metric] ) ), v ), IF ( mt = "Revenue", 10000000, 1000 ) )
+	measure 'Fcst P50' = VAR sc = SELECTEDVALUE ( Scenario[Scenario], "A · Fares hold (post-Nov 2024 level)" ) VAR mt = SELECTEDVALUE ( Forecast[Metric], "Revenue" ) VAR v = CALCULATE ( SUM ( Forecast[P50] ), TREATAS ( { sc }, Scenario[Scenario] ), TREATAS ( { mt }, Forecast[Metric] ) ) VAR lastA = CALCULATE ( MAX ( Forecast[Month] ), REMOVEFILTERS ( Forecast[Month], Forecast[Month Label] ), NOT ISBLANK ( Forecast[Actual] ), TREATAS ( { sc }, Scenario[Scenario] ), TREATAS ( { mt }, Forecast[Metric] ) ) RETURN DIVIDE ( IF ( ISBLANK ( v ) && MAX ( Forecast[Month] ) = lastA, CALCULATE ( SUM ( Forecast[Actual] ), TREATAS ( { sc }, Scenario[Scenario] ), TREATAS ( { mt }, Forecast[Metric] ) ), v ), IF ( mt = "Revenue", 10000000, 1000 ) )
 		formatString: #,##0.0
 		displayFolder: 6 Forecast
-		lineageTag: 5549d35d-7a0e-4eaf-910f-ac7a73aae347
+		lineageTag: 02212717-efaa-46ba-97b0-83642fe6253f
 
 	/// Low case.
-	measure 'Fcst P10' = VAR sc = SELECTEDVALUE ( Scenario[Scenario], "A · Fares hold (post-Nov 2024 level)" ) VAR mt = SELECTEDVALUE ( Forecast[metric], "Revenue" ) VAR v = CALCULATE ( SUM ( Forecast[p10] ), TREATAS ( { sc }, Scenario[Scenario] ), TREATAS ( { mt }, Forecast[metric] ) ) VAR lastA = CALCULATE ( MAX ( Forecast[month] ), REMOVEFILTERS ( Forecast[month], Forecast[Month Label] ), NOT ISBLANK ( Forecast[actual] ), TREATAS ( { sc }, Scenario[Scenario] ), TREATAS ( { mt }, Forecast[metric] ) ) RETURN DIVIDE ( IF ( ISBLANK ( v ) && MAX ( Forecast[month] ) = lastA, CALCULATE ( SUM ( Forecast[actual] ), TREATAS ( { sc }, Scenario[Scenario] ), TREATAS ( { mt }, Forecast[metric] ) ), v ), IF ( mt = "Revenue", 10000000, 1000 ) )
+	measure 'Fcst P10' = VAR sc = SELECTEDVALUE ( Scenario[Scenario], "A · Fares hold (post-Nov 2024 level)" ) VAR mt = SELECTEDVALUE ( Forecast[Metric], "Revenue" ) VAR v = CALCULATE ( SUM ( Forecast[P10] ), TREATAS ( { sc }, Scenario[Scenario] ), TREATAS ( { mt }, Forecast[Metric] ) ) VAR lastA = CALCULATE ( MAX ( Forecast[Month] ), REMOVEFILTERS ( Forecast[Month], Forecast[Month Label] ), NOT ISBLANK ( Forecast[Actual] ), TREATAS ( { sc }, Scenario[Scenario] ), TREATAS ( { mt }, Forecast[Metric] ) ) RETURN DIVIDE ( IF ( ISBLANK ( v ) && MAX ( Forecast[Month] ) = lastA, CALCULATE ( SUM ( Forecast[Actual] ), TREATAS ( { sc }, Scenario[Scenario] ), TREATAS ( { mt }, Forecast[Metric] ) ), v ), IF ( mt = "Revenue", 10000000, 1000 ) )
 		formatString: #,##0.0
 		displayFolder: 6 Forecast
-		lineageTag: 24f971e4-896b-49ed-84d4-9e9772f844e9
+		lineageTag: 97da495e-c891-4d21-b429-4e1a0d9296e0
 
 	/// High case.
-	measure 'Fcst P90' = VAR sc = SELECTEDVALUE ( Scenario[Scenario], "A · Fares hold (post-Nov 2024 level)" ) VAR mt = SELECTEDVALUE ( Forecast[metric], "Revenue" ) VAR v = CALCULATE ( SUM ( Forecast[p90] ), TREATAS ( { sc }, Scenario[Scenario] ), TREATAS ( { mt }, Forecast[metric] ) ) VAR lastA = CALCULATE ( MAX ( Forecast[month] ), REMOVEFILTERS ( Forecast[month], Forecast[Month Label] ), NOT ISBLANK ( Forecast[actual] ), TREATAS ( { sc }, Scenario[Scenario] ), TREATAS ( { mt }, Forecast[metric] ) ) RETURN DIVIDE ( IF ( ISBLANK ( v ) && MAX ( Forecast[month] ) = lastA, CALCULATE ( SUM ( Forecast[actual] ), TREATAS ( { sc }, Scenario[Scenario] ), TREATAS ( { mt }, Forecast[metric] ) ), v ), IF ( mt = "Revenue", 10000000, 1000 ) )
+	measure 'Fcst P90' = VAR sc = SELECTEDVALUE ( Scenario[Scenario], "A · Fares hold (post-Nov 2024 level)" ) VAR mt = SELECTEDVALUE ( Forecast[Metric], "Revenue" ) VAR v = CALCULATE ( SUM ( Forecast[P90] ), TREATAS ( { sc }, Scenario[Scenario] ), TREATAS ( { mt }, Forecast[Metric] ) ) VAR lastA = CALCULATE ( MAX ( Forecast[Month] ), REMOVEFILTERS ( Forecast[Month], Forecast[Month Label] ), NOT ISBLANK ( Forecast[Actual] ), TREATAS ( { sc }, Scenario[Scenario] ), TREATAS ( { mt }, Forecast[Metric] ) ) RETURN DIVIDE ( IF ( ISBLANK ( v ) && MAX ( Forecast[Month] ) = lastA, CALCULATE ( SUM ( Forecast[Actual] ), TREATAS ( { sc }, Scenario[Scenario] ), TREATAS ( { mt }, Forecast[Metric] ) ), v ), IF ( mt = "Revenue", 10000000, 1000 ) )
 		formatString: #,##0.0
 		displayFolder: 6 Forecast
-		lineageTag: 783f7bcc-2ddd-4554-a045-c7f16164b618
+		lineageTag: ddd4d55d-5cfb-49dc-86a6-bc910a64ccf8
 
 	/// Full-year 2025 revenue: actual Jan-May + forecast median Jun-Dec.
-	measure 'F25 Revenue' = VAR sc = SELECTEDVALUE ( Scenario[Scenario], "A · Fares hold (post-Nov 2024 level)" ) RETURN CALCULATE ( SUM ( 'Forecast 2025'[p50] ), 'Forecast 2025'[metric] = "Revenue 2025 full year", TREATAS ( { sc }, Scenario[Scenario] ) )
+	measure 'F25 Revenue' = VAR sc = SELECTEDVALUE ( Scenario[Scenario], "A · Fares hold (post-Nov 2024 level)" ) RETURN CALCULATE ( SUM ( 'Forecast 2025'[P50] ), 'Forecast 2025'[Metric] = "Revenue 2025 full year", TREATAS ( { sc }, Scenario[Scenario] ) )
 		formatString: ₹#,##0
 		displayFolder: 6 Forecast
-		lineageTag: 5a112880-0aca-4509-87d9-a9e40448fffd
+		lineageTag: a582a20f-971c-4527-a404-fc872e62c2d7
 
 	/// Full-year 2025 revenue forecast as text, in crore.
-	measure 'F25 Revenue (Cr)' = "₹" & FORMAT ( [F25 Revenue] / 10000000, "0.0" ) & " Cr"
+	measure 'F25 Revenue (Cr)' = "₹" & FORMAT ( DIVIDE ( [F25 Revenue], 10000000 ), "0.0" ) & " Cr"
 		displayFolder: 6 Forecast
-		lineageTag: 3a076d32-a895-49a5-9932-9f76a0c686ac
+		lineageTag: 5967a894-ad57-4026-b126-92eb86c4158e
 
 	/// 80% range of 2025 revenue.
-	measure 'F25 Revenue Range' = VAR sc = SELECTEDVALUE ( Scenario[Scenario], "A · Fares hold (post-Nov 2024 level)" ) VAR lo = CALCULATE ( SUM ( 'Forecast 2025'[p10] ), 'Forecast 2025'[metric] = "Revenue 2025 full year", TREATAS ( { sc }, Scenario[Scenario] ) ) VAR hi = CALCULATE ( SUM ( 'Forecast 2025'[p90] ), 'Forecast 2025'[metric] = "Revenue 2025 full year", TREATAS ( { sc }, Scenario[Scenario] ) ) RETURN "₹" & FORMAT ( lo / 10000000, "0.0" ) & "–" & FORMAT ( hi / 10000000, "0.0" ) & " Cr"
+	measure 'F25 Revenue Range' = VAR sc = SELECTEDVALUE ( Scenario[Scenario], "A · Fares hold (post-Nov 2024 level)" ) VAR lo = CALCULATE ( SUM ( 'Forecast 2025'[P10] ), 'Forecast 2025'[Metric] = "Revenue 2025 full year", TREATAS ( { sc }, Scenario[Scenario] ) ) VAR hi = CALCULATE ( SUM ( 'Forecast 2025'[P90] ), 'Forecast 2025'[Metric] = "Revenue 2025 full year", TREATAS ( { sc }, Scenario[Scenario] ) ) RETURN "₹" & FORMAT ( DIVIDE ( lo, 10000000 ), "0.0" ) & "–" & FORMAT ( DIVIDE ( hi, 10000000 ), "0.0" ) & " Cr"
 		displayFolder: 6 Forecast
-		lineageTag: 542ecfcb-1e5f-4d5d-b280-6ed2c3927b28
+		lineageTag: c90e706b-7103-48df-b50b-dd56c2d77b92
 
 	/// 2025 revenue forecast vs 2024 actual.
-	measure 'F25 Revenue vs 2024 %' = DIVIDE ( [F25 Revenue], CALCULATE ( [Revenue], 'Date'[Year] = 2024 ) ) - 1
+	measure 'F25 Revenue vs 2024 %' = VAR b = CALCULATE ( [Revenue], 'Date'[Year] = 2024 ) RETURN DIVIDE ( [F25 Revenue] - b, b )
 		formatString: 0.0%
 		displayFolder: 6 Forecast
-		lineageTag: 11f0120d-f14a-4bbb-99a4-c5f2de85cdf9
+		lineageTag: a86c6683-5a13-4ac8-9b0f-36de14d1b9fb
 
 	/// Full-year 2025 passengers (median).
-	measure 'F25 Passengers' = VAR sc = SELECTEDVALUE ( Scenario[Scenario], "A · Fares hold (post-Nov 2024 level)" ) RETURN CALCULATE ( SUM ( 'Forecast 2025'[p50] ), 'Forecast 2025'[metric] = "Passengers 2025 full year", TREATAS ( { sc }, Scenario[Scenario] ) )
+	measure 'F25 Passengers' = VAR sc = SELECTEDVALUE ( Scenario[Scenario], "A · Fares hold (post-Nov 2024 level)" ) RETURN CALCULATE ( SUM ( 'Forecast 2025'[P50] ), 'Forecast 2025'[Metric] = "Passengers 2025 full year", TREATAS ( { sc }, Scenario[Scenario] ) )
 		formatString: #,##0
 		displayFolder: 6 Forecast
-		lineageTag: 727e9f3d-a5fa-478c-af05-dbaa82b5c1b5
+		lineageTag: 9b0faf93-6a43-4a30-a504-a43fafe29f8e
 
 	/// 2025 passenger forecast vs 2024 actual.
-	measure 'F25 Passengers vs 2024 %' = DIVIDE ( [F25 Passengers], CALCULATE ( [Passengers], 'Date'[Year] = 2024 ) ) - 1
+	measure 'F25 Passengers vs 2024 %' = VAR b = CALCULATE ( [Passengers], 'Date'[Year] = 2024 ) RETURN DIVIDE ( [F25 Passengers] - b, b )
 		formatString: 0.0%
 		displayFolder: 6 Forecast
-		lineageTag: ee43b2f2-aebe-418b-b4b9-b9675cad124b
+		lineageTag: 7c26ebd0-3bb9-4618-a74c-9a52ec70f766
 
 	/// Annual revenue uplift, sized on Jun 2024-May 2025.
-	measure 'Lever Uplift' = SUM ( Levers[uplift] )
+	measure 'Lever Uplift' = SUM ( Levers[Uplift] )
 		formatString: ₹#,##0
 		displayFolder: 6 Forecast
-		lineageTag: 677b021b-7a23-4e4e-937c-ecf68cc2b3e8
+		lineageTag: 9aa746a5-d77d-47de-8a98-9c80d5c0c81c
 
 	/// Lever uplift as a share of annual revenue.
-	measure 'Lever Uplift %' = SUM ( Levers[uplift_pct_of_revenue] )
+	measure 'Lever Uplift %' = SUM ( Levers[Uplift % of Revenue] )
 		formatString: 0.0%
 		displayFolder: 6 Forecast
-		lineageTag: 2a467c53-e88c-4e83-ac4b-f80b4f61e178
+		lineageTag: ac817b85-fd9d-430e-9839-b9748f159738
 
 	/// Revenue of routes below the network on both load factor and RASK.
 	measure 'Review Route Revenue' = IF ( [Route Quadrant] = "Review route", [Revenue] )
 		formatString: ₹#,##0
 		displayFolder: 3 Network
-		lineageTag: 86a3804b-2e56-4c73-ba89-0b84094d7838
+		lineageTag: e82955ae-9455-4020-9741-0e2e3ef056d8
 
 	/// Total lever uplift per year, in crore.
-	measure 'Lever Uplift (Cr)' = "₹" & FORMAT ( [Lever Uplift] / 10000000, "0.00" ) & " Cr"
+	measure 'Lever Uplift (Cr)' = "₹" & FORMAT ( DIVIDE ( [Lever Uplift], 10000000 ), "0.00" ) & " Cr"
 		displayFolder: 6 Forecast
-		lineageTag: 6483a2eb-3919-4b18-8c70-0121a57eda9b
+		lineageTag: 27db50ae-fe14-46d3-9655-285c84b7d451
 
 	/// Full-year 2025 passengers, in millions.
-	measure 'F25 Passengers (M)' = FORMAT ( [F25 Passengers] / 1000000, "0.00" ) & " M"
+	measure 'F25 Passengers (M)' = FORMAT ( DIVIDE ( [F25 Passengers], 1000000 ), "0.00" ) & " M"
 		displayFolder: 6 Forecast
-		lineageTag: f1c49a63-0638-4324-b035-02bd1c50fd54
+		lineageTag: 4560a453-53ac-4d5f-8f31-ab4b22922d5e
 
 	/// Revenue in crore, for charts and tables.
 	measure 'Revenue ₹ Cr' = DIVIDE ( [Revenue], 10000000 )
 		formatString: ₹#,##0.00 \C\r
 		displayFolder: 7 Display
-		lineageTag: f927ea47-58ba-4eb1-947d-4d66abbe4258
+		lineageTag: a9976141-d891-4e29-9013-8a8e1bc4589b
 
 	/// Passengers in thousands, for monthly charts.
 	measure 'Passengers (K)' = DIVIDE ( [Passengers], 1000 )
 		formatString: #,##0
 		displayFolder: 7 Display
-		lineageTag: 3e792bc8-5599-45b8-a623-e185a27d3c52
+		lineageTag: ed589339-b29e-40e7-9998-b690f3c2844d
 
 	/// Revenue for cards, in crore.
-	measure 'Card Revenue' = FORMAT ( [Revenue] / 10000000, "₹#,##0.00", "en-US" ) & " Cr"
+	measure 'Card Revenue' = FORMAT ( DIVIDE ( [Revenue], 10000000 ), "₹#,##0.00", "en-US" ) & " Cr"
 		displayFolder: 7 Display
-		lineageTag: b6b3cca4-3865-4f0d-ae19-55403c94da50
+		lineageTag: c218c81e-e31a-48b3-a351-3686fe086779
 
 	/// Passengers for cards, in millions.
-	measure 'Card Passengers' = FORMAT ( [Passengers] / 1000000, "0.00" ) & " M"
+	measure 'Card Passengers' = FORMAT ( DIVIDE ( [Passengers], 1000000 ), "0.00" ) & " M"
 		displayFolder: 7 Display
-		lineageTag: 12f37b21-c5af-4a97-a24d-f5318069ee25
+		lineageTag: 443281fe-5cef-4943-a3c6-aa0d88d35ad7
 
 	/// Flights for cards.
 	measure 'Card Flights' = FORMAT ( [Flights], "#,##0", "en-US" )
 		displayFolder: 7 Display
-		lineageTag: 6b621b24-fb4c-4a9b-bd2a-fad8ea0fabf5
+		lineageTag: 5557478a-4aa7-46a3-99fc-5ac3b1e73bca
 
 	/// Load factor for cards.
 	measure 'Card Load Factor' = FORMAT ( [Load Factor %], "0.0%" )
 		displayFolder: 7 Display
-		lineageTag: 114d483e-2fa1-4340-8178-57122d0e7d0f
+		lineageTag: b2944f76-5a10-438b-9280-6cbe0da65b6a
 
 	/// Average fare for cards.
 	measure 'Card Avg Fare' = FORMAT ( [Avg Fare], "₹#,##0", "en-US" )
 		displayFolder: 7 Display
-		lineageTag: 2b6d9563-3696-4fd4-8de4-aabc4840a59b
+		lineageTag: 42ee79eb-1dbf-4aae-a4e5-b4a287276b1e
 
 	/// RASK for cards.
 	measure 'Card RASK' = FORMAT ( [RASK], "₹0.000" )
 		displayFolder: 7 Display
-		lineageTag: fbbd2ad5-5670-483c-99b6-c436dbf30b77
+		lineageTag: 891dddc9-4245-464a-aa75-db166e235ed8
 
 	/// RASK target for cards.
 	measure 'Card RASK Target' = FORMAT ( [RASK Target], "₹0.000" )
 		displayFolder: 7 Display
-		lineageTag: 9061a4a3-3a5f-4e09-942c-797602cdc4c5
+		lineageTag: c620a3da-ee0a-4396-b37a-d369552c3513
 
 	/// Yield per RPK for cards.
 	measure 'Card Yield' = FORMAT ( [Yield per RPK], "₹0.000" )
 		displayFolder: 7 Display
-		lineageTag: 81c70976-9aca-4338-a521-30df4cc32bb2
+		lineageTag: 0a255bf2-29e0-4005-81ca-c217eaeb47c3
 
 	/// Seat-km load factor for cards.
 	measure 'Card Seat-km LF' = FORMAT ( [Seat-km Load Factor %], "0.0%" )
 		displayFolder: 7 Display
-		lineageTag: fcc83ab5-710c-4f27-9fb1-78b20e3e2785
+		lineageTag: e787a409-7fa5-4fec-a4f8-a55ef6f777d4
 
 	/// Card change line for Revenue: arrow and change vs last year.
 	measure 'Δ Revenue' = VAR p = [Revenue PY] VAR d = DIVIDE ( [Revenue] - [Revenue PY], [Revenue PY] ) RETURN IF ( NOT HASONEVALUE ( 'Date'[Year] ), "Jan 2024 – May 2025", IF ( ISBLANK ( p ), "No prior year", IF ( d >= 0, "▲ ", "▼ " ) & FORMAT ( ABS ( d ), "0.0%" ) & " vs last year" ) )
 		displayFolder: 7 Display
-		lineageTag: 4b606141-4c06-4abb-bbec-f0d5ff6c184b
+		lineageTag: fbcb92ab-a47b-4495-ac6e-797527c67e56
 
 	/// Colour of the Revenue change line: green up, red down, grey when not comparable.
 	measure 'Δ Revenue Color' = VAR p = [Revenue PY] RETURN IF ( NOT HASONEVALUE ( 'Date'[Year] ) || ISBLANK ( p ), "#5B6B7F", IF ( [Revenue] >= p, "#1E7F4B", "#C0392B" ) )
 		displayFolder: 7 Display
-		lineageTag: b23bedbb-94d7-461c-99cf-d7c96d330464
+		lineageTag: 3b4ddd57-8843-4310-bdce-55663b1fe8fa
 
 	/// Card change line for Passengers: arrow and change vs last year.
 	measure 'Δ Passengers' = VAR p = [Passengers PY] VAR d = DIVIDE ( [Passengers] - [Passengers PY], [Passengers PY] ) RETURN IF ( NOT HASONEVALUE ( 'Date'[Year] ), "Jan 2024 – May 2025", IF ( ISBLANK ( p ), "No prior year", IF ( d >= 0, "▲ ", "▼ " ) & FORMAT ( ABS ( d ), "0.0%" ) & " vs last year" ) )
 		displayFolder: 7 Display
-		lineageTag: eebf7f88-7e14-4136-ab65-1216ebf16747
+		lineageTag: 2de59a6f-1e27-4017-8bd8-d6939cfae3db
 
 	/// Colour of the Passengers change line: green up, red down, grey when not comparable.
 	measure 'Δ Passengers Color' = VAR p = [Passengers PY] RETURN IF ( NOT HASONEVALUE ( 'Date'[Year] ) || ISBLANK ( p ), "#5B6B7F", IF ( [Passengers] >= p, "#1E7F4B", "#C0392B" ) )
 		displayFolder: 7 Display
-		lineageTag: 8745f58f-8fe2-40ec-80ca-ebd906c80960
+		lineageTag: 084c2eed-c1f4-4a3c-831c-38d8192c008e
 
 	/// Card change line for Flights: arrow and change vs last year.
 	measure 'Δ Flights' = VAR p = [Flights PY] VAR d = DIVIDE ( [Flights] - [Flights PY], [Flights PY] ) RETURN IF ( NOT HASONEVALUE ( 'Date'[Year] ), "Jan 2024 – May 2025", IF ( ISBLANK ( p ), "No prior year", IF ( d >= 0, "▲ ", "▼ " ) & FORMAT ( ABS ( d ), "0.0%" ) & " vs last year" ) )
 		displayFolder: 7 Display
-		lineageTag: 04c8a6d9-8ae3-48a9-976a-2b4fa519e611
+		lineageTag: 92755f4f-3ab4-4e2c-a45d-a252921cc66d
 
 	/// Colour of the Flights change line: green up, red down, grey when not comparable.
 	measure 'Δ Flights Color' = VAR p = [Flights PY] RETURN IF ( NOT HASONEVALUE ( 'Date'[Year] ) || ISBLANK ( p ), "#5B6B7F", IF ( [Flights] >= p, "#1E7F4B", "#C0392B" ) )
 		displayFolder: 7 Display
-		lineageTag: 2d0a960a-27ad-42d3-9b2d-35006b172bc4
+		lineageTag: 77834921-410f-46af-a343-0b52184040d7
 
 	/// Card change line for Load Factor: arrow and change vs last year.
 	measure 'Δ Load Factor' = VAR p = [Load Factor PY] VAR d = ( [Load Factor %] - [Load Factor PY] ) * 100 RETURN IF ( NOT HASONEVALUE ( 'Date'[Year] ), "Jan 2024 – May 2025", IF ( ISBLANK ( p ), "No prior year", IF ( d >= 0, "▲ ", "▼ " ) & FORMAT ( ABS ( d ), "0.0" ) & " pp" & " vs last year" ) )
 		displayFolder: 7 Display
-		lineageTag: 244e5f2f-0088-4a2b-89b2-5b5298ea1227
+		lineageTag: 5f7cc3ef-ed92-420e-a7e5-bcba5043655d
 
 	/// Colour of the Load Factor change line: green up, red down, grey when not comparable.
 	measure 'Δ Load Factor Color' = VAR p = [Load Factor PY] RETURN IF ( NOT HASONEVALUE ( 'Date'[Year] ) || ISBLANK ( p ), "#5B6B7F", IF ( [Load Factor %] >= p, "#1E7F4B", "#C0392B" ) )
 		displayFolder: 7 Display
-		lineageTag: 3238144a-6cdb-43c3-8765-c103a8e51131
+		lineageTag: 586a3edd-4203-480f-8ed0-d2388c1c1334
 
 	/// Card change line for Avg Fare: arrow and change vs last year.
 	measure 'Δ Avg Fare' = VAR p = [Avg Fare PY] VAR d = DIVIDE ( [Avg Fare] - [Avg Fare PY], [Avg Fare PY] ) RETURN IF ( NOT HASONEVALUE ( 'Date'[Year] ), "Jan 2024 – May 2025", IF ( ISBLANK ( p ), "No prior year", IF ( d >= 0, "▲ ", "▼ " ) & FORMAT ( ABS ( d ), "0.0%" ) & " vs last year" ) )
 		displayFolder: 7 Display
-		lineageTag: ed9e59d5-dcdc-4338-82cd-e92aea038ca5
+		lineageTag: 1a4a7327-c55a-42f0-8f91-5d7c915226e7
 
 	/// Colour of the Avg Fare change line: green up, red down, grey when not comparable.
 	measure 'Δ Avg Fare Color' = VAR p = [Avg Fare PY] RETURN IF ( NOT HASONEVALUE ( 'Date'[Year] ) || ISBLANK ( p ), "#5B6B7F", IF ( [Avg Fare] >= p, "#1E7F4B", "#C0392B" ) )
 		displayFolder: 7 Display
-		lineageTag: 0fbf0a7e-6154-476e-8881-47389bfc772a
+		lineageTag: 7d548d07-f5d5-475f-8877-b14200581953
 
 	/// Card change line for RASK: arrow and change vs last year.
 	measure 'Δ RASK' = VAR p = [RASK PY] VAR d = DIVIDE ( [RASK] - [RASK PY], [RASK PY] ) RETURN IF ( NOT HASONEVALUE ( 'Date'[Year] ), "Jan 2024 – May 2025", IF ( ISBLANK ( p ), "No prior year", IF ( d >= 0, "▲ ", "▼ " ) & FORMAT ( ABS ( d ), "0.0%" ) & " vs last year" ) )
 		displayFolder: 7 Display
-		lineageTag: a84d7a93-72cf-43d0-a6df-1fc1aeac5c1b
+		lineageTag: 0bbc2146-f6e5-40f1-b806-f61ad07292ab
 
 	/// Colour of the RASK change line: green up, red down, grey when not comparable.
 	measure 'Δ RASK Color' = VAR p = [RASK PY] RETURN IF ( NOT HASONEVALUE ( 'Date'[Year] ) || ISBLANK ( p ), "#5B6B7F", IF ( [RASK] >= p, "#1E7F4B", "#C0392B" ) )
 		displayFolder: 7 Display
-		lineageTag: be380737-a37e-4ebb-b18c-8f7e42313ddf
+		lineageTag: 9e9b3c7d-e82f-4252-875c-a79aea983cc9
 
 	/// Card change line for Yield: arrow and change vs last year.
 	measure 'Δ Yield' = VAR p = [Yield per RPK PY] VAR d = DIVIDE ( [Yield per RPK] - [Yield per RPK PY], [Yield per RPK PY] ) RETURN IF ( NOT HASONEVALUE ( 'Date'[Year] ), "Jan 2024 – May 2025", IF ( ISBLANK ( p ), "No prior year", IF ( d >= 0, "▲ ", "▼ " ) & FORMAT ( ABS ( d ), "0.0%" ) & " vs last year" ) )
 		displayFolder: 7 Display
-		lineageTag: 843448e5-efc9-4a67-a0dc-decea32f3be1
+		lineageTag: 44b19fc1-4158-41ce-8522-8302b2dec7da
 
 	/// Colour of the Yield change line: green up, red down, grey when not comparable.
 	measure 'Δ Yield Color' = VAR p = [Yield per RPK PY] RETURN IF ( NOT HASONEVALUE ( 'Date'[Year] ) || ISBLANK ( p ), "#5B6B7F", IF ( [Yield per RPK] >= p, "#1E7F4B", "#C0392B" ) )
 		displayFolder: 7 Display
-		lineageTag: c32133ce-c3cf-4dc9-8ee6-002351e7b7cf
+		lineageTag: fb71c3a9-3406-461e-9616-12a4c440bbe8
 
 	/// Card change line for Seat-km LF: arrow and change vs last year.
 	measure 'Δ Seat-km LF' = VAR p = [Seat-km Load Factor PY] VAR d = ( [Seat-km Load Factor %] - [Seat-km Load Factor PY] ) * 100 RETURN IF ( NOT HASONEVALUE ( 'Date'[Year] ), "Jan 2024 – May 2025", IF ( ISBLANK ( p ), "No prior year", IF ( d >= 0, "▲ ", "▼ " ) & FORMAT ( ABS ( d ), "0.0" ) & " pp" & " vs last year" ) )
 		displayFolder: 7 Display
-		lineageTag: fcb12c2c-1b22-44e1-b9cb-91acc4faee18
+		lineageTag: c8a995ca-937c-49f1-976f-024a34ed163a
 
 	/// Colour of the Seat-km LF change line: green up, red down, grey when not comparable.
 	measure 'Δ Seat-km LF Color' = VAR p = [Seat-km Load Factor PY] RETURN IF ( NOT HASONEVALUE ( 'Date'[Year] ) || ISBLANK ( p ), "#5B6B7F", IF ( [Seat-km Load Factor %] >= p, "#1E7F4B", "#C0392B" ) )
 		displayFolder: 7 Display
-		lineageTag: 2dd3a048-12c0-443e-a5e4-d248fb24fa59
+		lineageTag: c9ba4603-247c-452b-926f-f014e327f87d
 
 	/// Card change line: RASK distance from target.
 	measure 'Δ RASK Target' = VAR v = [RASK] VAR t = [RASK Target] RETURN IF ( ISBLANK ( t ), "No target", FORMAT ( ABS ( DIVIDE ( v - t, t ) ), "0.0%" ) & IF ( v >= t, " ahead of target", " behind target" ) )
 		displayFolder: 7 Display
-		lineageTag: db888d37-8968-4ee4-9b64-5104a1b878e4
+		lineageTag: 74d103d4-251e-47ce-828f-2a5c48fe8ebd
 
 	/// Colour of the target line.
 	measure 'Δ RASK Target Color' = IF ( [RASK] >= [RASK Target], "#1E7F4B", "#C0392B" )
 		displayFolder: 7 Display
-		lineageTag: f1b67878-5ff4-4480-bfd7-939c688125e3
+		lineageTag: 62618e2a-89e1-4196-aeac-decbe1e0ca4c
 
 	/// RASK indexed to the 2024 average (= 100).
 	measure 'RASK Index' = DIVIDE ( [RASK], CALCULATE ( [RASK], REMOVEFILTERS ( 'Date' ), 'Date'[Year] = 2024 ) ) * 100
 		formatString: 0
 		displayFolder: 5 KPI
-		lineageTag: 701df32d-ea28-4294-9a95-24a949a237bf
+		lineageTag: a1453314-e68f-460f-897a-4b8d1f103e11
 
 	/// Yield per RPK indexed to the 2024 average (= 100).
 	measure 'Yield Index' = DIVIDE ( [Yield per RPK], CALCULATE ( [Yield per RPK], REMOVEFILTERS ( 'Date' ), 'Date'[Year] = 2024 ) ) * 100
 		formatString: 0
 		displayFolder: 5 KPI
-		lineageTag: 8dd9a9a6-9989-4e69-8ce0-652d61df38ee
+		lineageTag: 3976b35c-e558-49f0-8cbd-905c8e984301
 
 	/// Seat-km load factor indexed to the 2024 average (= 100).
 	measure 'Seat-km LF Index' = DIVIDE ( [Seat-km Load Factor %], CALCULATE ( [Seat-km Load Factor %], REMOVEFILTERS ( 'Date' ), 'Date'[Year] = 2024 ) ) * 100
 		formatString: 0
 		displayFolder: 5 KPI
-		lineageTag: 7d5eece6-bb45-4380-bf5e-88e1cb55383f
+		lineageTag: 7c04291b-a4e5-402d-a0bf-ec5985d08921
 
 	/// Scatter colour: blue star routes, red review routes, grey mixed.
 	measure 'Route Quadrant Color' = SWITCH ( [Route Quadrant], "Star", "#1673C8", "Review route", "#E4572E", "#A7B4C4" )
 		displayFolder: 3 Network
-		lineageTag: 0969a7f4-1c70-42a4-b287-bf1cd446f661
+		lineageTag: 70b6f824-5d2d-4016-9ab3-3293ae3621bb
 
 	/// Route in the current filter context (drillthrough title).
 	measure 'Selected Route' = SELECTEDVALUE ( Flights[Route], "All routes" )
 		displayFolder: 7 Display
-		lineageTag: 42118994-8aec-4da6-a3d5-e91d2fbb52ee
+		lineageTag: 98dd4253-3176-4270-9697-3b8e997898e3
 
 	/// Footer: source, refresh date and the main caveat.
 	measure 'Footer Text' = "Source: Flight Data Assessment 2025 (" & "Jan 2024 – May 2025" & ")  ·  Refreshed " & FORMAT ( MAX ( 'Refresh Info'[Refreshed] ), "d mmm yyyy" ) & "  ·  Values look scaled: compare % changes"
 		displayFolder: 7 Display
-		lineageTag: 78724954-731e-43d8-bdd2-40cea8477bdf
+		lineageTag: daa27fdb-4346-4330-921f-bcb5592c8e6b
 
 	/// Annual lever uplift in crore, for the lever chart.
 	measure 'Lever Uplift ₹ Cr' = DIVIDE ( [Lever Uplift], 10000000 )
 		formatString: ₹#,##0.00 \C\r
 		displayFolder: 6 Forecast
-		lineageTag: ea28d780-32ce-41c9-917b-868f15c249cd
+		lineageTag: 10b7f595-f558-4b41-85e1-cf4e88db07fa
 
 	/// Card change line: 2025 forecast vs 2024 actual revenue.
-	measure 'Δ F25 Revenue' = "▲ " & FORMAT ( [F25 Revenue vs 2024 %], "0.0%" ) & " vs 2024 (" & FORMAT ( CALCULATE ( [Revenue], REMOVEFILTERS ( 'Date' ), 'Date'[Year] = 2024 ) / 10000000, "₹0.0" ) & " Cr)"
+	measure 'Δ F25 Revenue' = "▲ " & FORMAT ( [F25 Revenue vs 2024 %], "0.0%" ) & " vs 2024 (" & FORMAT ( DIVIDE ( CALCULATE ( [Revenue], REMOVEFILTERS ( 'Date' ), 'Date'[Year] = 2024 ), 10000000 ), "₹0.0" ) & " Cr)"
 		displayFolder: 7 Display
-		lineageTag: b0722f5a-0434-4c64-9306-164771c975a8
+		lineageTag: a416dff0-e3b3-4888-8dc7-40b0e81041fd
 
 	/// Card change line: 2025 forecast vs 2024 passengers.
 	measure 'Δ F25 Passengers' = "▲ " & FORMAT ( [F25 Passengers vs 2024 %], "0.0%" ) & " vs 2024"
 		displayFolder: 7 Display
-		lineageTag: 62ade452-d456-4243-89eb-40e73c0fd133
+		lineageTag: eb6598f9-9754-4010-a871-e96b8095e7cc
 
 	/// Card line: lever uplift as a share of forecast 2025 revenue.
 	measure 'Δ Lever Share' = "≈ " & FORMAT ( DIVIDE ( [Lever Uplift], [F25 Revenue] ), "0.0%" ) & " of 2025 revenue"
 		displayFolder: 7 Display
-		lineageTag: 59e9f012-ccd7-4d0a-9640-88dd5ec473a3
+		lineageTag: 3a168a37-f341-4c15-8ba2-821df9cfd3be
 
 	/// Passenger model error on the held-out Mar–May 2025 (from notebook 03).
 	measure 'Card Backtest' = "-0.5%"
 		displayFolder: 7 Display
-		lineageTag: a10e82bf-bc40-44cf-be74-028cfe0a6a79
+		lineageTag: eb7b21a0-f986-4850-b6af-1220a52e1d55
 
 	/// Card line: the naive benchmark's error.
 	measure 'Δ Backtest' = "Naive forecast: -4.9%"
 		displayFolder: 7 Display
-		lineageTag: 5325d18f-00a7-4ad3-b0db-6f9b8ccf159d
+		lineageTag: f9680066-8102-49d1-b4b4-58b1eeb18306
 
 	/// Grey for card lines that carry context, not a change.
 	measure 'Δ Neutral Color' = "#5B6B7F"
 		displayFolder: 7 Display
-		lineageTag: b9e321ad-8efd-49e0-9279-f8aab04e983b
+		lineageTag: d5f1d5ae-6b4e-48fb-bec7-1d027fca4bcd
 
 	/// Green for card lines that are good news.
 	measure 'Δ Good Color' = "#1E7F4B"
 		displayFolder: 7 Display
-		lineageTag: 3b838cb5-84fd-4bf3-aa93-e7337f5c98a1
+		lineageTag: a0d7fa25-5259-417d-b20e-5c4dc9e86bea
 
 	/// Card line for the forecast range.
 	measure 'Δ Range' = "80% of simulated outcomes"
 		displayFolder: 7 Display
-		lineageTag: 217fd19f-8104-4774-b243-626f34927b44
+		lineageTag: 19da2fd6-cb2b-4a8a-8007-e2583d3595d9
 
 	/// Review-route revenue in crore.
 	measure 'Review Route Revenue ₹ Cr' = DIVIDE ( [Review Route Revenue], 10000000 )
 		formatString: ₹#,##0.00 \C\r
 		displayFolder: 7 Display
-		lineageTag: dc2f09d1-8789-4fb1-86da-0144e8cc6aa5
+		lineageTag: cb0ea5b3-20e0-447d-bbde-c62abfa53041
 
 	/// Card line: load factor gap to the network, in points.
 	measure 'Δ LF vs Network' = VAR d = [LF vs Network (pp)] RETURN IF ( ISBLANK ( d ), BLANK (), FORMAT ( d, "+0.0;-0.0;0.0" ) & " pp vs network" )
 		displayFolder: 7 Display
-		lineageTag: 9e97faa0-5940-4cb4-addd-f01a0e745664
+		lineageTag: 64cf2511-cd7b-428b-ac04-02e0e122078d
+
+	/// Page 1 headline: busiest departure city, its revenue share and the routes below the network.
+	measure 'Title Network' = VAR city = MAXX ( TOPN ( 1, VALUES ( 'Origin Airport'[City] ), [Revenue], DESC ), 'Origin Airport'[City] ) VAR share = DIVIDE ( CALCULATE ( [Revenue], 'Origin Airport'[City] = city ), [Revenue] ) RETURN city & " is the hub (" & FORMAT ( share, "0%" ) & " of revenue); " & [Underperforming Routes] & " routes trail the network"
+		displayFolder: 8 Titles
+		lineageTag: 462e0adc-a952-4936-ba03-3d39ec316030
+
+	/// Top-routes chart title: revenue share of the top 8 routes and how many touch the hub.
+	measure 'Title Top Routes' = VAR r = CALCULATETABLE ( VALUES ( Flights[Route] ), REMOVEFILTERS ( Flights[Route] ) ) VAR t8 = TOPN ( 8, r, [Revenue], DESC ) VAR s = DIVIDE ( CALCULATE ( [Revenue], t8 ), CALCULATE ( [Revenue], REMOVEFILTERS ( Flights[Route] ) ) ) VAR hub = MAXX ( TOPN ( 1, CALCULATETABLE ( VALUES ( Flights[Origin] ), REMOVEFILTERS ( Flights[Route] ) ), [Revenue], DESC ), Flights[Origin] ) VAR n = COUNTROWS ( FILTER ( t8, CONTAINSSTRING ( Flights[Route], hub ) ) ) VAR city = LOOKUPVALUE ( 'Origin Airport'[City], 'Origin Airport'[IATA], hub ) RETURN "Top 8 routes earn " & FORMAT ( s, "0%" ) & " of revenue; " & n & " of them touch " & city
+		displayFolder: 8 Titles
+		lineageTag: 27f9bfda-640f-4bda-b9ae-46677a1403c9
+
+	/// Route-map title: star and review route counts and their revenue shares.
+	measure 'Title Route Map' = VAR r = CALCULATETABLE ( VALUES ( Flights[Route] ), REMOVEFILTERS ( Flights[Route] ) ) VAR star = FILTER ( r, [Route Quadrant] = "Star" ) VAR rev = FILTER ( r, [Route Quadrant] = "Review route" ) VAR tot = CALCULATE ( [Revenue], REMOVEFILTERS ( Flights[Route] ) ) RETURN COUNTROWS ( star ) & " star routes (blue) earn " & FORMAT ( DIVIDE ( CALCULATE ( [Revenue], star ), tot ), "0%" ) & " of revenue; " & COUNTROWS ( rev ) & " review routes (red) earn " & FORMAT ( DIVIDE ( CALCULATE ( [Revenue], rev ), tot ), "0%" )
+		displayFolder: 8 Titles
+		lineageTag: f8dc173f-8b44-4de5-8041-a6cc19702cab
+
+	/// Region chart title: top departure region, its share and its top city.
+	measure 'Title Regions' = VAR regs = CALCULATETABLE ( VALUES ( 'Origin Airport'[Region] ), REMOVEFILTERS ( 'Origin Airport'[Region] ) ) VAR reg = MAXX ( TOPN ( 1, regs, [Revenue], DESC ), 'Origin Airport'[Region] ) VAR share = DIVIDE ( CALCULATE ( [Revenue], 'Origin Airport'[Region] = reg ), CALCULATE ( [Revenue], REMOVEFILTERS ( 'Origin Airport'[Region] ) ) ) VAR city = MAXX ( TOPN ( 1, CALCULATETABLE ( VALUES ( 'Origin Airport'[City] ), 'Origin Airport'[Region] = reg ), [Revenue], DESC ), 'Origin Airport'[City] ) RETURN reg & " departures earn " & FORMAT ( share, "0%" ) & " of revenue, led by " & city
+		displayFolder: 8 Titles
+		lineageTag: dce006c5-da21-4e14-9dcf-2b6d8e8568f1
+
+	/// Page 2 headline: revenue vs passenger growth, Jan–May 2025 vs 2024.
+	measure 'Title Demand' = VAR r = CALCULATE ( [Revenue YoY %], 'Date'[Year] = 2025 ) VAR p = CALCULATE ( [Passengers YoY %], 'Date'[Year] = 2025 ) RETURN IF ( r > p, "Growth is price-led: ", "Growth is volume-led: " ) & "revenue " & FORMAT ( r, "+0%;-0%" ) & " on passengers " & FORMAT ( p, "+0%;-0%" ) & " (Jan–May 2025 vs 2024)"
+		displayFolder: 8 Titles
+		lineageTag: fc03d74f-3208-49cb-b91e-46f05dd8d322
+
+	/// Monthly passenger chart title: months of 2025 that beat the same month of 2024.
+	measure 'Title Pax Months' = VAR m = FILTER ( CALCULATETABLE ( VALUES ( 'Date'[Year Month Key] ), 'Date'[Year] = 2025 ), NOT ISBLANK ( [Passengers PY] ) ) VAR n = COUNTROWS ( FILTER ( m, [Passengers] > [Passengers PY] ) ) VAR k = COUNTROWS ( m ) RETURN SWITCH ( TRUE (), k = 0, "Passengers per month: no 2024 flights to compare with", n = k && k = COUNTROWS ( CALCULATETABLE ( VALUES ( 'Date'[Year Month Key] ), 'Date'[Year] = 2025 ) ), "Passengers grew steadily: every 2025 month beat the same month of 2024", n = k, "Passengers beat 2024 in all " & k & " comparable months of 2025", "Passengers beat 2024 in " & n & " of " & k & " comparable months of 2025" )
+		displayFolder: 8 Titles
+		lineageTag: a52524c2-1ee4-457a-8b68-2fce3c3b99e8
+
+	/// Fare chart title: average fare Nov 2024–May 2025 vs Jan–Oct 2024.
+	measure 'Title Fare Step' = VAR b = CALCULATE ( [Avg Fare], DATESBETWEEN ( 'Date'[Date], DATE ( 2024, 1, 1 ), DATE ( 2024, 10, 31 ) ) ) VAR a = CALCULATE ( [Avg Fare], DATESBETWEEN ( 'Date'[Date], DATE ( 2024, 11, 1 ), DATE ( 2025, 5, 31 ) ) ) VAR d = DIVIDE ( a - b, b ) VAR lo = MINX ( CALCULATETABLE ( VALUES ( 'Date'[Year Month Key] ), DATESBETWEEN ( 'Date'[Date], DATE ( 2024, 11, 1 ), DATE ( 2025, 5, 31 ) ) ), [Avg Fare] ) RETURN SWITCH ( TRUE (), ISBLANK ( d ), "Average fare by month", d >= 0.05, "Fares stepped up " & FORMAT ( d, "0%" ) & " from Nov 2024" & IF ( lo > b, " and stayed up", "" ), d <= -0.05, "Fares are " & FORMAT ( -d, "0%" ) & " lower since Nov 2024 than in Jan–Oct 2024", "Fares held level after Nov 2024 (" & FORMAT ( d, "+0%;-0%" ) & " vs Jan–Oct 2024)" )
+		displayFolder: 8 Titles
+		lineageTag: 5673f2fa-7138-4a3a-ab51-f007854a753b
+
+	/// Load-factor chart title: months of 2025 above the same month of 2024.
+	measure 'Title LF Months' = VAR m = FILTER ( CALCULATETABLE ( VALUES ( 'Date'[Year Month Key] ), 'Date'[Year] = 2025 ), NOT ISBLANK ( [Load Factor PY] ) ) VAR n = COUNTROWS ( FILTER ( m, [Load Factor %] > [Load Factor PY] ) ) VAR k = COUNTROWS ( m ) RETURN SWITCH ( TRUE (), k = 0, "Load factor by month: no 2024 flights to compare with", n = k && k = COUNTROWS ( CALCULATETABLE ( VALUES ( 'Date'[Year Month Key] ), 'Date'[Year] = 2025 ) ), "Load factor beat 2024 in every month of 2025", n = k, "Load factor beat 2024 in all " & k & " comparable months of 2025", "Load factor beat 2024 in " & n & " of " & k & " comparable months of 2025" )
+		displayFolder: 8 Titles
+		lineageTag: 68fa2d5a-bee1-483e-95a5-4896827ece62
+
+	/// Weekday chart title: spread of passengers per flight across weekdays.
+	measure 'Title Weekday' = VAR t = VALUES ( 'Date'[Weekday] ) VAR mn = MINX ( t, [Avg Passengers per Flight] ) VAR mx = MAXX ( t, [Avg Passengers per Flight] ) RETURN IF ( DIVIDE ( mx - mn, mn ) < 0.05, "No weekday peak: " & FORMAT ( mn, "0" ) & "–" & FORMAT ( mx, "0" ) & " passengers per flight every day", "The busiest weekday carries " & FORMAT ( DIVIDE ( mx - mn, mn ), "0%" ) & " more passengers per flight than the quietest" )
+		displayFolder: 8 Titles
+		lineageTag: 671589a8-1679-4d81-9da8-d21843298885
+
+	/// Page 3 headline: 2025 RASK, change vs last year and position vs target.
+	measure 'Title RASK' = VAR v = CALCULATE ( [RASK], 'Date'[Year] = 2025 ) VAR y = CALCULATE ( [RASK YoY %], 'Date'[Year] = 2025 ) VAR t = CALCULATE ( [RASK Target], 'Date'[Year] = 2025 ) RETURN "RASK is " & FORMAT ( v, "₹0.000" ) & " in 2025, " & IF ( y >= 0, "up ", "down " ) & FORMAT ( ABS ( y ), "0%" ) & " and " & IF ( v >= t, "ahead of", "behind" ) & " its " & FORMAT ( t, "₹0.000" ) & " target"
+		displayFolder: 8 Titles
+		lineageTag: df430f96-d22c-4a65-84df-3df784eb40ee
+
+	/// RASK-by-market chart title: 2025 RASK by market and whether both improved on 2024.
+	measure 'Title RASK Market' = VAR d = CALCULATE ( [RASK], 'Date'[Year] = 2025, Flights[Market] = "Domestic" ) VAR i = CALCULATE ( [RASK], 'Date'[Year] = 2025, Flights[Market] = "International" ) VAR d0 = CALCULATE ( [RASK], 'Date'[Year] = 2024, Flights[Market] = "Domestic" ) VAR i0 = CALCULATE ( [RASK], 'Date'[Year] = 2024, Flights[Market] = "International" ) VAR one = SELECTEDVALUE ( Flights[Market] ) VAR v = CALCULATE ( [RASK], 'Date'[Year] = 2025 ) VAR v0 = CALCULATE ( [RASK], 'Date'[Year] = 2024 ) RETURN IF ( NOT ISBLANK ( one ), one & " RASK " & FORMAT ( v, "₹0.000" ) & " in 2025 vs " & FORMAT ( v0, "₹0.000" ) & " in 2024", "Domestic RASK " & FORMAT ( d, "₹0.000" ) & " vs international " & FORMAT ( i, "₹0.000" ) & " in 2025" & IF ( d > d0 && i > i0, "; both up on 2024", "" ) )
+		displayFolder: 8 Titles
+		lineageTag: 6613c93d-f317-4456-9024-c134b3f4c4e4
+
+	/// Market table title: RASK gap between international and domestic.
+	measure 'Title Market Gap' = VAR d = CALCULATE ( [RASK], Flights[Market] = "Domestic" ) VAR i = CALCULATE ( [RASK], Flights[Market] = "International" ) VAR one = SELECTEDVALUE ( Flights[Market] ) RETURN IF ( NOT ISBLANK ( one ), one & " earns " & FORMAT ( [RASK], "₹0.000" ) & " per seat-km on " & FORMAT ( [Avg Stage Length Km], "#,##0", "en-US" ) & " km stages", "International earns " & FORMAT ( i, "₹0.000" ) & " per seat-km vs " & FORMAT ( d, "₹0.000" ) & " domestic" )
+		displayFolder: 8 Titles
+		lineageTag: dae8bc4a-2abf-4e37-981c-90e3fe914c63
+
+	/// Page 5 headline: 2025 revenue for the selected fare scenario and the lever total.
+	measure 'Title Forecast' = "2025 revenue heads for " & [F25 Revenue (Cr)] & "; levers add " & [Lever Uplift (Cr)] & " a year"
+		displayFolder: 8 Titles
+		lineageTag: 7a1b8c57-32e9-4be4-a0a5-891e7dd1578c
+
+	/// Drill-through headline: the route and its position against the network.
+	measure 'Title Route Detail' = VAR q = [Route Quadrant] RETURN "Route detail: " & [Selected Route] & IF ( HASONEVALUE ( Flights[Route] ), ", " & SWITCH ( q, "Star", "a star route", "Review route", "a route to review", "Fill seats", "a route to fill", "Raise yield", "a route to re-price", "" ), "" )
+		displayFolder: 8 Titles
+		lineageTag: fb462cac-5869-4f51-a586-99c6adbdf228
 
 	column Hidden
 		isHidden
-		lineageTag: f487a419-8453-4215-8bf8-cb9b5e2e6d10
+		isAvailableInMdx: false
+		lineageTag: ef0ee46a-10fd-475f-aded-50d5d74f93c9
 		summarizeBy: none
 		isNameInferred
 		sourceColumn: [Hidden]
@@ -596,4 +667,6 @@ table _Measures
 	partition _Measures = calculated
 		mode: import
 		source = ROW ( "Hidden", BLANK () )
+
+	annotation BestPracticeAnalyzer_IgnoreRules = {"RuleIDs": ["ENSURE_TABLES_HAVE_RELATIONSHIPS", "REMOVE_UNNECESSARY_COLUMNS"]}
 

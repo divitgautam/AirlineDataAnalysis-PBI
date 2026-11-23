@@ -20,7 +20,7 @@
               {
                 "textRuns": [
                   {
-                    "value": "Pune is the hub (31% of revenue); 48 routes trail the network",
+                    "value": " ",
                     "textStyle": {
                       "fontWeight": "bold",
                       "fontSize": "16pt",
@@ -33,7 +33,7 @@
               {
                 "textRuns": [
                   {
-                    "value": "40,175 flights  |  179 routes  |  38 airports  |  Jan 2024 to May 2025  |  Titles describe all flights; visuals follow the slicers",
+                    "value": "40,175 flights  |  179 routes  |  38 airports  |  Jan 2024 to May 2025  |  Titles follow the Market and Year filters",
                     "textStyle": {
                       "fontSize": "10pt",
                       "color": "#A9C7E8"

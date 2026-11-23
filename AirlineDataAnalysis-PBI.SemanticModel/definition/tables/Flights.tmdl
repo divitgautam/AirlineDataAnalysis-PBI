@@ -1,11 +1,12 @@
 /// One row per flight (Raw Data CSV). Distance and fare-outlier rules: see analysis/src/metrics.py.
 table Flights
-	lineageTag: 17ac6782-ce4a-42ae-a3c2-45e042dbd997
+	lineageTag: 38e7e265-da26-46e8-b9a9-144f482101cb
 
+	/// Unique flight identifier from the source.
 	column FlightID
 		dataType: int64
 		formatString: 0
-		lineageTag: 1b6ce285-548b-4156-bb97-2cf12cfd60d5
+		lineageTag: 077dcbe4-451a-44d5-9626-78b68135fa15
 		summarizeBy: none
 		sourceColumn: FlightID
 
@@ -13,7 +14,9 @@ table Flights
 
 	column Origin
 		dataType: string
-		lineageTag: 8f8b6675-78fc-475a-acf6-b75c6bb81c84
+		isHidden
+		isAvailableInMdx: false
+		lineageTag: b89aedd1-1f4b-4856-87e8-572c16788c88
 		summarizeBy: none
 		sourceColumn: Origin
 
@@ -21,63 +24,49 @@ table Flights
 
 	column Destination
 		dataType: string
-		lineageTag: 6bccfcab-ab99-4032-bb78-6a6547b373e7
+		isHidden
+		isAvailableInMdx: false
+		lineageTag: 5a7e5267-d838-40e8-9ffb-e47949bd27a3
 		summarizeBy: none
 		sourceColumn: Destination
 
 		annotation SummarizationSetBy = User
 
+	/// Commercial flight number.
 	column FlightNumber
 		dataType: int64
 		formatString: 0
-		lineageTag: 03d85420-9b96-41ac-8b4d-ea096fe65a0e
+		lineageTag: c0ec0616-4b90-4a33-9f51-c4fb75c57b9f
 		summarizeBy: none
 		sourceColumn: FlightNumber
 
 		annotation SummarizationSetBy = User
 
-	column Distance
-		dataType: int64
-		isHidden
-		formatString: #,##0
-		lineageTag: 74d383c5-f7dd-4b6b-9bcb-324aeadc5245
-		summarizeBy: none
-		sourceColumn: Distance
-
-		annotation SummarizationSetBy = User
-
-	column DomesticFlag
-		dataType: int64
-		isHidden
-		formatString: 0
-		lineageTag: f0d9e4b6-afb6-49d8-9734-a7eeb39a2caf
-		summarizeBy: none
-		sourceColumn: DomesticFlag
-
-		annotation SummarizationSetBy = User
-
+	/// Seats available on the flight.
 	column Capacity
 		dataType: int64
 		formatString: #,##0
-		lineageTag: b6cb8c02-c0ce-4860-afd7-3e2dff22eb1f
+		lineageTag: 7bdf733e-b490-442d-ba90-0cadeea37440
 		summarizeBy: none
 		sourceColumn: Capacity
 
 		annotation SummarizationSetBy = User
 
+	/// Passengers carried.
 	column PaxCount
 		dataType: int64
 		formatString: #,##0
-		lineageTag: c159b765-e332-4a25-ab8f-60fb5544cd1d
+		lineageTag: 15b40257-224b-41f5-b423-df5ada3fe306
 		summarizeBy: none
 		sourceColumn: PaxCount
 
 		annotation SummarizationSetBy = User
 
+	/// Revenue recorded for the flight (looks scaled; compare % changes).
 	column Revenue
 		dataType: int64
 		formatString: #,##0
-		lineageTag: 5f4e0e35-d01e-4ada-a4ea-07718a176784
+		lineageTag: 02cdabf8-6005-41dc-a5d5-4023fa057a07
 		summarizeBy: none
 		sourceColumn: Revenue
 
@@ -85,8 +74,10 @@ table Flights
 
 	column 'Departure Date'
 		dataType: dateTime
+		isHidden
 		formatString: dd-mmm-yyyy
-		lineageTag: cf7c3d81-f646-4bc5-855c-2c5231bf42e0
+		isAvailableInMdx: false
+		lineageTag: 89277105-33b5-4216-a3d5-f0452ca5391c
 		summarizeBy: none
 		sourceColumn: Departure Date
 
@@ -94,44 +85,38 @@ table Flights
 
 		annotation UnderlyingDateTimeDataType = Date
 
-	column 'Great Circle Km'
-		dataType: double
-		isHidden
-		formatString: #,##0
-		lineageTag: 3cb09d63-0b1c-457b-866d-65fedf6b276e
-		summarizeBy: none
-		sourceColumn: Great Circle Km
-
-		annotation SummarizationSetBy = User
-
+	/// TRUE when the recorded distance was replaced by the great-circle distance.
 	column 'Distance Corrected'
 		dataType: boolean
-		lineageTag: 492822d3-049f-41b4-b7e9-706b033639cb
+		lineageTag: 76b75223-10fd-4cdc-b552-f1f1a68284e4
 		summarizeBy: none
 		sourceColumn: Distance Corrected
 
 		annotation SummarizationSetBy = User
 
+	/// Flight distance used for ASK/RPK (recorded, or great-circle when corrected).
 	column 'Distance Km'
 		dataType: int64
 		formatString: #,##0
-		lineageTag: 0e62fcce-bd1a-4463-9dbe-d7f480563be7
+		lineageTag: c102dd0a-a7d3-47ee-af65-f9d572e5e74c
 		summarizeBy: none
 		sourceColumn: Distance Km
 
 		annotation SummarizationSetBy = User
 
+	/// Origin-destination pair, e.g. PNQ-BLR.
 	column Route
 		dataType: string
-		lineageTag: 853ca50e-9177-407e-b7b5-6c6220a98d7f
+		lineageTag: 777caf32-9639-40b3-add1-3e0f96069c9d
 		summarizeBy: none
 		sourceColumn: Route
 
 		annotation SummarizationSetBy = User
 
+	/// Domestic, or International when either airport is outside India.
 	column Market
 		dataType: string
-		lineageTag: 7b695707-2322-4991-852d-5e20f380f9fb
+		lineageTag: 672678df-ff0f-4cd4-aae0-50698556bb59
 		summarizeBy: none
 		sourceColumn: Market
 
@@ -141,7 +126,8 @@ table Flights
 		dataType: int64
 		isHidden
 		formatString: #,##0
-		lineageTag: 65b9b5d0-cc14-466f-a515-0c04ea72e4a8
+		isAvailableInMdx: false
+		lineageTag: 9325d96f-aac9-448e-a9f7-6030cf4ed499
 		summarizeBy: none
 		sourceColumn: ASK
 
@@ -151,35 +137,17 @@ table Flights
 		dataType: int64
 		isHidden
 		formatString: #,##0
-		lineageTag: 6004be71-0876-4082-86aa-eb392647a4c6
+		isAvailableInMdx: false
+		lineageTag: 342aa449-9280-43c1-84bb-68edd1f2d1e9
 		summarizeBy: none
 		sourceColumn: RPK
 
 		annotation SummarizationSetBy = User
 
-	column Fare
-		dataType: double
-		isHidden
-		formatString: #,##0.00
-		lineageTag: df5171da-d36e-4813-a41c-d7b9fb2f034b
-		summarizeBy: none
-		sourceColumn: Fare
-
-		annotation SummarizationSetBy = User
-
-	column 'Route Median Fare'
-		dataType: double
-		isHidden
-		formatString: #,##0.00
-		lineageTag: 7a98e117-fa39-4ea9-be4c-5512f753964d
-		summarizeBy: none
-		sourceColumn: Route Median Fare
-
-		annotation SummarizationSetBy = User
-
+	/// TRUE when fare per passenger is above 3x the route median.
 	column 'Fare Outlier'
 		dataType: boolean
-		lineageTag: 9a7bf4f3-871f-48af-99c7-892c7786f756
+		lineageTag: 021cf5ee-3c61-4079-aeb1-80ebe073539c
 		summarizeBy: none
 		sourceColumn: Fare Outlier
 
@@ -216,7 +184,7 @@ table Flights
 				    JoinMed = Table.NestedJoin(Fare, {"Route"}, RouteMedians, {"Route"}, "m", JoinKind.LeftOuter),
 				    ExpMed = Table.ExpandTableColumn(JoinMed, "m", {"Route Median Fare"}),
 				    Outlier = Table.AddColumn(ExpMed, "Fare Outlier", each [Fare] > 3 * [Route Median Fare], type logical),
-				    Cleaned = Table.RemoveColumns(Outlier, {"DepartureDate", "o_lat", "o_lon", "o_country", "d_lat", "d_lon", "d_country"})
+				    Cleaned = Table.RemoveColumns(Outlier, {"DepartureDate", "o_lat", "o_lon", "o_country", "d_lat", "d_lon", "d_country", "Distance", "DomesticFlag", "Great Circle Km", "Fare", "Route Median Fare"})
 				in
 				    Cleaned
 

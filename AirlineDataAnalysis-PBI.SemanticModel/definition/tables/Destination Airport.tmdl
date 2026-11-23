@@ -1,79 +1,69 @@
+/// Arrival airport dimension (role-playing copy of reference/airports.csv).
 table 'Destination Airport'
-	lineageTag: ad5d2578-ce0f-4909-8db4-d6c068140a02
+	lineageTag: a26c7ae6-16fd-471d-8d9d-de262bf831c9
 
+	/// Three-letter airport code (key).
 	column IATA
 		dataType: string
-		lineageTag: 452b179a-2ce8-4931-8509-4e0a98089ba7
+		isKey
+		lineageTag: 5c437246-106c-474f-a345-a6d7272af3bf
 		summarizeBy: none
 		sourceColumn: IATA
 
 		annotation SummarizationSetBy = User
 
+	/// Airport name.
 	column Airport
 		dataType: string
-		lineageTag: 8ed2cfb6-e289-43dd-93c4-cf3a52564098
+		lineageTag: 849afe89-153c-4640-bcc9-6b5bc9080c05
 		summarizeBy: none
 		sourceColumn: Airport
 
 		annotation SummarizationSetBy = User
 
+	/// City served.
 	column City
 		dataType: string
-		lineageTag: e9f1cd10-3b35-4702-97c2-30b7d9589a82
+		lineageTag: d927623f-df9f-4440-81dc-5fa6e98588b6
+		dataCategory: City
 		summarizeBy: none
 		sourceColumn: City
 
 		annotation SummarizationSetBy = User
 
+	/// State or province.
 	column State
 		dataType: string
-		lineageTag: 5aff84a9-8408-4f22-9ae3-3a601828c47b
+		lineageTag: d969a0c5-277d-4924-8ae5-743571260985
+		dataCategory: StateOrProvince
 		summarizeBy: none
 		sourceColumn: State
 
 		annotation SummarizationSetBy = User
 
+	/// Country.
 	column Country
 		dataType: string
-		lineageTag: b6411ade-0743-4ecb-a701-245d553c664e
+		lineageTag: 79d4697c-9d11-42e3-9683-1ce11e4c34bd
+		dataCategory: Country
 		summarizeBy: none
 		sourceColumn: Country
 
 		annotation SummarizationSetBy = User
 
+	/// Region of India, or International.
 	column Region
 		dataType: string
-		lineageTag: a4c3e9a0-9f88-4aa8-bcc2-22eecf0648cf
+		lineageTag: 5d2c9300-01ff-41d4-bad4-43abdc99ebd5
 		summarizeBy: none
 		sourceColumn: Region
 
 		annotation SummarizationSetBy = User
 
-	column Latitude
-		dataType: double
-		isHidden
-		formatString: 0.0000
-		lineageTag: 7689f1eb-db2a-4648-b91e-2d25b90d8e40
-		dataCategory: Latitude
-		summarizeBy: none
-		sourceColumn: Latitude
-
-		annotation SummarizationSetBy = User
-
-	column Longitude
-		dataType: double
-		isHidden
-		formatString: 0.0000
-		lineageTag: 11c162b7-a877-4384-89c9-cdfbd27aad56
-		dataCategory: Longitude
-		summarizeBy: none
-		sourceColumn: Longitude
-
-		annotation SummarizationSetBy = User
-
+	/// Code and city, e.g. PNQ · Pune.
 	column 'Airport Label'
 		dataType: string
-		lineageTag: 6f7de3ff-8c30-49eb-9ee3-0a4cbaeaae8d
+		lineageTag: 413e1fa6-8544-44f0-a73a-164d5f0803ca
 		summarizeBy: none
 		sourceColumn: Airport Label
 
@@ -84,9 +74,10 @@ table 'Destination Airport'
 		source =
 				let
 				    Source = AirportsRef,
-				    Label = Table.AddColumn(Source, "Airport Label", each [IATA] & " · " & [City], type text)
+				    Label = Table.AddColumn(Source, "Airport Label", each [IATA] & " · " & [City], type text),
+				    Trimmed = Table.RemoveColumns(Label, {"Latitude", "Longitude"})
 				in
-				    Label
+				    Trimmed
 
 	annotation PBI_ResultType = Table
 

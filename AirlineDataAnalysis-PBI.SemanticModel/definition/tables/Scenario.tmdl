@@ -1,15 +1,17 @@
 /// Shared scenario list so one slicer filters both forecast tables.
 table Scenario
-	lineageTag: fbe7999c-cbb5-49f6-9b96-398ff1880656
+	lineageTag: 9ab5e9da-3890-4a4d-9d07-c4929b2e43a6
 
+	/// Fare scenario (A: fares hold, B: fares settle).
 	column Scenario
 		dataType: string
-		lineageTag: 3643fdf8-235a-4d2b-8a1b-dbe236780b56
+		isKey
+		lineageTag: 9284e9e2-d534-4b42-8290-ef6172e076e7
 		summarizeBy: none
 		isNameInferred
 		sourceColumn: [Scenario]
 
 	partition Scenario = calculated
 		mode: import
-		source = DISTINCT ( SELECTCOLUMNS ( 'Forecast 2025', "Scenario", 'Forecast 2025'[scenario] ) )
+		source = DISTINCT ( SELECTCOLUMNS ( 'Forecast 2025', "Scenario", 'Forecast 2025'[Scenario] ) )
 

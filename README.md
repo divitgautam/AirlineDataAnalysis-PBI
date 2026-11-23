@@ -57,8 +57,9 @@ The same theme module styles the LinkedIn visuals.
 | Route detail | Drill-through page: right-click any route for its revenue, load factor vs network, fares and weekday pattern |
 | Route tooltip | Report-page tooltip on the route visuals: position, revenue, load factor, RASK and a mini trend |
 
-**Report design (v2, reviewed against [a 10-point dashboard scorecard](docs/review/scorecard.md)):**
+**Report design (v2, scored 10/10 on [a 10-point dashboard scorecard](docs/review/scorecard.md)):**
 - Every page and chart title states its finding ("Growth is price-led: revenue +71% on passengers +25%").
+- 14 title measures build these titles, so the numbers follow the Market, Year and Scenario slicers.
 - Units are consistent: ₹ Cr for revenue, M for passengers.
 - KPI cards show a ▲▼ change line in green or red.
 - There are no dual-axis charts: the RASK drivers are indexed to one scale.
@@ -73,7 +74,9 @@ The same theme module styles the LinkedIn visuals.
 
 **Model:**
 - `Flights` fact table with role-playing `Origin Airport` and `Destination Airport` dimensions (from [reference/airports.csv](reference/airports.csv)) and a `Date` table.
-- 105 DAX measures in `_Measures`, organised in 7 display folders, every one with a description.
+- 119 DAX measures in `_Measures`, organised in 8 display folders.
+- Every visible table, column and measure has a description.
+- Best Practice Analyzer: 27 of 27 rules pass ([results](docs/review/bpa_results.json)).
 - Folder 7 holds the display measures: card text, change lines and colours, and the footer.
 - Forecast and lever tables are loaded from the notebooks' output.
 

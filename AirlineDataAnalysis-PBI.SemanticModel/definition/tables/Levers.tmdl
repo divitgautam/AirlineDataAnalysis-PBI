@@ -1,55 +1,61 @@
 /// From analysis/output/pbi_levers.csv. Re-run the notebooks, then refresh.
 table Levers
-	lineageTag: abb3c641-a7f8-48be-bbe8-52267a4e316d
+	lineageTag: 17124aa0-82e4-4f8e-85d1-d3ed24d212dc
 
-	column lever
+	/// Revenue lever.
+	column Lever
 		dataType: string
-		lineageTag: a2200236-a14e-4e48-badf-54d7ebb5ed94
+		lineageTag: 26629440-d15d-43bd-af84-7f0abb8c1cb1
 		summarizeBy: none
-		sourceColumn: lever
+		sourceColumn: Lever
 
 		annotation SummarizationSetBy = User
 
-	column uplift
-		dataType: double
+	/// Annual revenue uplift in rupees.
+	column Uplift
+		dataType: decimal
 		formatString: #,##0
-		lineageTag: f69a2726-c52a-485b-8fb4-96cdc92af2ef
+		lineageTag: b724a2ed-b93a-42fe-b48f-bbc0e0c0d1b7
 		summarizeBy: none
-		sourceColumn: uplift
+		sourceColumn: Uplift
 
 		annotation SummarizationSetBy = User
 
-	column basis
+	/// How the lever was sized.
+	column Basis
 		dataType: string
-		lineageTag: dd5d8bd8-1197-4b36-be13-393fcc8ac046
+		lineageTag: 9607894e-631d-4dce-a926-653f7ac10585
 		summarizeBy: none
-		sourceColumn: basis
+		sourceColumn: Basis
 
 		annotation SummarizationSetBy = User
 
-	column confidence
+	/// Confidence in the sizing.
+	column Confidence
 		dataType: string
-		lineageTag: c1d5e2f5-0919-4522-970f-f2a993a48358
+		lineageTag: 411ee934-efe2-4b6b-b053-b90a77422fbe
 		summarizeBy: none
-		sourceColumn: confidence
+		sourceColumn: Confidence
 
 		annotation SummarizationSetBy = User
 
-	column uplift_pct_of_revenue
-		dataType: double
-		formatString: 0.0%
-		lineageTag: 99667250-9e5c-45e3-a87d-449263694960
-		summarizeBy: none
-		sourceColumn: uplift_pct_of_revenue
-
-		annotation SummarizationSetBy = User
-
-	column 'Lever Label' = Levers[lever] & " (" & LOWER ( Levers[confidence] ) & ")"
+	/// Lever name with its confidence, for charts.
+	column 'Lever Label' = Levers[Lever] & " (" & LOWER ( Levers[Confidence] ) & ")"
 		dataType: string
-		lineageTag: 92342e09-ce10-40d1-8ed8-40ab4f5a8b38
+		lineageTag: 69dae7ad-fc67-45ff-a073-4d509ad48760
 		summarizeBy: none
 
 		annotation SummarizationSetBy = Automatic
+
+	/// Uplift as a share of annual revenue.
+	column 'Uplift % of Revenue'
+		dataType: decimal
+		formatString: 0.0%
+		lineageTag: f1ea01d6-3989-47b9-8843-f45598d0fc9e
+		summarizeBy: none
+		sourceColumn: Uplift % of Revenue
+
+		annotation SummarizationSetBy = User
 
 	partition Levers = m
 		mode: import
@@ -58,9 +64,12 @@ table Levers
 				    Source = Csv.Document(File.Contents(ProjectFolder & "\analysis\output\pbi_levers.csv"), [Delimiter = ",", Encoding = 65001, QuoteStyle = QuoteStyle.Csv]),
 				    Promoted = Table.PromoteHeaders(Source, [PromoteAllScalars = true]),
 				    Blanks = Promoted,
-				    Typed = Table.TransformColumnTypes(Blanks, {{"lever", type text}, {"uplift", type number}, {"basis", type text}, {"confidence", type text}, {"uplift_pct_of_revenue", type number}}, "en-US")
+				    Typed = Table.TransformColumnTypes(Blanks, {{"lever", type text}, {"uplift", Currency.Type}, {"basis", type text}, {"confidence", type text}, {"uplift_pct_of_revenue", Currency.Type}}, "en-US"),
+				    Renamed = Table.RenameColumns(Typed, {{"lever", "Lever"}, {"uplift", "Uplift"}, {"basis", "Basis"}, {"confidence", "Confidence"}, {"uplift_pct_of_revenue", "Uplift % of Revenue"}})
 				in
-				    Typed
+				    Renamed
 
 	annotation PBI_ResultType = Table
+
+	annotation BestPracticeAnalyzer_IgnoreRules = {"RuleIDs": ["ENSURE_TABLES_HAVE_RELATIONSHIPS"]}
 

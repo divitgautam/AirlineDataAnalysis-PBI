@@ -11,10 +11,10 @@ relationship Flights_Destination
 	toColumn: 'Destination Airport'.IATA
 
 relationship Forecast_Scenario
-	fromColumn: Forecast.scenario
+	fromColumn: Forecast.Scenario
 	toColumn: Scenario.Scenario
 
 relationship Forecast2025_Scenario
-	fromColumn: 'Forecast 2025'.scenario
+	fromColumn: 'Forecast 2025'.Scenario
 	toColumn: Scenario.Scenario
 

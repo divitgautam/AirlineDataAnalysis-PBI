@@ -4,10 +4,10 @@
   "position": {
     "x": 708,
     "y": 430,
-    "z": 16000,
+    "z": 17000,
     "height": 252,
     "width": 556,
-    "tabOrder": 16000
+    "tabOrder": 17000
   },
   "visual": {
     "visualType": "textbox",
@@ -20,7 +20,7 @@
               {
                 "textRuns": [
                   {
-                    "value": "Recommended plan (₹2.95 Cr a year, about 4.6% of 2025 revenue)",
+                    "value": "Recommended plan (₹2.95 Cr a year, 4.6–4.9% of 2025 revenue)",
                     "textStyle": {
                       "fontWeight": "bold",
                       "fontSize": "12pt",
@@ -164,7 +164,7 @@
             "altText": {
               "expr": {
                 "Literal": {
-                  "Value": "'Recommended plan (₹2.95 Cr a year, about 4.6% of 2025 revenue)'"
+                  "Value": "'Recommended plan (₹2.95 Cr a year, 4.6–4.9% of 2025 revenue)'"
                 }
               }
             }

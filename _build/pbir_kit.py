@@ -125,13 +125,15 @@ class Page:
             vis["objects"] = objects
         vco = {}
         if title is not None:
-            vco["title"] = [{"properties": {"show": L(True), "text": L(title), "fontSize": L(11),
+            # a measure field makes a dynamic title (field-value formatting); a string is a fixed title
+            vco["title"] = [{"properties": {"show": L(True), "text": L(title) if isinstance(title, str) else {"expr": title}, "fontSize": L(11),
                                             "fontColor": C(INK), "bold": L(True)}}]
         if subtitle:
             vco["subTitle"] = [{"properties": {"show": L(True), "text": L(subtitle), "fontSize": L(9),
                                                "fontColor": C(MUTED)}}]
         vco.update(container or {})
-        alt = alt or (f"{title}. {subtitle}" if title and subtitle else title)
+        ttl = title if isinstance(title, str) else None
+        alt = alt or (f"{ttl}. {subtitle}" if ttl and subtitle else ttl or subtitle)
         if alt:   # screen-reader text (accessibility)
             vco.setdefault("general", []).append({"properties": {"altText": L(alt[:250])}})
         if tooltip_page:
@@ -149,7 +151,8 @@ class Page:
         return v
 
     # --- composite helpers ---
-    def header(self, title, subtitle, width=W - 2 * M):
+    def header(self, title, subtitle, width=W - 2 * M, title_measure=None, title_w=None):
+        """title_measure: a measure whose text replaces the fixed title, so the headline follows the slicers."""
         if HEADER_IMAGE:
             self.add("hdr_art", "image", 0, 0, W, 72,
                      objects={"general": [{"properties": {"imageUrl": image_ref(HEADER_IMAGE)}}],
@@ -158,12 +161,19 @@ class Page:
                                 "padding": [{"properties": {"top": L(0), "bottom": L(0), "left": L(0), "right": L(0)}}],
                                 "title": [{"properties": {"show": L(False)}}], "visualHeader": [{"properties": {"show": L(False)}}]})
         self.add("hdr_band", "textbox", HEADER_TEXT_X, 0, W - HEADER_TEXT_X, 72, alt=f"Page title: {title}", objects={"general": [{"properties": {"paragraphs": [
-            {"textRuns": [{"value": title, "textStyle": {"fontWeight": "bold", "fontSize": "16pt", "color": WHITE,
+            {"textRuns": [{"value": " " if title_measure else title, "textStyle": {"fontWeight": "bold", "fontSize": "16pt", "color": WHITE,
                                                           "fontFamily": FONT_BOLD}}]},
             {"textRuns": [{"value": subtitle, "textStyle": {"fontSize": "10pt", "color": SUBTITLE}}]}]}}]},
             container={"background": [{"properties": {"show": not HEADER_IMAGE and L(True) or L(False), "color": C(NAVY), "transparency": L(0)}}],
                        "border": [{"properties": {"show": L(False)}}],
                        "padding": [{"properties": {"top": L(8), "left": L(16)}}]})
+        if title_measure:   # dynamic headline drawn over the band, in the same place and style as the fixed title
+            self.add("hdr_title", "cardVisual", HEADER_TEXT_X - 5, 4, title_w or (W - HEADER_TEXT_X - 2 * M), 38,
+                     roles={"Data": [(title_measure, "Headline")]}, alt=f"Page headline: {title}",
+                     objects={**PLAIN_CARD, "label": [{"properties": {"show": L(False)}, "selector": {"id": "default"}}],
+                              "value": [{"properties": {"fontSize": L(16), "fontColor": C(WHITE), "fontFamily": L(FONT_BOLD), "bold": L(True)},
+                                         "selector": {"id": "default"}}]},
+                     container={**NO_CHROME, "padding": [{"properties": {"top": L(0), "bottom": L(0), "left": L(6), "right": L(0)}}]})
 
     def slicer(self, name, field, label, x, w):
         self.add(name, "slicer", x, 8, w, 56, roles={"Values": [field]}, alt=f"{label} filter",
@@ -267,6 +277,7 @@ class Page:
         by = {v["name"]: v for v in self.visuals}
         for n in ("hdr_art", "hdr_band"):
             if n in by: pos[n] = (0, 0, mw, 110)
+        if "hdr_title" in by: pos["hdr_title"] = (6, 4, mw - 12, 50)
         y = 116
         slicers = [v for v in self.visuals if v["visual"]["visualType"] == "slicer"]
         for i, v in enumerate(slicers):
@@ -274,7 +285,7 @@ class Page:
             pos[v["name"]] = (round(i * (sw + gap)), y, round(sw), 56)
         if slicers: y += 56 + gap
         cards = [v for v in self.visuals if v["visual"]["visualType"] == "cardVisual" and not v["name"].endswith("_d")
-                 and not v["name"].startswith("ftr_") and v["position"]["y"] < 200]
+                 and not v["name"].startswith(("ftr_", "hdr_")) and v["position"]["y"] < 200]
         cw = (mw - gap) / 2
         for i, v in enumerate(cards):
             cx, cy = round((i % 2) * (cw + gap)), y + (i // 2) * (88 + gap)

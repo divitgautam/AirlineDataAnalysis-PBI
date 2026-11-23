@@ -4,10 +4,10 @@
   "position": {
     "x": 16,
     "y": 496,
-    "z": 14000,
+    "z": 15000,
     "height": 186,
     "width": 700,
-    "tabOrder": 14000
+    "tabOrder": 15000
   },
   "visual": {
     "visualType": "pivotTable",
@@ -158,8 +158,13 @@
             },
             "text": {
               "expr": {
-                "Literal": {
-                  "Value": "'International earns ₹0.114 per seat-km vs ₹0.162 domestic'"
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "_Measures"
+                    }
+                  },
+                  "Property": "Title Market Gap"
                 }
               }
             },
@@ -235,7 +240,7 @@
             "altText": {
               "expr": {
                 "Literal": {
-                  "Value": "'International earns ₹0.114 per seat-km vs ₹0.162 domestic. Longer stages earn less per km: compare like with like'"
+                  "Value": "'Longer stages earn less per km: compare like with like'"
                 }
               }
             }

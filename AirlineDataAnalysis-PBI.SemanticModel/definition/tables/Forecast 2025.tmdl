@@ -1,47 +1,53 @@
 /// From analysis/output/pbi_forecast_2025.csv. Re-run the notebooks, then refresh.
 table 'Forecast 2025'
-	lineageTag: 8e1adf7e-d125-4857-b2a5-02988c444dc5
+	lineageTag: 06541f22-e076-4d35-92df-0d33a460d825
 
-	column scenario
+	column Scenario
 		dataType: string
-		lineageTag: 890d59b0-8bad-44aa-82df-fe2773afbd58
+		isHidden
+		isAvailableInMdx: false
+		lineageTag: f8abb766-30b2-4246-ab45-6c452f78e198
 		summarizeBy: none
-		sourceColumn: scenario
+		sourceColumn: Scenario
 
 		annotation SummarizationSetBy = User
 
-	column metric
+	/// Full-year or Jun-Dec total being forecast.
+	column Metric
 		dataType: string
-		lineageTag: c766eaff-9435-49fd-92c1-ca96b93b4bad
+		lineageTag: 1633708c-1869-4bb9-9004-26df64fa324c
 		summarizeBy: none
-		sourceColumn: metric
+		sourceColumn: Metric
 
 		annotation SummarizationSetBy = User
 
-	column p10
-		dataType: double
+	/// Low case (10th percentile).
+	column P10
+		dataType: decimal
 		formatString: #,##0
-		lineageTag: 3aa70731-e691-4608-930d-fd290eab6ec7
+		lineageTag: 198fbbdd-e0b5-4374-868c-9eedfd07b02a
 		summarizeBy: none
-		sourceColumn: p10
+		sourceColumn: P10
 
 		annotation SummarizationSetBy = User
 
-	column p50
-		dataType: double
+	/// Median.
+	column P50
+		dataType: decimal
 		formatString: #,##0
-		lineageTag: 35b817f4-e982-4361-93c5-61a36ba0d613
+		lineageTag: 2e290bd7-7610-4c98-bf7d-d0376ef94b3f
 		summarizeBy: none
-		sourceColumn: p50
+		sourceColumn: P50
 
 		annotation SummarizationSetBy = User
 
-	column p90
-		dataType: double
+	/// High case (90th percentile).
+	column P90
+		dataType: decimal
 		formatString: #,##0
-		lineageTag: 4820c011-da1c-4e98-a698-1b39b36b3ff1
+		lineageTag: e035c105-015a-4733-b1c1-74934151ef23
 		summarizeBy: none
-		sourceColumn: p90
+		sourceColumn: P90
 
 		annotation SummarizationSetBy = User
 
@@ -52,9 +58,10 @@ table 'Forecast 2025'
 				    Source = Csv.Document(File.Contents(ProjectFolder & "\analysis\output\pbi_forecast_2025.csv"), [Delimiter = ",", Encoding = 65001, QuoteStyle = QuoteStyle.Csv]),
 				    Promoted = Table.PromoteHeaders(Source, [PromoteAllScalars = true]),
 				    Blanks = Promoted,
-				    Typed = Table.TransformColumnTypes(Blanks, {{"scenario", type text}, {"metric", type text}, {"p10", type number}, {"p50", type number}, {"p90", type number}}, "en-US")
+				    Typed = Table.TransformColumnTypes(Blanks, {{"scenario", type text}, {"metric", type text}, {"p10", Currency.Type}, {"p50", Currency.Type}, {"p90", Currency.Type}}, "en-US"),
+				    Renamed = Table.RenameColumns(Typed, {{"scenario", "Scenario"}, {"metric", "Metric"}, {"p10", "P10"}, {"p50", "P50"}, {"p90", "P90"}})
 				in
-				    Typed
+				    Renamed
 
 	annotation PBI_ResultType = Table
 

@@ -4,10 +4,10 @@
   "position": {
     "x": 16,
     "y": 178,
-    "z": 16000,
+    "z": 17000,
     "height": 266,
     "width": 494,
-    "tabOrder": 16000
+    "tabOrder": 17000
   },
   "visual": {
     "visualType": "clusteredBarChart",
@@ -162,8 +162,13 @@
             },
             "text": {
               "expr": {
-                "Literal": {
-                  "Value": "'Top 8 routes earn 27% of revenue; 4 of them touch Pune'"
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "_Measures"
+                    }
+                  },
+                  "Property": "Title Top Routes"
                 }
               }
             },
@@ -239,7 +244,7 @@
             "altText": {
               "expr": {
                 "Literal": {
-                  "Value": "'Top 8 routes earn 27% of revenue; 4 of them touch Pune. Revenue, Jan 2024–May 2025 · hover a route for its profile'"
+                  "Value": "'Revenue, Jan 2024–May 2025 · hover a route for its profile'"
                 }
               }
             }

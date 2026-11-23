@@ -4,10 +4,10 @@
   "position": {
     "x": 16,
     "y": 178,
-    "z": 12000,
+    "z": 13000,
     "height": 306,
     "width": 470,
-    "tabOrder": 12000
+    "tabOrder": 13000
   },
   "visual": {
     "visualType": "clusteredColumnChart",
@@ -254,8 +254,13 @@
             },
             "text": {
               "expr": {
-                "Literal": {
-                  "Value": "'Both markets lifted RASK; international still trails'"
+                "Measure": {
+                  "Expression": {
+                    "SourceRef": {
+                      "Entity": "_Measures"
+                    }
+                  },
+                  "Property": "Title RASK Market"
                 }
               }
             },
@@ -331,7 +336,7 @@
             "altText": {
               "expr": {
                 "Literal": {
-                  "Value": "'Both markets lifted RASK; international still trails. RASK (₹ per seat-km) by market, 2024 (grey) vs 2025 YTD (blue)'"
+                  "Value": "'RASK (₹ per seat-km) by market, 2024 (grey) vs 2025 YTD (blue)'"
                 }
               }
             }
