@@ -341,6 +341,8 @@ def finish(pages):
                 "padding": [{"top": 8, "bottom": 8, "left": 12, "right": 12}],
             }},
             "page": {"*": {"background": [{"color": {"solid": {"color": BG}}, "transparency": 0}]}},
+            # the Fluent 2 base theme draws smooth curves, which invent values between points; draw straight segments
+            "lineChart": {"*": {"lineStyles": [{"lineChartType": "linear"}]}},
             "pivotTable": {"*": {
                 "columnHeaders": [{"backColor": {"solid": {"color": NAVY}}, "fontColor": {"solid": {"color": WHITE}}, "fontSize": 10}],
                 "values": [{"fontSize": 10, "backColorSecondary": {"solid": {"color": ROW_ALT}}}],

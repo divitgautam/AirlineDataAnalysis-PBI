@@ -376,7 +376,7 @@ p.add("tip_line", "lineChart", 8, 146, TW - 16, TH - 152,
       title="Revenue by month, Jan 2024–May 2025 (₹ Cr)", container={"subTitle": [{"properties": {"show": L(False)}}],
                                                  "padding": [{"properties": {"top": L(4), "bottom": L(4), "left": L(6), "right": L(6)}}]},
       objects={**NO_AXIS_TITLES, "dataPoint": [{"properties": {"fill": C(TEAL)}}], "lineStyles": [{"properties": {"strokeWidth": L(2)}}],
-               "categoryAxis": [{"properties": {"show": L(False), "axisType": L("Continuous")}}]},
+               "categoryAxis": [{"properties": {"show": L(False), "axisType": L("Scalar")}}]},
       sort=[(col("Date", "Month Start"), "Ascending")])
 for v in p.visuals:   # compact text for the small canvas
     if v["visual"]["visualType"] == "cardVisual":
